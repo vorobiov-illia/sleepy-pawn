@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="src/SleepyPawn.Cli/SleepyPawn.Cli.csproj" />
+  <Project Path="src/SleepyPawn.Core/SleepyPawn.Core.csproj" />
+</Solution>
