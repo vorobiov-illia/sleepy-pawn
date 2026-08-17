@@ -15,7 +15,7 @@ namespace SleepyPawn.Core.Chess.Rules
         {
             isValid = false;
             firstPos = new EnginePosition();
-            firstPos = new EnginePosition();
+            secondPos = new EnginePosition();
         }
 
         public void FromUci(string uciMove)
