@@ -7,7 +7,7 @@ namespace SleepyPawn.Cli
     {
         static string mainMenuTitle = "What do you want to do now?";
         static string[] mainMenuOptions = { "uci", "debug", "exit" };
-        static string[] mainMenuComments = { "Enter UCI protocol mode (Usually for GUI's, not humans.)", "Shows how initialized new game looks.", "Closes the program." };
+        static string[] mainMenuComments = { "Enter UCI protocol mode (Usually for GUI's, not humans.)", "Play a debug game with yourself.", "Closes the program." };
         static void Main(string[] args)
         {
             string? lastMessage = null;
@@ -31,10 +31,13 @@ namespace SleepyPawn.Cli
                 {
                     case "debug":
                         DebugGame testGame = new DebugGame();
-                        testGame.Show();
+                        testGame.Play();
                         break;
                     case "exit":
-                        UI.WriteMessage("Closing program...");
+                        UI.Clear();
+                        UI.WriteDivider();
+                        UI.WriteHeader("Closing program...");
+                        UI.WriteDivider();
                         exit = true;
                         break;
                     default:

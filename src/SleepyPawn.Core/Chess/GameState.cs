@@ -1,11 +1,13 @@
 ﻿using SleepyPawn.Core.Chess.Enums;
+using SleepyPawn.Core.Chess.Rules;
+using SleepyPawn.Core.Utils;
 
 namespace SleepyPawn.Core.Chess
 {
     internal class GameState
     {
-        Board boardState;
-        Color playerToMove;
+        private Board boardState;
+        internal Color playerToMove;
 
         internal GameState()
         {
@@ -18,6 +20,18 @@ namespace SleepyPawn.Core.Chess
         {
             boardState = board;
             playerToMove = player;
+        }
+
+        internal GameState AppendMove(Move move)
+        {
+            if (!move.isValid) return this;
+            if (move.nullMove)
+            {
+                return new GameState(boardState, ColorUtils.Reverse(playerToMove));
+            }
+            Board changedBoard = new Board(boardState);
+            changedBoard.ReplaceFigure(move.firstPos, move.secondPos);
+            return new GameState(changedBoard, ColorUtils.Reverse(playerToMove));
         }
 
         internal string DebugPlayer()

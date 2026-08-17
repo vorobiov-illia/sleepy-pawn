@@ -121,5 +121,16 @@
             }
             return "falseInput";
         }
+        internal static string AskStringInput(string text)
+        {
+            WriteDivider();
+            WriteHeader(text);
+
+            WriteUserInput();
+            string? answer = Console.ReadLine();
+            if (answer == null) answer = "";
+
+            return answer;
+        }
     }
 }
