@@ -1,10 +1,16 @@
-﻿namespace SleepyPawn.Core.Chess.Rules
+﻿using SleepyPawn.Core.Utils;
+
+namespace SleepyPawn.Core.Chess.Rules
 {
-    internal static class LegalMoveAnalizer
+    internal static class LegalMoveAnalyzer
     {
         public static bool IsLegal(Move move, GameState state)
         {
-            return move.isValid;
+            if(state.playerToMove == ColorUtils.Reverse(state.GetFigure(move.firstPos).color))
+            {
+                return false;
+            }
+            return true;
         }
     }
 }

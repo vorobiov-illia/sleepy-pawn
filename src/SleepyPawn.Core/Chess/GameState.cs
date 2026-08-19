@@ -22,6 +22,10 @@ namespace SleepyPawn.Core.Chess
             playerToMove = player;
         }
 
+        internal Figure GetFigure(EnginePosition position)
+        {
+            return boardState.GetFigure(position);
+        }
         internal GameState AppendMove(Move move)
         {
             if (!move.isValid) return this;

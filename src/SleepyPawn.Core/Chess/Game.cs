@@ -12,7 +12,7 @@ namespace SleepyPawn.Core.Chess
         }
         public bool TryMove(Move move)
         {
-            if(LegalMoveAnalizer.IsLegal(move, currentState))
+            if(LegalMoveAnalyzer.IsLegal(move, currentState))
             {
                 currentState = currentState.AppendMove(move);
                 return true;
@@ -27,7 +27,7 @@ namespace SleepyPawn.Core.Chess
             Move move = new Move();
             move.FromUci(uciMove);
 
-            if (LegalMoveAnalizer.IsLegal(move, currentState))
+            if (LegalMoveAnalyzer.IsLegal(move, currentState))
             {
                 currentState = currentState.AppendMove(move);
                 return true;

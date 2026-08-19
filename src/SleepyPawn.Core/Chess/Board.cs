@@ -23,7 +23,10 @@ namespace SleepyPawn.Core.Chess
                 }
             }
         }
-
+        internal Figure GetFigure(EnginePosition position)
+        {
+            return figures[position.y, position.x];
+        }
         internal void Clear()
         {
             for (int i = 0; i < 8; i++)
