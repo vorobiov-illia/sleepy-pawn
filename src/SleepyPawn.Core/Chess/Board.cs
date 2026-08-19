@@ -19,7 +19,7 @@ namespace SleepyPawn.Core.Chess
                 for (int j = 0; j < 8; j++)
                 {
                     if (other.figures[i, j] == null) continue;
-                    figures[i, j] = new Figure(other.figures[i, j].color, other.figures[i, j].type, other.figures[i, j].isEmpty);
+                    figures[i, j] = new Figure(other.figures[i, j].color, other.figures[i, j].type, other.figures[i, j].Moved, other.figures[i, j].isEmpty);
                 }
             }
         }

@@ -15,11 +15,12 @@ namespace SleepyPawn.Core.Chess
             type = FigureType.None;
             isEmpty = true;
         }
-        public Figure(Color c, FigureType t, bool empty = false)
+        public Figure(Color c, FigureType t, bool moved = false, bool empty = false)
         {
             color = c;
             type = t;
             isEmpty = empty;
+            Moved = moved;
         }
 
         public override string ToString()
