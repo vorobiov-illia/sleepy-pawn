@@ -9,10 +9,10 @@ namespace SleepyPawn.Core.Chess
         private Board boardState;
         internal Color playerToMove;
 
-        internal GameState()
+        internal GameState(bool emptyBoard = false)
         {
             boardState = new Board();
-            boardState.SetupStandard();
+            if(!emptyBoard) boardState.SetupStandard();
             playerToMove = Color.White;
         }
 
@@ -25,6 +25,10 @@ namespace SleepyPawn.Core.Chess
         internal Figure GetFigure(EnginePosition position)
         {
             return boardState.GetFigure(position);
+        }
+        internal void AddFigure(EnginePosition position, Color color, FigureType type)
+        {
+            boardState.AddFigure(position, color, type);
         }
         internal GameState AppendMove(Move move)
         {

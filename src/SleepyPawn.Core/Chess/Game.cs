@@ -1,4 +1,6 @@
-﻿using SleepyPawn.Core.Chess.Rules;
+﻿using SleepyPawn.Core.Chess.Enums;
+using SleepyPawn.Core.Chess.Rules;
+using SleepyPawn.Core.Utils;
 using System.Security.AccessControl;
 
 namespace SleepyPawn.Core.Chess
@@ -6,9 +8,11 @@ namespace SleepyPawn.Core.Chess
     public class Game
     {
         private GameState currentState;
-        public Game()
+        private bool testGame = false;
+        public Game(bool test = false)
         {
-            currentState = new GameState();
+            testGame = test;
+            currentState = new GameState(testGame);
         }
         public bool TryMove(Move move)
         {
@@ -27,15 +31,54 @@ namespace SleepyPawn.Core.Chess
             Move move = new Move();
             move.FromUci(uciMove);
 
-            if (LegalMoveAnalyzer.IsLegal(move, currentState))
+            return TryMove(move);
+        }
+        // For tests only
+        public void AddFigure(string command)
+        {
+            if (command.Length != 4) return;
+
+            int x = UciUtils.UciToEngineChar(command[0]);
+            int y = UciUtils.UciToEngineChar(command[1]);
+
+            EnginePosition position = new EnginePosition(x,y);
+
+            Color color = Color.None;
+            if(command[2] == 'w')
             {
-                currentState = currentState.AppendMove(move);
-                return true;
+                color = Color.White;
             }
-            else
+            else if (command[2] == 'b')
             {
-                return false;
+                color = Color.Black;
             }
+
+            FigureType type = FigureType.None;
+            switch (command[3])
+            {
+                case 'p':
+                    type = FigureType.Sleepy;
+                    break;
+                case 'b':
+                    type = FigureType.Bishop;
+                    break;
+                case 'n':
+                    type = FigureType.Knight;
+                    break;
+                case 'r':
+                    type = FigureType.Rook;
+                    break;
+                case 'q':
+                    type = FigureType.Queen;
+                    break;
+                case 'k':
+                    type = FigureType.King;
+                    break;
+                default:
+                    return;
+            }
+            
+            currentState.AddFigure(position, color, type);
         }
         public string DebugCurrentBoard()
         {

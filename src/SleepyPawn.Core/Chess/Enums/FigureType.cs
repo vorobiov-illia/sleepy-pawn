@@ -3,11 +3,11 @@
     internal enum FigureType
     {
         None,
-        Sleepy,
-        Bishop,
-        Knight,
-        Rook,
-        Queen,
-        King,
+        Sleepy = 'p',
+        Bishop = 'b',
+        Knight = 'n',
+        Rook = 'r',
+        Queen = 'q',
+        King = 'k',
     }
 }

@@ -103,9 +103,17 @@ namespace SleepyPawn.Core.Chess
 
             return res.ToString();
         }
+
+        internal void AddFigure(EnginePosition position, Color color, FigureType type)
+        {
+            if (position.x > 7 || position.x < 0) return;
+            if (position.y > 7 || position.y < 0) return;
+
+            figures[position.y, position.x] = new Figure(color, type);
+        }
     }
 
-    internal struct EnginePosition
+    public struct EnginePosition
     {
         public int x;
         public int y;
