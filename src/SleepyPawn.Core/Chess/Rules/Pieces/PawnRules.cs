@@ -23,7 +23,7 @@ namespace SleepyPawn.Core.Chess.Rules.Pieces
                 if(thisFigure.color == Color.White)
                 {
                     if (move.secondPos.y == move.firstPos.y + 1) return true;
-                    if (thisFigure.Moved) return false;
+                    if (move.firstPos.y != 1) return false;
                     Piece pathway = state.GetPiece(new EnginePosition(move.firstPos.x, move.firstPos.y + 1));
                     if(pathway == null)
                     {
@@ -36,7 +36,7 @@ namespace SleepyPawn.Core.Chess.Rules.Pieces
                 if(thisFigure.color == Color.Black)
                 {
                     if (move.secondPos.y == move.firstPos.y - 1) return true;
-                    if (thisFigure.Moved) return false;
+                    if (move.firstPos.y != 6) return false;
                     Piece pathway = state.GetPiece(new EnginePosition(move.firstPos.x, move.firstPos.y - 1));
                     if (pathway == null)
                     {
