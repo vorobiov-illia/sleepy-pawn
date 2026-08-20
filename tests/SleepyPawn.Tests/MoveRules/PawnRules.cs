@@ -4,7 +4,7 @@ namespace SleepyPawn.Tests.Rules
 {
     public class PawnRules
     {
-        // TO-DO: Make illegal horizontal movement tests and illegal double move after normal move test.
+        // TO-DO: Make illegal double move after normal move test.
         
         //================== WHITE PAWN TESTS:
         //----- Simple moves:
@@ -62,6 +62,21 @@ namespace SleepyPawn.Tests.Rules
             bool isLegal = game.TryUciMove("e2e5");
             Assert.False(isLegal, "Pawn must not be able to move forward that far.");
         }
+        [Theory]
+        [InlineData("e2d2")]
+        [InlineData("e2f2")]
+        public void WhitePawnHorizontalMove(string illegalMove)
+        {
+            // Initializing game
+            Game game = new Game(true);
+
+            // White pawn
+            game.AddPiece("e2wp");
+
+            // White player makes illegal move
+            bool isLegal = game.TryUciMove(illegalMove);
+            Assert.False(isLegal, "Pawn must not be able to move horizontaly.");
+        }
         //----- Double moves:
         [Fact]
         public void WhitePawnDoubleOpenMove()
@@ -107,118 +122,75 @@ namespace SleepyPawn.Tests.Rules
             Assert.False(isLegal, "Pawn must not be able to perform double forward move on occupied tile.");
         }
         //----- Attacks:
-        [Fact]
-        public void WhitePawnTakesBlack()
+        [Theory]
+        [InlineData("f3bp", "e2f3")]
+        [InlineData("d3bp", "e2d3")]
+        public void WhitePawnTakesBlack(string captureTarget, string move)
         {
             // Initializing game
-            Game rightGame = new Game(true);
+            Game game = new Game(true);
 
             // White pawn
-            rightGame.AddPiece("e2wp");
+            game.AddPiece("e2wp");
             // Black pawn to take
-            rightGame.AddPiece("f3bp");
+            game.AddPiece(captureTarget);
 
-            // White player takes right pawn
-            bool rightTake = rightGame.TryUciMove("e2f3");
+            // White player takes Black pawn
+            bool isLegal = game.TryUciMove(move);
 
-            Assert.True(rightTake, "White Pawn should be able to take Black pieces diagonally right.");
-
-            // Initializing game
-            Game leftGame = new Game(true);
-
-            // White pawn
-            leftGame.AddPiece("e2wp");
-            // Black pawn to take
-            leftGame.AddPiece("d3bp");
-
-            // White player takes left pawn
-            bool leftTake = leftGame.TryUciMove("e2d3");
-
-            Assert.True(leftTake, "White Pawn should be able to take Black pieces diagonally left.");
+            Assert.True(isLegal, "White Pawn should be able to take Black pieces diagonally.");
         }
-        //----- Attacks:
-        [Fact]
-        public void WhitePawnTakesBlackBack()
+        [Theory]
+        [InlineData("f1bp", "e2f1")]
+        [InlineData("d1bp", "e2d1")]
+        public void WhitePawnTakesBlackBack(string captureTarget, string move)
         {
             // Initializing game
-            Game rightGame = new Game(true);
+            Game game = new Game(true);
 
             // White pawn
-            rightGame.AddPiece("e2wp");
+            game.AddPiece("e2wp");
             // Black pawn to take
-            rightGame.AddPiece("f1bp");
+            game.AddPiece(captureTarget);
 
-            // White player takes right pawn
-            bool rightTake = rightGame.TryUciMove("e2f1");
+            // White player takes Black pawn
+            bool isLegal = game.TryUciMove(move);
 
-            Assert.False(rightTake, "White Pawn must not be able to take Black pieces diagonally right from back.");
-
-            // Initializing game
-            Game leftGame = new Game(true);
-
-            // White pawn
-            leftGame.AddPiece("e2wp");
-            // Black pawn to take
-            leftGame.AddPiece("d1bp");
-
-            // White player takes left pawn
-            bool leftTake = leftGame.TryUciMove("e2d1");
-
-            Assert.False(leftTake, "White Pawn must not be able to take Black pieces diagonally left from back.");
+            Assert.False(isLegal, "White Pawn must not be able to take Black pieces diagonally from back.");
         }
-        [Fact]
-        public void WhitePawnTakesWhite()
+        [Theory]
+        [InlineData("f3wp", "e2f3")]
+        [InlineData("d3wp", "e2d3")]
+        public void WhitePawnTakesWhite(string captureTarget, string move)
         {
             // Initializing game
-            Game rightGame = new Game(true);
+            Game game = new Game(true);
 
             // White pawn
-            rightGame.AddPiece("e2wp");
+            game.AddPiece("e2wp");
             // White pawn to take
-            rightGame.AddPiece("f3wp");
+            game.AddPiece(captureTarget);
 
-            // White player takes right pawn
-            bool rightTake = rightGame.TryUciMove("e2f3");
+            // White player takes White pawn
+            bool isLegal = game.TryUciMove(move);
 
-            Assert.False(rightTake, "White Pawn must not be able to take White pieces from right.");
-
-            // Initializing game
-            Game leftGame = new Game(true);
-
-            // White pawn
-            leftGame.AddPiece("e2wp");
-            // White pawn to take
-            leftGame.AddPiece("d3wp");
-
-            // White player takes left pawn
-            bool leftTake = leftGame.TryUciMove("e2d3");
-
-            Assert.False(leftTake, "White Pawn must not be able to take White pieces from left.");
+            Assert.False(isLegal, "White Pawn must not be able to take White pieces.");
         }
-        [Fact]
-        public void WhitePawnTakesNothing()
+        [Theory]
+        [InlineData("e2f3")]
+        [InlineData("e2d3")]
+        public void WhitePawnTakesNothing(string move)
         {
             // Initializing game
-            Game rightGame = new Game(true);
+            Game game = new Game(true);
 
             // White pawn
-            rightGame.AddPiece("e2wp");
+            game.AddPiece("e2wp");
 
-            // White player takes right
-            bool rightTake = rightGame.TryUciMove("e2f3");
+            // White player takes nothing
+            bool isLegal = game.TryUciMove(move);
 
-            Assert.False(rightTake, "White Pawn must not be able to move diagonally right without piece to capture.");
-
-            // Initializing game
-            Game leftGame = new Game(true);
-
-            // White pawn
-            leftGame.AddPiece("e2wp");
-
-            // White player takes left
-            bool leftTake = leftGame.TryUciMove("e2d3");
-
-            Assert.False(leftTake, "White Pawn must not be able to move diagonally left without piece to capture.");
+            Assert.False(isLegal, "White Pawn must not be able to move diagonally without piece to capture.");
         }
         //================== BLACK PAWN TESTS:
         //----- Simple moves:
@@ -284,6 +256,21 @@ namespace SleepyPawn.Tests.Rules
             bool isLegal = game.TryUciMove("e7e4");
             Assert.False(isLegal, "Pawn must not be able to move forward that far.");
         }
+        [Theory]
+        [InlineData("e7d7")]
+        [InlineData("e7f7")]
+        public void BlackPawnHorizontalMove(string illegalMove)
+        {
+            // Initializing game
+            Game game = new Game(true);
+
+            // Black pawn
+            game.AddPiece("e7bp");
+
+            // Black player makes illegal move
+            bool isLegal = game.TryUciMove(illegalMove);
+            Assert.False(isLegal, "Pawn must not be able to move horizontaly.");
+        }
         //----- Double moves:
         [Fact]
         public void BlackPawnDoubleOpenMove()
@@ -335,133 +322,83 @@ namespace SleepyPawn.Tests.Rules
             Assert.False(isLegal, "Pawn must not be able to perform double forward move on occupied tile.");
         }
         //----- Attacks:
-        [Fact]
-        public void BlackPawnTakesWhite()
+        [Theory]
+        [InlineData("f6wp", "e7f6")]
+        [InlineData("d6wp", "e7d6")]
+        public void BlackPawnTakesWhite(string captureTarget, string move)
         {
             // Initializing game
-            Game rightGame = new Game(true);
+            Game game = new Game(true);
 
             // Black pawn
-            rightGame.AddPiece("e7bp");
+            game.AddPiece("e7bp");
             // White pawn to take
-            rightGame.AddPiece("f6wp");
+            game.AddPiece(captureTarget);
 
             // Skipping white move
-            rightGame.TryUciMove("0000");
-            // Black player takes right pawn
-            bool rightTake = rightGame.TryUciMove("e7f6");
+            game.TryUciMove("0000");
+            // Black player takes White pawn
+            bool isLegal = game.TryUciMove(move);
 
-            Assert.True(rightTake, "Black Pawn should be able to take White pieces diagonally right.");
-
-            // Initializing game
-            Game leftGame = new Game(true);
-
-            // Black pawn
-            leftGame.AddPiece("e7bp");
-            // White pawn to take
-            leftGame.AddPiece("d6wp");
-
-            // Skipping white move
-            leftGame.TryUciMove("0000");
-            // Black player takes left pawn
-            bool leftTake = leftGame.TryUciMove("e7d6");
-
-            Assert.True(leftTake, "Black Pawn should be able to take White pieces diagonally left.");
+            Assert.True(isLegal, "Black Pawn should be able to take White pieces diagonally.");
         }
-        [Fact]
-        public void BlackPawnTakesWhiteBack()
+        [Theory]
+        [InlineData("f8wp", "e7f8")]
+        [InlineData("d8wp", "e7d8")]
+        public void BlackPawnTakesWhiteBack(string captureTarget, string move)
         {
             // Initializing game
-            Game rightGame = new Game(true);
+            Game game = new Game(true);
 
             // Black pawn
-            rightGame.AddPiece("e7bp");
+            game.AddPiece("e7bp");
             // White pawn to take
-            rightGame.AddPiece("f8wp");
+            game.AddPiece(captureTarget);
 
             // Skipping white move
-            rightGame.TryUciMove("0000");
-            // Black player takes right pawn
-            bool rightTake = rightGame.TryUciMove("e7f8");
+            game.TryUciMove("0000");
+            // Black player takes White pawn
+            bool isLegal = game.TryUciMove(move);
 
-            Assert.False(rightTake, "Black Pawn must not be able to take White pieces diagonally right from back.");
-
-            // Initializing game
-            Game leftGame = new Game(true);
-
-            // Black pawn
-            leftGame.AddPiece("e7bp");
-            // White pawn to take
-            leftGame.AddPiece("d8wp");
-
-            // Skipping white move
-            leftGame.TryUciMove("0000");
-            // Black player takes left pawn
-            bool leftTake = leftGame.TryUciMove("e7d8");
-
-            Assert.False(leftTake, "Black Pawn must not be able to take White pieces diagonally left from back.");
+            Assert.False(isLegal, "Black Pawn must not be able to take White pieces diagonally from back.");
         }
-        [Fact]
-        public void BlackPawnTakesBlack()
+        [Theory]
+        [InlineData("f6bp", "e7f6")]
+        [InlineData("d6bp", "e7d6")]
+        public void BlackPawnTakesBlack(string captureTarget, string move)
         {
             // Initializing game
-            Game rightGame = new Game(true);
+            Game game = new Game(true);
 
             // Black pawn
-            rightGame.AddPiece("e7bp");
+            game.AddPiece("e7bp");
             // Black pawn to take
-            rightGame.AddPiece("f6bp");
+            game.AddPiece(captureTarget);
 
             // Skipping white move
-            rightGame.TryUciMove("0000");
-            // Black player takes right pawn
-            bool rightTake = rightGame.TryUciMove("e7f6");
+            game.TryUciMove("0000");
+            // Black player takes black pawn
+            bool isLegal = game.TryUciMove(move);
 
-            Assert.False(rightTake, "Black Pawn must not be able to take Black pieces from right.");
-
-            // Initializing game
-            Game leftGame = new Game(true);
-
-            // Black pawn
-            leftGame.AddPiece("e7bp");
-            // Black pawn to take
-            leftGame.AddPiece("d6bp");
-
-            // Skipping white move
-            leftGame.TryUciMove("0000");
-            // Black player takes left pawn
-            bool leftTake = leftGame.TryUciMove("e7d6");
-
-            Assert.False(leftTake, "Black Pawn must not be able to take Black pieces from left.");
+            Assert.False(isLegal, "Black Pawn must not be able to take Black pieces.");
         }
-        [Fact]
-        public void BlackPawnTakesNothing()
+        [Theory]
+        [InlineData("e7f6")]
+        [InlineData("e7d6")]
+        public void BlackPawnTakesNothing(string move)
         {
             // Initializing game
-            Game rightGame = new Game(true);
+            Game game = new Game(true);
 
             // Black pawn
-            rightGame.AddPiece("e7bp");
+            game.AddPiece("e7bp");
 
             // Skipping white move
-            rightGame.TryUciMove("0000");
-            // Black player takes right
-            bool rightTake = rightGame.TryUciMove("e7f6");
+            game.TryUciMove("0000");
+            // Black player takes nothing
+            bool isLegal = game.TryUciMove(move);
 
-            Assert.False(rightTake, "Black Pawn must not be able to move diagonally right without piece to capture.");
-
-            // Initializing game
-            Game leftGame = new Game(true);
-
-            // Black pawn
-            leftGame.AddPiece("e7bp");
-
-            // Skipping white move
-            leftGame.TryUciMove("0000");
-            // Black player takes left
-            bool leftTake = leftGame.TryUciMove("e7d6");
-
-            Assert.False(leftTake, "Black Pawn must not be able to move diagonally left without piece to capture.");
+            Assert.False(isLegal, "Black Pawn must not be able to move diagonally without piece to capture.");
         }
     }
 }
