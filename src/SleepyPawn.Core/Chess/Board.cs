@@ -77,6 +77,7 @@ namespace SleepyPawn.Core.Chess
         internal void ReplaceFigure(EnginePosition figure, EnginePosition newPosition)
         {
             figures[newPosition.y, newPosition.x] = figures[figure.y, figure.x];
+            figures[newPosition.y, newPosition.x].Moved = true;
             figures[figure.y, figure.x] = new Figure();
         }
 
@@ -117,6 +118,26 @@ namespace SleepyPawn.Core.Chess
         {
             this.x = x;
             this.y = y;
+        }
+        public static bool operator ==(EnginePosition left, EnginePosition right)
+        {
+            return left.x == right.x && left.y == right.y;
+        }
+        public static bool operator !=(EnginePosition left, EnginePosition right)
+        {
+            return !(left == right);
+        }
+        public override bool Equals(object? obj)
+        {
+            if (obj is EnginePosition other)
+            {
+                return this == other;
+            }
+            return false;
+        }
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(x, y);
         }
     }
 }

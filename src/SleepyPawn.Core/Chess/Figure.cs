@@ -4,18 +4,18 @@ namespace SleepyPawn.Core.Chess
 {
     internal class Figure
     {
-        public bool isEmpty { get; private set; } = true;
-        public bool Moved { get; private set; } = false;
-        public Color color { get; private set; }
-        public FigureType type { get; protected set; }
+        internal bool isEmpty { get; private set; } = true;
+        internal bool Moved { get; set; } = false;
+        internal Color color { get; private set; }
+        internal FigureType type { get; set; }
 
-        public Figure()
+        internal Figure()
         {
             color = Color.None;
             type = FigureType.None;
             isEmpty = true;
         }
-        public Figure(Color c, FigureType t, bool moved = false, bool empty = false)
+        internal Figure(Color c, FigureType t, bool moved = false, bool empty = false)
         {
             color = c;
             type = t;
