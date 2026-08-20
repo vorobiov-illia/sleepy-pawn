@@ -1,6 +1,6 @@
 ﻿namespace SleepyPawn.Core.Chess.Enums
 {
-    internal enum FigureType
+    internal enum PieceType
     {
         None,
         Sleepy = 'p',

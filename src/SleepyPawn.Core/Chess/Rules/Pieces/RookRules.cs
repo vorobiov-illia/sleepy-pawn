@@ -1,6 +1,6 @@
-﻿namespace SleepyPawn.Core.Chess.Rules.Figures
+﻿namespace SleepyPawn.Core.Chess.Rules.Pieces
 {
-    internal class RookRules : FigureRule
+    internal class RookRules : PieceRule
     {
         internal override bool CanMove(Move move, GameState state)
         {

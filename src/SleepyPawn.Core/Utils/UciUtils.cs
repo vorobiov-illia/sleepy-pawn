@@ -64,22 +64,22 @@ namespace SleepyPawn.Core.Utils
             return -1;
             
         }
-        internal static FigureType UciToEnginePromotion(char arg)
+        internal static PieceType UciToEnginePromotion(char arg)
         {
-            if (!allowedPromotions.Contains(arg)) return FigureType.None;
+            if (!allowedPromotions.Contains(arg)) return PieceType.None;
 
             switch (arg)
             {
                 case 'b':
-                    return FigureType.Bishop;
+                    return PieceType.Bishop;
                 case 'n':
-                    return FigureType.Knight;
+                    return PieceType.Knight;
                 case 'r':
-                    return FigureType.Rook;
+                    return PieceType.Rook;
                 case 'q':
-                    return FigureType.Queen;
+                    return PieceType.Queen;
                 default:
-                    return FigureType.None;
+                    return PieceType.None;
             }
         }
     }

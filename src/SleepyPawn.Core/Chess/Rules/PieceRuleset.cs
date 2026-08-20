@@ -1,9 +1,9 @@
 ﻿using SleepyPawn.Core.Chess.Enums;
-using SleepyPawn.Core.Chess.Rules.Figures;
+using SleepyPawn.Core.Chess.Rules.Pieces;
 
 namespace SleepyPawn.Core.Chess.Rules
 {
-    internal class FigureRuleset
+    internal class PieceRuleset
     {
         private PawnRules pawns;
         private BishopRules bishops;
@@ -12,7 +12,7 @@ namespace SleepyPawn.Core.Chess.Rules
         private QueenRules queens;
         private KingRules kings;
 
-        internal FigureRuleset()
+        internal PieceRuleset()
         {
             pawns = new PawnRules();
             bishops = new BishopRules();
@@ -23,21 +23,21 @@ namespace SleepyPawn.Core.Chess.Rules
         }
         internal bool CheckRules(Move move, GameState state)
         {
-            Figure figure = state.GetFigure(move.firstPos);
-            if (figure == null || figure.isEmpty) return false;
-            switch (figure.type)
+            Piece thisPiece = state.GetPiece(move.firstPos);
+            if (thisPiece == null || thisPiece.isEmpty) return false;
+            switch (thisPiece.type)
             {
-                case FigureType.Sleepy:
+                case PieceType.Sleepy:
                     return pawns.CanMove(move, state);
-                case FigureType.Bishop:
+                case PieceType.Bishop:
                     return bishops.CanMove(move, state);
-                case FigureType.Knight:
+                case PieceType.Knight:
                     return knights.CanMove(move, state);
-                case FigureType.Rook:
+                case PieceType.Rook:
                     return rooks.CanMove(move, state);
-                case FigureType.Queen:
+                case PieceType.Queen:
                     return queens.CanMove(move, state);
-                case FigureType.King:
+                case PieceType.King:
                     return kings.CanMove(move, state);
                 default:
                     return false;

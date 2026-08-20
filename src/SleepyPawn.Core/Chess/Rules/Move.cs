@@ -7,7 +7,7 @@ namespace SleepyPawn.Core.Chess.Rules
     {
         internal EnginePosition firstPos;
         internal EnginePosition secondPos;
-        internal FigureType promotionFigure;
+        internal PieceType promotionPiece;
         internal bool isValid { get; private set; }
         internal bool nullMove { get; private set; }
 
@@ -44,7 +44,7 @@ namespace SleepyPawn.Core.Chess.Rules
 
             if(uciMove.Length == 5)
             {
-                promotionFigure = UciUtils.UciToEnginePromotion(uciMove[4]);
+                promotionPiece = UciUtils.UciToEnginePromotion(uciMove[4]);
             }
 
             return;

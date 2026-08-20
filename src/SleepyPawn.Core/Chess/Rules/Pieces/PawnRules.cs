@@ -1,20 +1,20 @@
 ﻿using SleepyPawn.Core.Chess.Enums;
 
-namespace SleepyPawn.Core.Chess.Rules.Figures
+namespace SleepyPawn.Core.Chess.Rules.Pieces
 {
-    internal class PawnRules : FigureRule
+    internal class PawnRules : PieceRule
     {
         internal override bool CanMove(Move move, GameState state)
         {
-            Figure thisFigure = state.GetFigure(move.firstPos);
-            Figure otherFigure = state.GetFigure(move.secondPos);
+            Piece thisFigure = state.GetPiece(move.firstPos);
+            Piece otherFigure = state.GetPiece(move.secondPos);
 
             if (thisFigure == null) return false;
-            if (thisFigure.type != FigureType.Sleepy) return false;
+            if (thisFigure.type != PieceType.Sleepy) return false;
 
             if(otherFigure == null)
             {
-                otherFigure = new Figure();
+                otherFigure = new Piece();
             }
 
             if (otherFigure.isEmpty)
@@ -24,10 +24,10 @@ namespace SleepyPawn.Core.Chess.Rules.Figures
                 {
                     if (move.secondPos.y == move.firstPos.y + 1) return true;
                     if (thisFigure.Moved) return false;
-                    Figure pathway = state.GetFigure(new EnginePosition(move.firstPos.x, move.firstPos.y + 1));
+                    Piece pathway = state.GetPiece(new EnginePosition(move.firstPos.x, move.firstPos.y + 1));
                     if(pathway == null)
                     {
-                        pathway = new Figure();
+                        pathway = new Piece();
                     }
                     if (move.secondPos.y == move.firstPos.y + 2 &&
                         pathway.isEmpty) return true;
@@ -37,10 +37,10 @@ namespace SleepyPawn.Core.Chess.Rules.Figures
                 {
                     if (move.secondPos.y == move.firstPos.y - 1) return true;
                     if (thisFigure.Moved) return false;
-                    Figure pathway = state.GetFigure(new EnginePosition(move.firstPos.x, move.firstPos.y - 1));
+                    Piece pathway = state.GetPiece(new EnginePosition(move.firstPos.x, move.firstPos.y - 1));
                     if (pathway == null)
                     {
-                        pathway = new Figure();
+                        pathway = new Piece();
                     }
                     if (move.secondPos.y == move.firstPos.y - 2 &&
                         pathway.isEmpty) return true;

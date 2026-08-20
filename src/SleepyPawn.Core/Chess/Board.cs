@@ -5,7 +5,7 @@ namespace SleepyPawn.Core.Chess
 {
     internal class Board
     {
-        internal Figure[,] figures = new Figure[8, 8];
+        internal Piece[,] pieces = new Piece[8, 8];
 
         internal Board()
         {
@@ -18,14 +18,14 @@ namespace SleepyPawn.Core.Chess
             {
                 for (int j = 0; j < 8; j++)
                 {
-                    if (other.figures[i, j] == null) continue;
-                    figures[i, j] = new Figure(other.figures[i, j].color, other.figures[i, j].type, other.figures[i, j].Moved, other.figures[i, j].isEmpty);
+                    if (other.pieces[i, j] == null) continue;
+                    pieces[i, j] = new Piece(other.pieces[i, j].color, other.pieces[i, j].type, other.pieces[i, j].Moved, other.pieces[i, j].isEmpty);
                 }
             }
         }
-        internal Figure GetFigure(EnginePosition position)
+        internal Piece GetPiece(EnginePosition position)
         {
-            return figures[position.y, position.x];
+            return pieces[position.y, position.x];
         }
         internal void Clear()
         {
@@ -33,7 +33,7 @@ namespace SleepyPawn.Core.Chess
             {
                 for (int j = 0; j < 8; j++)
                 {
-                    figures[i, j] = new Figure();
+                    pieces[i, j] = new Piece();
                 }
             }
         }
@@ -44,41 +44,41 @@ namespace SleepyPawn.Core.Chess
             // Placing white pawns
             for (int i = 0; i < 8; i++)
             {
-                figures[1, i] = new Figure(Color.White, FigureType.Sleepy);
+                pieces[1, i] = new Piece(Color.White, PieceType.Sleepy);
             }
 
             // Placing black pawns
             for (int i = 0; i < 8; i++)
             {
-                figures[6, i] = new Figure(Color.Black, FigureType.Sleepy);
+                pieces[6, i] = new Piece(Color.Black, PieceType.Sleepy);
             }
 
             // Placing white king row
-            figures[0, 0] = new Figure(Color.White, FigureType.Rook);
-            figures[0, 1] = new Figure(Color.White, FigureType.Knight);
-            figures[0, 2] = new Figure(Color.White, FigureType.Bishop);
-            figures[0, 3] = new Figure(Color.White, FigureType.Queen);
-            figures[0, 4] = new Figure(Color.White, FigureType.King);
-            figures[0, 5] = new Figure(Color.White, FigureType.Bishop);
-            figures[0, 6] = new Figure(Color.White, FigureType.Knight);
-            figures[0, 7] = new Figure(Color.White, FigureType.Rook);
+            pieces[0, 0] = new Piece(Color.White, PieceType.Rook);
+            pieces[0, 1] = new Piece(Color.White, PieceType.Knight);
+            pieces[0, 2] = new Piece(Color.White, PieceType.Bishop);
+            pieces[0, 3] = new Piece(Color.White, PieceType.Queen);
+            pieces[0, 4] = new Piece(Color.White, PieceType.King);
+            pieces[0, 5] = new Piece(Color.White, PieceType.Bishop);
+            pieces[0, 6] = new Piece(Color.White, PieceType.Knight);
+            pieces[0, 7] = new Piece(Color.White, PieceType.Rook);
 
             // Placing black king row
-            figures[7, 0] = new Figure(Color.Black, FigureType.Rook);
-            figures[7, 1] = new Figure(Color.Black, FigureType.Knight);
-            figures[7, 2] = new Figure(Color.Black, FigureType.Bishop);
-            figures[7, 3] = new Figure(Color.Black, FigureType.Queen);
-            figures[7, 4] = new Figure(Color.Black, FigureType.King);
-            figures[7, 5] = new Figure(Color.Black, FigureType.Bishop);
-            figures[7, 6] = new Figure(Color.Black, FigureType.Knight);
-            figures[7, 7] = new Figure(Color.Black, FigureType.Rook);
+            pieces[7, 0] = new Piece(Color.Black, PieceType.Rook);
+            pieces[7, 1] = new Piece(Color.Black, PieceType.Knight);
+            pieces[7, 2] = new Piece(Color.Black, PieceType.Bishop);
+            pieces[7, 3] = new Piece(Color.Black, PieceType.Queen);
+            pieces[7, 4] = new Piece(Color.Black, PieceType.King);
+            pieces[7, 5] = new Piece(Color.Black, PieceType.Bishop);
+            pieces[7, 6] = new Piece(Color.Black, PieceType.Knight);
+            pieces[7, 7] = new Piece(Color.Black, PieceType.Rook);
         }
 
-        internal void ReplaceFigure(EnginePosition figure, EnginePosition newPosition)
+        internal void ReplacePiece(EnginePosition piece, EnginePosition newPosition)
         {
-            figures[newPosition.y, newPosition.x] = figures[figure.y, figure.x];
-            figures[newPosition.y, newPosition.x].Moved = true;
-            figures[figure.y, figure.x] = new Figure();
+            pieces[newPosition.y, newPosition.x] = pieces[piece.y, piece.x];
+            pieces[newPosition.y, newPosition.x].Moved = true;
+            pieces[piece.y, piece.x] = new Piece();
         }
 
         public override string ToString()
@@ -89,13 +89,13 @@ namespace SleepyPawn.Core.Chess
             {
                 for(int j = 0; j<8; j++)
                 {
-                    if (figures[i,j] == null)
+                    if (pieces[i,j] == null)
                     {
                         res.Append("[ ]");
                     }
                     else
                     {
-                        res.Append("[" + figures[i, j].ToString() + "]");
+                        res.Append("[" + pieces[i, j].ToString() + "]");
                     }
                 }
                 res.Append('\n');
@@ -104,12 +104,12 @@ namespace SleepyPawn.Core.Chess
             return res.ToString();
         }
 
-        internal void AddFigure(EnginePosition position, Color color, FigureType type)
+        internal void AddPiece(EnginePosition position, Color color, PieceType type)
         {
             if (position.x > 7 || position.x < 0) return;
             if (position.y > 7 || position.y < 0) return;
 
-            figures[position.y, position.x] = new Figure(color, type);
+            pieces[position.y, position.x] = new Piece(color, type);
         }
     }
 

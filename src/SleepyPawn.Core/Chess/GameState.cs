@@ -22,13 +22,13 @@ namespace SleepyPawn.Core.Chess
             playerToMove = player;
         }
 
-        internal Figure GetFigure(EnginePosition position)
+        internal Piece GetPiece(EnginePosition position)
         {
-            return boardState.GetFigure(position);
+            return boardState.GetPiece(position);
         }
-        internal void AddFigure(EnginePosition position, Color color, FigureType type)
+        internal void AddPiece(EnginePosition position, Color color, PieceType type)
         {
-            boardState.AddFigure(position, color, type);
+            boardState.AddPiece(position, color, type);
         }
         internal GameState AppendMove(Move move)
         {
@@ -38,7 +38,7 @@ namespace SleepyPawn.Core.Chess
                 return new GameState(boardState, ColorUtils.Reverse(playerToMove));
             }
             Board changedBoard = new Board(boardState);
-            changedBoard.ReplaceFigure(move.firstPos, move.secondPos);
+            changedBoard.ReplacePiece(move.firstPos, move.secondPos);
             return new GameState(changedBoard, ColorUtils.Reverse(playerToMove));
         }
 

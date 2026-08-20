@@ -34,7 +34,7 @@ namespace SleepyPawn.Core.Chess
             return TryMove(move);
         }
         // For tests only
-        public void AddFigure(string command)
+        public void AddPiece(string command)
         {
             if (command.Length != 4) return;
 
@@ -53,32 +53,32 @@ namespace SleepyPawn.Core.Chess
                 color = Color.Black;
             }
 
-            FigureType type = FigureType.None;
+            PieceType type = PieceType.None;
             switch (command[3])
             {
                 case 'p':
-                    type = FigureType.Sleepy;
+                    type = PieceType.Sleepy;
                     break;
                 case 'b':
-                    type = FigureType.Bishop;
+                    type = PieceType.Bishop;
                     break;
                 case 'n':
-                    type = FigureType.Knight;
+                    type = PieceType.Knight;
                     break;
                 case 'r':
-                    type = FigureType.Rook;
+                    type = PieceType.Rook;
                     break;
                 case 'q':
-                    type = FigureType.Queen;
+                    type = PieceType.Queen;
                     break;
                 case 'k':
-                    type = FigureType.King;
+                    type = PieceType.King;
                     break;
                 default:
                     return;
             }
             
-            currentState.AddFigure(position, color, type);
+            currentState.AddPiece(position, color, type);
         }
         public string DebugCurrentBoard()
         {

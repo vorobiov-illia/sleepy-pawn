@@ -5,17 +5,17 @@ namespace SleepyPawn.Tests.MoveRules
     public class GeneralRules
     {
         [Fact]
-        public void WhitePlayerMovesBlackFigure()
+        public void WhitePlayerMovesBlackPiece()
         {
             // Initializing game
             Game game = new Game(true);
 
             // Black pawn
-            game.AddFigure("e7bp");
+            game.AddPiece("e7bp");
 
             // White player makes legal move
             bool isLegal = game.TryUciMove("e7e6");
-            Assert.True(!isLegal, "A player must not be able to move the other player's figures.");
+            Assert.True(!isLegal, "A player must not be able to move the other player's pieces.");
         }
         [Fact]
         public void PlayerMovesEmptySquare()
@@ -25,7 +25,7 @@ namespace SleepyPawn.Tests.MoveRules
 
             // White player makes illegal move
             bool isLegal = game.TryUciMove("e2e4");
-            Assert.True(!isLegal, "A player must not be able to make moves with empty square as figure.");
+            Assert.True(!isLegal, "A player must not be able to make moves with empty square as piece.");
         }
     }
 }

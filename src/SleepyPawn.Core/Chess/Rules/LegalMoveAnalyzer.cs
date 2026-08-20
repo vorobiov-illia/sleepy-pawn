@@ -4,14 +4,14 @@ namespace SleepyPawn.Core.Chess.Rules
 {
     internal static class LegalMoveAnalyzer
     {
-        private static FigureRuleset figureRules = new FigureRuleset();
+        private static PieceRuleset pieceRules = new PieceRuleset();
         public static bool IsLegal(Move move, GameState state)
         {
             if (!move.isValid) return false;
             if (move.nullMove) return true;
-            Figure figure = state.GetFigure(move.firstPos);
-            if (state.playerToMove == ColorUtils.Reverse(figure.color)) return false;
-            return figureRules.CheckRules(move, state);
+            Piece piece = state.GetPiece(move.firstPos);
+            if (state.playerToMove == ColorUtils.Reverse(piece.color)) return false;
+            return pieceRules.CheckRules(move, state);
         }
     }
 }
