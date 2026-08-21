@@ -75,6 +75,22 @@ namespace SleepyPawn.Tests.Rules
             bool isLegal = game.TryUciMove(illegalMove);
             Assert.False(isLegal, "Pawn must not be able to move horizontaly.");
         }
+        [Theory]
+        [InlineData("e8wp", "e8e9")]
+        [InlineData("h2wp", "h2i3")]
+        [InlineData("a2wp", "a2z3")]
+        public void WhitePawnOutOfBounds(string pawn, string move)
+        {
+            // Initializing game
+            Game game = new Game(true);
+
+            // White pawn
+            game.AddPiece(pawn);
+
+            // White player makes illegal move
+            bool isLegal = game.TryUciMove(move);
+            Assert.False(isLegal, "Pawn must not be able to move out of game board.");
+        }
         //----- Double moves:
         [Fact]
         public void WhitePawnDoubleOpenMove()
