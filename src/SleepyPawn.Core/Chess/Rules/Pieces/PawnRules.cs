@@ -6,16 +6,7 @@ namespace SleepyPawn.Core.Chess.Rules.Pieces
     {
         internal override bool CanMove(Move move, GameState state)
         {
-            Piece thisFigure = state.GetPiece(move.firstPos);
-            Piece otherFigure = state.GetPiece(move.secondPos);
-
-            if (thisFigure == null) return false;
-            if (thisFigure.type != PieceType.Sleepy) return false;
-
-            if(otherFigure == null)
-            {
-                otherFigure = new Piece();
-            }
+            if (!CommonCheck(move, state, PieceType.Sleepy)) return false;
 
             if (otherFigure.isEmpty)
             {
