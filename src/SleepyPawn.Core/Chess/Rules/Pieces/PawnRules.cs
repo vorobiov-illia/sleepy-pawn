@@ -8,10 +8,10 @@ namespace SleepyPawn.Core.Chess.Rules.Pieces
         {
             if (!CommonCheck(move, state, PieceType.Sleepy)) return false;
 
-            if (otherFigure.isEmpty)
+            if (otherPiece.isEmpty)
             {
                 if (move.firstPos.x != move.secondPos.x) return false;
-                if(thisFigure.color == Color.White)
+                if(thisPiece.color == Color.White)
                 {
                     if (move.secondPos.y == move.firstPos.y + 1) return true;
                     if (move.firstPos.y != 1) return false;
@@ -24,7 +24,7 @@ namespace SleepyPawn.Core.Chess.Rules.Pieces
                         pathway.isEmpty) return true;
                     return false;
                 }
-                if(thisFigure.color == Color.Black)
+                if(thisPiece.color == Color.Black)
                 {
                     if (move.secondPos.y == move.firstPos.y - 1) return true;
                     if (move.firstPos.y != 6) return false;
@@ -41,20 +41,40 @@ namespace SleepyPawn.Core.Chess.Rules.Pieces
             }
             else
             {
-                if(otherFigure.color == thisFigure.color) return false;
-                if (thisFigure.color == Color.White)
+                if(otherPiece.color == thisPiece.color) return false;
+                if (thisPiece.color == Color.White)
                 {
                     if (move.secondPos != new EnginePosition(move.firstPos.x + 1, move.firstPos.y + 1) &&
                         move.secondPos != new EnginePosition(move.firstPos.x - 1, move.firstPos.y + 1)) return false;
                     return true;
                 }
-                if (thisFigure.color == Color.Black)
+                if (thisPiece.color == Color.Black)
                 {
                     if (move.secondPos != new EnginePosition(move.firstPos.x + 1, move.firstPos.y - 1) &&
                         move.secondPos != new EnginePosition(move.firstPos.x - 1, move.firstPos.y - 1)) return false;
                     return true;
                 }
                 return true;
+            }
+        }
+
+        internal override void GenerateThreat(EnginePosition piecePosition, Board board, ThreatBoard threats)
+        {
+            base.GenerateThreat(piecePosition, board, threats);
+
+            if (thisPiece == null) return;
+            if (thisPiece.isEmpty) return;
+            if (thisPiece.type != PieceType.Sleepy) return;
+
+            if(thisPiece.color == Color.White)
+            {
+                threats.AddThreat(new EnginePosition(piecePosition.x - 1, piecePosition.y + 1), Color.White);
+                threats.AddThreat(new EnginePosition(piecePosition.x + 1, piecePosition.y + 1), Color.White);
+            }
+            else if (thisPiece.color == Color.Black)
+            {
+                threats.AddThreat(new EnginePosition(piecePosition.x - 1, piecePosition.y - 1), Color.Black);
+                threats.AddThreat(new EnginePosition(piecePosition.x + 1, piecePosition.y - 1), Color.Black);
             }
         }
     }

@@ -1,7 +1,7 @@
 ﻿using SleepyPawn.Core.Chess.Enums;
 using SleepyPawn.Core.Utils;
 
-namespace SleepyPawn.Core.Chess.Rules
+namespace SleepyPawn.Core.Chess
 {
     public class Move
     {
@@ -41,6 +41,12 @@ namespace SleepyPawn.Core.Chess.Rules
 
             firstPos = new EnginePosition(fx,fy);
             secondPos = new EnginePosition(sx, sy);
+
+            if(firstPos == secondPos)
+            {
+                isValid = false;
+                return;
+            }
 
             if(uciMove.Length == 5)
             {

@@ -24,7 +24,8 @@ namespace SleepyPawn.Core.Chess.Rules
         internal bool CheckRules(Move move, GameState state)
         {
             Piece thisPiece = state.GetPiece(move.firstPos);
-            if (thisPiece == null || thisPiece.isEmpty) return false;
+            if (thisPiece == null) return false;
+            if (thisPiece.isEmpty) return false;
             switch (thisPiece.type)
             {
                 case PieceType.Sleepy:
@@ -41,6 +42,36 @@ namespace SleepyPawn.Core.Chess.Rules
                     return kings.CanMove(move, state);
                 default:
                     return false;
+            }
+        }
+
+        internal void GenerateThreat(EnginePosition position, Board board, ThreatBoard threats)
+        {
+            Piece thisPiece = board.GetPiece(position);
+            if (thisPiece == null) return;
+            if (thisPiece.isEmpty) return;
+            switch (thisPiece.type)
+            {
+                case PieceType.Sleepy:
+                    pawns.GenerateThreat(position, board, threats);
+                    break;
+                case PieceType.Bishop:
+                    bishops.GenerateThreat(position, board, threats);
+                    break;
+                case PieceType.Knight:
+                    knights.GenerateThreat(position, board, threats);
+                    break;
+                case PieceType.Rook:
+                    rooks.GenerateThreat(position, board, threats);
+                    break;
+                case PieceType.Queen:
+                    queens.GenerateThreat(position, board, threats);
+                    break;
+                case PieceType.King:
+                    kings.GenerateThreat(position, board, threats);
+                    break;
+                default:
+                    return;
             }
         }
     }

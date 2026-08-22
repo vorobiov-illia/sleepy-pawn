@@ -1,5 +1,4 @@
 ﻿using SleepyPawn.Core.Chess.Enums;
-using SleepyPawn.Core.Chess.Rules;
 using SleepyPawn.Core.Utils;
 
 namespace SleepyPawn.Core.Chess
@@ -8,6 +7,10 @@ namespace SleepyPawn.Core.Chess
     {
         private Board boardState;
         internal Color playerToMove;
+        internal bool whiteCastlingRetained = true;
+        internal bool whiteLongCastlingRetained = true;
+        internal bool blackCastlingRetained = true;
+        internal bool blackLongCastlingRetained = true;
 
         internal GameState(bool emptyBoard = false)
         {

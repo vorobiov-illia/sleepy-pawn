@@ -19,7 +19,7 @@ namespace SleepyPawn.Core.Chess
                 for (int j = 0; j < 8; j++)
                 {
                     if (other.pieces[i, j] == null) continue;
-                    pieces[i, j] = new Piece(other.pieces[i, j].color, other.pieces[i, j].type, other.pieces[i, j].Moved, other.pieces[i, j].isEmpty);
+                    pieces[i, j] = new Piece(other.pieces[i, j].color, other.pieces[i, j].type, other.pieces[i, j].isEmpty);
                 }
             }
         }
@@ -77,7 +77,6 @@ namespace SleepyPawn.Core.Chess
         internal void ReplacePiece(EnginePosition piece, EnginePosition newPosition)
         {
             pieces[newPosition.y, newPosition.x] = pieces[piece.y, piece.x];
-            pieces[newPosition.y, newPosition.x].Moved = true;
             pieces[piece.y, piece.x] = new Piece();
         }
 

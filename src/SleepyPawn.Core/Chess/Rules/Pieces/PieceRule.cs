@@ -4,22 +4,26 @@ namespace SleepyPawn.Core.Chess.Rules.Pieces
 {
     internal abstract class PieceRule
     {
-        protected Piece thisFigure = null!;
-        protected Piece otherFigure = null!;
+        protected Piece thisPiece = null!;
+        protected Piece otherPiece = null!;
 
         internal abstract bool CanMove(Move move, GameState state);
+        internal virtual void GenerateThreat(EnginePosition piecePosition, Board board, ThreatBoard threats)
+        {
+            thisPiece = board.GetPiece(piecePosition);
+        }
 
         protected bool CommonCheck(Move move, GameState state, PieceType type)
         {
-            thisFigure = state.GetPiece(move.firstPos);
-            otherFigure = state.GetPiece(move.secondPos);
+            thisPiece = state.GetPiece(move.firstPos);
+            otherPiece = state.GetPiece(move.secondPos);
 
-            if (thisFigure == null) return false;
-            if (thisFigure.type != type) return false;
+            if (thisPiece == null) return false;
+            if (thisPiece.type != type) return false;
 
-            if (otherFigure == null)
+            if (otherPiece == null)
             {
-                otherFigure = new Piece();
+                otherPiece = new Piece();
             }
             return true;
         }

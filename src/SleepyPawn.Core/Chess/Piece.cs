@@ -5,7 +5,6 @@ namespace SleepyPawn.Core.Chess
     internal class Piece
     {
         internal bool isEmpty { get; private set; } = true;
-        internal bool Moved { get; set; } = false;
         internal Color color { get; private set; }
         internal PieceType type { get; set; }
 
@@ -15,12 +14,11 @@ namespace SleepyPawn.Core.Chess
             type = PieceType.None;
             isEmpty = true;
         }
-        internal Piece(Color c, PieceType t, bool moved = false, bool empty = false)
+        internal Piece(Color c, PieceType t, bool empty = false)
         {
             color = c;
             type = t;
             isEmpty = empty;
-            Moved = moved;
         }
 
         public override string ToString()
