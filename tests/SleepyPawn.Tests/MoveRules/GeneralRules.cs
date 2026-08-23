@@ -15,7 +15,22 @@ namespace SleepyPawn.Tests.MoveRules
 
             // White player makes legal move
             bool isLegal = game.TryUciMove("e7e6");
-            Assert.True(!isLegal, "A player must not be able to move the other player's pieces.");
+            Assert.False(isLegal, "A player must not be able to move the other player's pieces.");
+        }
+        [Fact]
+        public void BlackPlayerMovesWhitePiece()
+        {
+            // Initializing game
+            Game game = new Game(true);
+
+            // White pawn
+            game.AddPiece("e7wp");
+
+            // Skip white move
+            game.TryUciMove("0000");
+            // Black player makes legal move
+            bool isLegal = game.TryUciMove("e7e6");
+            Assert.False(isLegal, "A player must not be able to move the other player's pieces.");
         }
         [Fact]
         public void PlayerMovesEmptySquare()
@@ -25,7 +40,36 @@ namespace SleepyPawn.Tests.MoveRules
 
             // White player makes illegal move
             bool isLegal = game.TryUciMove("e2e4");
-            Assert.True(!isLegal, "A player must not be able to make moves with empty square as piece.");
+            Assert.False(isLegal, "A player must not be able to make moves with empty square as piece.");
+        }
+        [Theory]
+        [InlineData(true, "e5wp", "e5e5")]
+        [InlineData(true, "e5wb", "e5e5")]
+        [InlineData(true, "e5wn", "e5e5")]
+        [InlineData(true, "e5wr", "e5e5")]
+        [InlineData(true, "e5wq", "e5e5")]
+        [InlineData(true, "e5wk", "e5e5")]
+        [InlineData(false, "e5bp", "e5e5")]
+        [InlineData(false, "e5bb", "e5e5")]
+        [InlineData(false, "e5bn", "e5e5")]
+        [InlineData(false, "e5br", "e5e5")]
+        [InlineData(false, "e5bq", "e5e5")]
+        [InlineData(false, "e5bk", "e5e5")]
+        public void PlayerIsNotMoving(bool white, string piece, string move)
+        {
+            // Initializing game
+            Game game = new Game(true);
+            
+            game.AddPiece(piece);
+
+            if (!white)
+            {
+                // Skip white move
+                game.TryUciMove("0000");
+            }
+            // Player makes illegal move
+            bool isLegal = game.TryUciMove(move);
+            Assert.False(isLegal, "A player must not be able to skip move by not changing piece position.");
         }
     }
 }
