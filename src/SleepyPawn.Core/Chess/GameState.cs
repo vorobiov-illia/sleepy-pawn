@@ -5,7 +5,7 @@ namespace SleepyPawn.Core.Chess
 {
     internal class GameState
     {
-        private Board boardState;
+        internal Board boardState;
         internal Color playerToMove;
         internal bool whiteCastlingRetained = true;
         internal bool whiteLongCastlingRetained = true;

@@ -11,7 +11,8 @@ namespace SleepyPawn.Core.Chess.Rules.Pieces
             if (Math.Abs(move.secondPos.x - move.firstPos.x) > 1) return false;
             if (Math.Abs(move.secondPos.y - move.firstPos.y) > 1) return false;
 
-            if (otherPiece.color == thisPiece.color) return false;
+            if (!otherPiece.isEmpty &&
+                otherPiece.color == thisPiece.color) return false;
 
             return true;
         }
