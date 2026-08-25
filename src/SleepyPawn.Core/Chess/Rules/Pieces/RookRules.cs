@@ -9,10 +9,10 @@ namespace SleepyPawn.Core.Chess.Rules.Pieces
         {
             if (!CommonCheck(move, state, PieceType.Rook)) return false;
 
-            bool xDif = move.firstPos.x != move.secondPos.x;
-            bool yDif = move.firstPos.y != move.secondPos.y;
+            bool xDis = move.firstPos.x != move.secondPos.x;
+            bool yDis = move.firstPos.y != move.secondPos.y;
 
-            if (xDif && yDif) return false;
+            if (xDis && yDis) return false;
 
             if (!PieceUtils.CheckSlide(move.firstPos, move.secondPos, state.boardState)) return false;
 
