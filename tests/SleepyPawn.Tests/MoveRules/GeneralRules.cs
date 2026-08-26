@@ -1,6 +1,6 @@
 ﻿using SleepyPawn.Core.Chess;
 
-namespace SleepyPawn.Tests.MoveRules
+namespace SleepyPawn.Tests.Rules
 {
     public class GeneralRules
     {
