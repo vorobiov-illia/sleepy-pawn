@@ -112,7 +112,7 @@ namespace SleepyPawn.Core.Chess
             if (move.secondPos == PieceUtils.blackShortRook) bc = false;
             if (move.secondPos == PieceUtils.blackLongRook) blc = false;
 
-            changedBoard.ReplacePiece(move.firstPos, move.secondPos);
+            changedBoard.ReplacePiece(move.firstPos, move.secondPos, move.promotionPiece);
             return new GameState(changedBoard, ColorUtils.Reverse(playerToMove), wc, wlc, bc, blc);
         }
 

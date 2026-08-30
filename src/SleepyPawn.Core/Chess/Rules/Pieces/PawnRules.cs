@@ -16,6 +16,7 @@ namespace SleepyPawn.Core.Chess.Rules.Pieces
                 if (move.firstPos.x != move.secondPos.x) return false;
                 if(thisPiece.color == Color.White)
                 {
+                    if (move.promotionPiece == PieceType.None && move.secondPos.y == 7) return false;
                     if (move.secondPos.y == move.firstPos.y + 1) return true;
                     if (move.firstPos.y != 1) return false;
                     Piece pathway = state.GetPiece(new EnginePosition(move.firstPos.x, move.firstPos.y + 1));
@@ -29,6 +30,7 @@ namespace SleepyPawn.Core.Chess.Rules.Pieces
                 }
                 if(thisPiece.color == Color.Black)
                 {
+                    if (move.promotionPiece == PieceType.None && move.secondPos.y == 0) return false;
                     if (move.secondPos.y == move.firstPos.y - 1) return true;
                     if (move.firstPos.y != 6) return false;
                     Piece pathway = state.GetPiece(new EnginePosition(move.firstPos.x, move.firstPos.y - 1));
@@ -47,12 +49,14 @@ namespace SleepyPawn.Core.Chess.Rules.Pieces
                 if(otherPiece.color == thisPiece.color) return false;
                 if (thisPiece.color == Color.White)
                 {
+                    if (move.promotionPiece == PieceType.None && move.secondPos.y == 7) return false;
                     if (move.secondPos != new EnginePosition(move.firstPos.x + 1, move.firstPos.y + 1) &&
                         move.secondPos != new EnginePosition(move.firstPos.x - 1, move.firstPos.y + 1)) return false;
                     return true;
                 }
                 if (thisPiece.color == Color.Black)
                 {
+                    if (move.promotionPiece == PieceType.None && move.secondPos.y == 0) return false;
                     if (move.secondPos != new EnginePosition(move.firstPos.x + 1, move.firstPos.y - 1) &&
                         move.secondPos != new EnginePosition(move.firstPos.x - 1, move.firstPos.y - 1)) return false;
                     return true;

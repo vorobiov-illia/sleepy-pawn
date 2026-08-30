@@ -74,10 +74,14 @@ namespace SleepyPawn.Core.Chess
             pieces[7, 7] = new Piece(Color.Black, PieceType.Rook);
         }
 
-        internal void ReplacePiece(EnginePosition piece, EnginePosition newPosition)
+        internal void ReplacePiece(EnginePosition piece, EnginePosition newPosition, PieceType promotion = PieceType.None)
         {
             pieces[newPosition.y, newPosition.x] = pieces[piece.y, piece.x];
             pieces[piece.y, piece.x] = new Piece();
+            if(promotion != PieceType.None)
+            {
+                pieces[newPosition.y, newPosition.x].type = promotion;
+            }
         }
 
         public override string ToString()
