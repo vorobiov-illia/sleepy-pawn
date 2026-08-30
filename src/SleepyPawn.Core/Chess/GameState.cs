@@ -39,6 +39,10 @@ namespace SleepyPawn.Core.Chess
         {
             return boardState.GetPiece(position);
         }
+        internal void GenerateThreats()
+        {
+            threats.GenerateThreats(boardState);
+        }
         internal void AddPiece(EnginePosition position, Color color, PieceType type)
         {
             boardState.AddPiece(position, color, type);

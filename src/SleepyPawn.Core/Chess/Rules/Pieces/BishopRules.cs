@@ -7,7 +7,10 @@ namespace SleepyPawn.Core.Chess.Rules.Pieces
     {
         internal override bool CanMove(Move move, GameState state)
         {
-            if (!CommonCheck(move, state, PieceType.Bishop)) return false;
+            Piece thisPiece = state.GetPiece(move.firstPos);
+            Piece otherPiece = state.GetPiece(move.secondPos);
+
+            if (!CommonCheck(move, state, PieceType.Bishop, thisPiece, otherPiece)) return false;
 
             int xDif = Math.Abs(move.secondPos.x - move.firstPos.x);
             int yDif = Math.Abs(move.secondPos.y - move.firstPos.y);
@@ -24,7 +27,7 @@ namespace SleepyPawn.Core.Chess.Rules.Pieces
 
         internal override void GenerateThreat(EnginePosition piecePosition, Board board, ThreatBoard threats)
         {
-            base.GenerateThreat(piecePosition, board, threats);
+            Piece thisPiece = board.GetPiece(piecePosition);
 
             if (thisPiece == null) return;
             if (thisPiece.isEmpty) return;

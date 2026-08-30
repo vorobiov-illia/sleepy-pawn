@@ -79,6 +79,7 @@ namespace SleepyPawn.Core.Chess
             }
             
             currentState.AddPiece(position, color, type);
+            currentState.GenerateThreats();
         }
         public string DebugCurrentBoard()
         {

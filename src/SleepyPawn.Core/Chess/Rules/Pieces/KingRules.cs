@@ -7,7 +7,10 @@ namespace SleepyPawn.Core.Chess.Rules.Pieces
     {
         internal override bool CanMove(Move move, GameState state)
         {
-            if (!CommonCheck(move, state, PieceType.King)) return false;
+            Piece thisPiece = state.GetPiece(move.firstPos);
+            Piece otherPiece = state.GetPiece(move.secondPos);
+
+            if (!CommonCheck(move, state, PieceType.King, thisPiece, otherPiece)) return false;
 
             if (CastlingCheck(move, state)) return true;
 
@@ -22,11 +25,19 @@ namespace SleepyPawn.Core.Chess.Rules.Pieces
 
         private bool CastlingCheck(Move move, GameState state)
         {
-            if(thisPiece.color == Color.White)
+            Piece thisPiece = state.GetPiece(move.firstPos);
+
+            if (thisPiece.color == Color.White)
             {
                 if (move.firstPos != PieceUtils.defaultWhiteKingPosition) return false;
                 if (move.secondPos == PieceUtils.whiteKingShortCastle)
                 {
+                    Piece otherPiece = state.GetPiece(PieceUtils.whiteShortRook);
+                    if (otherPiece == null) return false;
+                    if (otherPiece.isEmpty) return false;
+                    if (otherPiece.type != PieceType.Rook) return false;
+                    if (otherPiece.color != Color.White) return false;
+
                     if (!state.whiteCastlingRetained) return false;
                     foreach (EnginePosition pos in PieceUtils.whiteShortCastlingVunurableMap)
                     {
@@ -44,6 +55,12 @@ namespace SleepyPawn.Core.Chess.Rules.Pieces
                 }
                 if (move.secondPos == PieceUtils.whiteKingLongCastle)
                 {
+                    Piece otherPiece = state.GetPiece(PieceUtils.whiteLongRook);
+                    if (otherPiece == null) return false;
+                    if (otherPiece.isEmpty) return false;
+                    if (otherPiece.type != PieceType.Rook) return false;
+                    if (otherPiece.color != Color.White) return false;
+
                     if (!state.whiteLongCastlingRetained) return false;
                     foreach (EnginePosition pos in PieceUtils.whiteLongCastlingVunurableMap)
                     {
@@ -66,6 +83,12 @@ namespace SleepyPawn.Core.Chess.Rules.Pieces
                 if (move.firstPos != PieceUtils.defaultBlackKingPosition) return false;
                 if (move.secondPos == PieceUtils.blackKingShortCastle)
                 {
+                    Piece otherPiece = state.GetPiece(PieceUtils.blackShortRook);
+                    if (otherPiece == null) return false;
+                    if (otherPiece.isEmpty) return false;
+                    if (otherPiece.type != PieceType.Rook) return false;
+                    if (otherPiece.color != Color.Black) return false;
+
                     if (!state.blackCastlingRetained) return false;
                     foreach (EnginePosition pos in PieceUtils.blackShortCastlingVunurableMap)
                     {
@@ -83,6 +106,12 @@ namespace SleepyPawn.Core.Chess.Rules.Pieces
                 }
                 if (move.secondPos == PieceUtils.blackKingLongCastle)
                 {
+                    Piece otherPiece = state.GetPiece(PieceUtils.blackLongRook);
+                    if (otherPiece == null) return false;
+                    if (otherPiece.isEmpty) return false;
+                    if (otherPiece.type != PieceType.Rook) return false;
+                    if (otherPiece.color != Color.Black) return false;
+
                     if (!state.blackLongCastlingRetained) return false;
                     foreach (EnginePosition pos in PieceUtils.blackLongCastlingVunurableMap)
                     {
@@ -105,7 +134,7 @@ namespace SleepyPawn.Core.Chess.Rules.Pieces
 
         internal override void GenerateThreat(EnginePosition piecePosition, Board board, ThreatBoard threats)
         {
-            base.GenerateThreat(piecePosition, board, threats);
+            Piece thisPiece = board.GetPiece(piecePosition);
 
             if (thisPiece == null) return;
             if (thisPiece.isEmpty) return;

@@ -7,7 +7,10 @@ namespace SleepyPawn.Core.Chess.Rules.Pieces
     {
         internal override bool CanMove(Move move, GameState state)
         {
-            if (!CommonCheck(move, state, PieceType.Queen)) return false;
+            Piece thisPiece = state.GetPiece(move.firstPos);
+            Piece otherPiece = state.GetPiece(move.secondPos);
+
+            if (!CommonCheck(move, state, PieceType.Queen, thisPiece, otherPiece)) return false;
 
             bool xDis = move.firstPos.x != move.secondPos.x;
             bool yDis = move.firstPos.y != move.secondPos.y;
@@ -29,7 +32,7 @@ namespace SleepyPawn.Core.Chess.Rules.Pieces
         }
         internal override void GenerateThreat(EnginePosition piecePosition, Board board, ThreatBoard threats)
         {
-            base.GenerateThreat(piecePosition, board, threats);
+            Piece thisPiece = board.GetPiece(piecePosition);
 
             if (thisPiece == null) return;
             if (thisPiece.isEmpty) return;
