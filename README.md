@@ -2,8 +2,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/vorobiov-illia/sleepy-pawn">
-    <img src="docs/img/BannerDark.png#gh-dark-mode-only" alt="Sleepy Pawn Logo" width="800">
-    <img src="docs/img/BannerLight.png#gh-light-mode-only" alt="Sleepy Pawn Logo" width="800">
+    <img src="docs/img/LogoBanner.png" alt="Sleepy Pawn Logo" width="800">
   </a>
   <p>
     <img src="https://img.shields.io/badge/C%23-pure-green" alt="C#">
