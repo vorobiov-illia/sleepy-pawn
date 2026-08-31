@@ -11,6 +11,41 @@ namespace SleepyPawn.Core.Chess.Rules.Pieces
 
             if (!CommonCheck(move, state, PieceType.Sleepy, thisPiece, otherPiece)) return false;
 
+            // TO-DO: Refactor this mess, double color checks and code duplication
+            
+            if(thisPiece.color == Color.White)
+            {
+                if(move.secondPos == state.blackEnPassantState.EnPassantVulnerability)
+                {
+                    if (state.blackEnPassantState.EnPassantLink == null) return false;
+                    Piece target = state.GetPiece(state.blackEnPassantState.EnPassantLink.Value);
+                    if (target.color != thisPiece.color)
+                    {
+                        if (move.secondPos == new EnginePosition(move.firstPos.x + 1, move.firstPos.y + 1) ||
+                            move.secondPos == new EnginePosition(move.firstPos.x - 1, move.firstPos.y + 1))
+                        {
+                            return true;
+                        }
+                    }
+                }
+            }
+            else if (thisPiece.color == Color.Black)
+            {
+                if (move.secondPos == state.whiteEnPassantState.EnPassantVulnerability)
+                {
+                    if (state.whiteEnPassantState.EnPassantLink == null) return false;
+                    Piece target = state.GetPiece(state.whiteEnPassantState.EnPassantLink.Value);
+                    if (target.color != thisPiece.color)
+                    {
+                        if (move.secondPos == new EnginePosition(move.firstPos.x + 1, move.firstPos.y - 1) ||
+                            move.secondPos == new EnginePosition(move.firstPos.x - 1, move.firstPos.y - 1))
+                        {
+                            return true;
+                        }
+                    }
+                }
+            }
+
             if (otherPiece.isEmpty)
             {
                 if (move.firstPos.x != move.secondPos.x) return false;
@@ -61,7 +96,7 @@ namespace SleepyPawn.Core.Chess.Rules.Pieces
                         move.secondPos != new EnginePosition(move.firstPos.x - 1, move.firstPos.y - 1)) return false;
                     return true;
                 }
-                return true;
+                return false;
             }
         }
 

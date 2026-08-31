@@ -76,12 +76,20 @@ namespace SleepyPawn.Core.Chess
 
         internal void ReplacePiece(EnginePosition piece, EnginePosition newPosition, PieceType promotion = PieceType.None)
         {
+            if (!PositionCheck(piece)) return;
+            if (!PositionCheck(newPosition)) return;
             pieces[newPosition.y, newPosition.x] = pieces[piece.y, piece.x];
             pieces[piece.y, piece.x] = new Piece();
             if(promotion != PieceType.None)
             {
                 pieces[newPosition.y, newPosition.x].type = promotion;
             }
+        }
+
+        internal void RemovePiece(EnginePosition position)
+        {
+            if (!PositionCheck(position)) return;
+            pieces[position.y, position.x] = new Piece();
         }
 
         public override string ToString()
@@ -109,10 +117,16 @@ namespace SleepyPawn.Core.Chess
 
         internal void AddPiece(EnginePosition position, Color color, PieceType type)
         {
-            if (position.x > 7 || position.x < 0) return;
-            if (position.y > 7 || position.y < 0) return;
-
+            if (!PositionCheck(position)) return;
             pieces[position.y, position.x] = new Piece(color, type);
+        }
+
+        private bool PositionCheck(EnginePosition position)
+        {
+            if (position.x > 7 || position.x < 0) return false;
+            if (position.y > 7 || position.y < 0) return false;
+
+            return true;
         }
     }
 
@@ -124,6 +138,11 @@ namespace SleepyPawn.Core.Chess
         {
             x = 0;
             y = 0;
+        }
+        public EnginePosition(EnginePosition other)
+        {
+            x = other.x;
+            y = other.y;
         }
         public EnginePosition(int x, int y)
         {

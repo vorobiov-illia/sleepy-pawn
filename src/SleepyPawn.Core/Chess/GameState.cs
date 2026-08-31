@@ -10,11 +10,15 @@ namespace SleepyPawn.Core.Chess
         internal Color playerToMove;
         internal CastlingRights whiteCastlingRights;
         internal CastlingRights blackCastlingRights;
-        
+        internal EnPassantState whiteEnPassantState;
+        internal EnPassantState blackEnPassantState;
+
         internal GameState(bool emptyBoard = false)
         {
             whiteCastlingRights = new CastlingRights();
             blackCastlingRights = new CastlingRights();
+            whiteEnPassantState = new EnPassantState();
+            blackEnPassantState = new EnPassantState();
             boardState = new Board();
             threats = new ThreatBoard();
             threats.GenerateThreats(boardState);
@@ -22,15 +26,18 @@ namespace SleepyPawn.Core.Chess
             playerToMove = Color.White;
         }
 
-        internal GameState(Board board, Color player, CastlingRights whiteCastling, CastlingRights blackCastling)
+        internal GameState(Board board, Color player, CastlingRights wc, CastlingRights bc, EnPassantState we, EnPassantState be)
         {
             boardState = board;
             threats = new ThreatBoard();
             threats.GenerateThreats(board);
             playerToMove = player;
 
-            whiteCastlingRights = new CastlingRights(whiteCastling);
-            blackCastlingRights = new CastlingRights(blackCastling);
+            whiteCastlingRights = new CastlingRights(wc);
+            blackCastlingRights = new CastlingRights(bc);
+
+            whiteEnPassantState = new EnPassantState(we);
+            blackEnPassantState = new EnPassantState(be);
         }
 
         internal Piece GetPiece(EnginePosition position)
@@ -50,19 +57,62 @@ namespace SleepyPawn.Core.Chess
             if (!move.isValid) return this;
             if (move.nullMove)
             {
-                return new GameState(boardState, ColorUtils.Reverse(playerToMove), 
-                    whiteCastlingRights, blackCastlingRights);
+                return new GameState(
+                    boardState, 
+                    ColorUtils.Reverse(playerToMove), 
+                    whiteCastlingRights, blackCastlingRights,
+                    whiteEnPassantState, blackEnPassantState
+                );
             }
             Board changedBoard = new Board(boardState);
 
             Piece pieceToMove = changedBoard.GetPiece(move.firstPos);
 
-            bool wc = whiteCastlingRights.CastlingRetained;
-            bool wlc = whiteCastlingRights.LongCastlingRetained;
-            bool bc = blackCastlingRights.CastlingRetained;
-            bool blc = blackCastlingRights.LongCastlingRetained;
+            bool wc = whiteCastlingRights.CastlingRetained;         // White short castling right
+            bool wlc = whiteCastlingRights.LongCastlingRetained;    // White long castling right
+            bool bc = blackCastlingRights.CastlingRetained;         // Black short castling right
+            bool blc = blackCastlingRights.LongCastlingRetained;    // Black long castling right
 
-            if(pieceToMove.type == PieceType.King)
+            EnginePosition? wev = null; // White En Passant vulnerability tile position
+            EnginePosition? wel = null; // White En Passant according pawn position
+            EnginePosition? bev = null; // White En Passant vulnerability tile position
+            EnginePosition? bel = null; // White En Passant according pawn position
+
+            if (pieceToMove.type == PieceType.Sleepy)
+            {
+                
+                if (pieceToMove.color == Color.White)
+                {
+                    if (Math.Abs(move.secondPos.y - move.firstPos.y) > 1)
+                    {
+                        wev = new EnginePosition(move.secondPos.x, move.secondPos.y - 1);
+                        wel = new EnginePosition(move.secondPos);
+                    }
+                    if(blackEnPassantState.EnPassantVulnerability != null && blackEnPassantState.EnPassantLink != null)
+                    {
+                        if (move.secondPos == blackEnPassantState.EnPassantVulnerability)
+                        {
+                            changedBoard.RemovePiece(blackEnPassantState.EnPassantLink.Value);
+                        }
+                    }
+                }
+                if (pieceToMove.color == Color.Black)
+                {
+                    if (Math.Abs(move.secondPos.y - move.firstPos.y) > 1)
+                    {
+                        bev = new EnginePosition(move.secondPos.x, move.secondPos.y + 1);
+                        bel = new EnginePosition(move.secondPos);
+                    }
+                    if (whiteEnPassantState.EnPassantVulnerability != null && whiteEnPassantState.EnPassantLink != null)
+                    {
+                        if (move.secondPos == whiteEnPassantState.EnPassantVulnerability)
+                        {
+                            changedBoard.RemovePiece(whiteEnPassantState.EnPassantLink.Value);
+                        }
+                    }
+                }
+            }
+            if (pieceToMove.type == PieceType.King)
             {
                 if(pieceToMove.color == Color.White)
                 {
@@ -110,7 +160,14 @@ namespace SleepyPawn.Core.Chess
             if (move.secondPos == PieceUtils.blackLongRook) blc = false;
 
             changedBoard.ReplacePiece(move.firstPos, move.secondPos, move.promotionPiece);
-            return new GameState(changedBoard, ColorUtils.Reverse(playerToMove), new CastlingRights(wc,wlc), new CastlingRights(bc, blc));
+            return new GameState(
+                changedBoard,
+                ColorUtils.Reverse(playerToMove),
+                new CastlingRights(wc, wlc),
+                new CastlingRights(bc, blc),
+                new EnPassantState(wev, wel),
+                new EnPassantState(bev, bel)
+            );
         }
 
         internal string DebugPlayer()
@@ -159,6 +216,27 @@ namespace SleepyPawn.Core.Chess
         {
             CastlingRetained = other.CastlingRetained;
             LongCastlingRetained = other.LongCastlingRetained;
+        }
+    }
+    internal struct EnPassantState
+    {
+        internal EnginePosition? EnPassantVulnerability = null;
+        internal EnginePosition? EnPassantLink = null;
+
+        public EnPassantState()
+        {
+            EnPassantVulnerability = null;
+            EnPassantLink = null;
+        }
+        public EnPassantState(EnginePosition? epv, EnginePosition? epl)
+        {
+            EnPassantVulnerability = epv;
+            EnPassantLink = epl;
+        }
+        public EnPassantState(EnPassantState other)
+        {
+            EnPassantVulnerability = other.EnPassantVulnerability;
+            EnPassantLink = other.EnPassantLink;
         }
     }
 }
