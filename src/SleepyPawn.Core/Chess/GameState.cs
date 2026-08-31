@@ -8,13 +8,13 @@ namespace SleepyPawn.Core.Chess
         internal Board boardState;
         internal ThreatBoard threats;
         internal Color playerToMove;
-        internal bool whiteCastlingRetained = true;
-        internal bool whiteLongCastlingRetained = true;
-        internal bool blackCastlingRetained = true;
-        internal bool blackLongCastlingRetained = true;
-
+        internal CastlingRights whiteCastlingRights;
+        internal CastlingRights blackCastlingRights;
+        
         internal GameState(bool emptyBoard = false)
         {
+            whiteCastlingRights = new CastlingRights();
+            blackCastlingRights = new CastlingRights();
             boardState = new Board();
             threats = new ThreatBoard();
             threats.GenerateThreats(boardState);
@@ -22,17 +22,15 @@ namespace SleepyPawn.Core.Chess
             playerToMove = Color.White;
         }
 
-        internal GameState(Board board, Color player, bool wc = true, bool wlc = true, bool bc = true, bool blc = true)
+        internal GameState(Board board, Color player, CastlingRights whiteCastling, CastlingRights blackCastling)
         {
             boardState = board;
             threats = new ThreatBoard();
             threats.GenerateThreats(board);
             playerToMove = player;
 
-            whiteCastlingRetained = wc;
-            whiteLongCastlingRetained = wlc;
-            blackCastlingRetained = bc;
-            blackLongCastlingRetained = blc;
+            whiteCastlingRights = new CastlingRights(whiteCastling);
+            blackCastlingRights = new CastlingRights(blackCastling);
         }
 
         internal Piece GetPiece(EnginePosition position)
@@ -53,17 +51,16 @@ namespace SleepyPawn.Core.Chess
             if (move.nullMove)
             {
                 return new GameState(boardState, ColorUtils.Reverse(playerToMove), 
-                    whiteCastlingRetained, whiteLongCastlingRetained,
-                    blackCastlingRetained, blackLongCastlingRetained);
+                    whiteCastlingRights, blackCastlingRights);
             }
             Board changedBoard = new Board(boardState);
 
             Piece pieceToMove = changedBoard.GetPiece(move.firstPos);
 
-            bool wc = whiteCastlingRetained;
-            bool wlc = whiteLongCastlingRetained;
-            bool bc = blackCastlingRetained;
-            bool blc = blackLongCastlingRetained;
+            bool wc = whiteCastlingRights.CastlingRetained;
+            bool wlc = whiteCastlingRights.LongCastlingRetained;
+            bool bc = blackCastlingRights.CastlingRetained;
+            bool blc = blackCastlingRights.LongCastlingRetained;
 
             if(pieceToMove.type == PieceType.King)
             {
@@ -113,7 +110,7 @@ namespace SleepyPawn.Core.Chess
             if (move.secondPos == PieceUtils.blackLongRook) blc = false;
 
             changedBoard.ReplacePiece(move.firstPos, move.secondPos, move.promotionPiece);
-            return new GameState(changedBoard, ColorUtils.Reverse(playerToMove), wc, wlc, bc, blc);
+            return new GameState(changedBoard, ColorUtils.Reverse(playerToMove), new CastlingRights(wc,wlc), new CastlingRights(bc, blc));
         }
 
         internal string DebugPlayer()
@@ -141,6 +138,27 @@ namespace SleepyPawn.Core.Chess
         public override string ToString()
         {
             return boardState.ToString();
+        }
+    }
+    internal struct CastlingRights
+    {
+        internal bool CastlingRetained = true;
+        internal bool LongCastlingRetained = true;
+
+        public CastlingRights()
+        {
+            CastlingRetained = true;
+            LongCastlingRetained = true;
+        }
+        public CastlingRights(bool cr, bool lcr)
+        {
+            CastlingRetained = cr;
+            LongCastlingRetained = lcr;
+        }
+        public CastlingRights(CastlingRights other)
+        {
+            CastlingRetained = other.CastlingRetained;
+            LongCastlingRetained = other.LongCastlingRetained;
         }
     }
 }

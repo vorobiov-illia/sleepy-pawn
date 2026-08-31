@@ -38,7 +38,7 @@ namespace SleepyPawn.Core.Chess.Rules.Pieces
                     if (otherPiece.type != PieceType.Rook) return false;
                     if (otherPiece.color != Color.White) return false;
 
-                    if (!state.whiteCastlingRetained) return false;
+                    if (!state.whiteCastlingRights.CastlingRetained) return false;
                     foreach (EnginePosition pos in PieceUtils.whiteShortCastlingVunurableMap)
                     {
                         if (state.threats.GetThreat(Color.Black, pos)) return false;
@@ -61,7 +61,7 @@ namespace SleepyPawn.Core.Chess.Rules.Pieces
                     if (otherPiece.type != PieceType.Rook) return false;
                     if (otherPiece.color != Color.White) return false;
 
-                    if (!state.whiteLongCastlingRetained) return false;
+                    if (!state.whiteCastlingRights.LongCastlingRetained) return false;
                     foreach (EnginePosition pos in PieceUtils.whiteLongCastlingVunurableMap)
                     {
                         if (state.threats.GetThreat(Color.Black, pos)) return false;
@@ -89,7 +89,7 @@ namespace SleepyPawn.Core.Chess.Rules.Pieces
                     if (otherPiece.type != PieceType.Rook) return false;
                     if (otherPiece.color != Color.Black) return false;
 
-                    if (!state.blackCastlingRetained) return false;
+                    if (!state.blackCastlingRights.CastlingRetained) return false;
                     foreach (EnginePosition pos in PieceUtils.blackShortCastlingVunurableMap)
                     {
                         if (state.threats.GetThreat(Color.White, pos)) return false;
@@ -112,7 +112,7 @@ namespace SleepyPawn.Core.Chess.Rules.Pieces
                     if (otherPiece.type != PieceType.Rook) return false;
                     if (otherPiece.color != Color.Black) return false;
 
-                    if (!state.blackLongCastlingRetained) return false;
+                    if (!state.blackCastlingRights.LongCastlingRetained) return false;
                     foreach (EnginePosition pos in PieceUtils.blackLongCastlingVunurableMap)
                     {
                         if (state.threats.GetThreat(Color.White, pos)) return false;
