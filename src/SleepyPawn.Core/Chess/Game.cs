@@ -81,6 +81,61 @@ namespace SleepyPawn.Core.Chess
             currentState.AddPiece(position, color, type);
             currentState.GenerateThreats();
         }
+        public string GetPiece(string uciPosition)
+        {
+            string answer = "00";
+            if (uciPosition.Length != 2) return answer;
+
+            int x = UciUtils.UciToEngineChar(uciPosition[0]);
+            int y = UciUtils.UciToEngineChar(uciPosition[1]);
+
+            EnginePosition position = new EnginePosition(x, y);
+
+            
+            Piece piece = currentState.GetPiece(position);
+
+            if (piece == null) return answer;
+            if (piece.isEmpty) return answer;
+            if (piece.type == PieceType.None) return answer;
+            if (piece.color == Color.None) return answer;
+
+            switch (piece.color)
+            {
+                case Color.White:
+                    answer = "w";
+                    break;
+                case Color.Black:
+                    answer = "b";
+                    break;
+                default:
+                    return answer;
+            }
+            switch (piece.type)
+            {
+                case PieceType.Sleepy:
+                    answer += "s";
+                    break;
+                case PieceType.Bishop:
+                    answer += "b";
+                    break;
+                case PieceType.Knight:
+                    answer += "n";
+                    break;
+                case PieceType.Rook:
+                    answer += "r";
+                    break;
+                case PieceType.Queen:
+                    answer += "q";
+                    break;
+                case PieceType.King:
+                    answer += "k";
+                    break;
+                default:
+                    return answer;
+            }
+
+            return answer;
+        }
         public string DebugCurrentBoard()
         {
             return currentState.DebugBoard();
