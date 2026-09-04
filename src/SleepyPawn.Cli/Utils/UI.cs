@@ -14,6 +14,7 @@
         }
         internal static void WriteMessage(string text, ConsoleColor? consoleColor = null)
         {
+            if (text == "") return;
             if(consoleColor != null)
             {
                 Console.ForegroundColor = consoleColor.Value;

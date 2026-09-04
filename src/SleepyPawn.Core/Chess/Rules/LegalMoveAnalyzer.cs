@@ -30,7 +30,13 @@ namespace SleepyPawn.Core.Chess.Rules
                     return false;
                 }
             }
-            return pieceRules.CheckRules(move, state);
+            if(pieceRules.CheckRules(move, state))
+            {
+                GameState pseudoState = state.AppendMove(move);
+                if (pseudoState.KingChecked(state.playerToMove)) return false;
+                return true;
+            }
+            return false;
         }
     }
 }

@@ -142,7 +142,15 @@ namespace SleepyPawn.Core.Chess
         }
         public string DebugCurrentMoveOrder()
         {
-            return currentState.DebugPlayer();
+            return currentState.DebugMoveOrder();
+        }
+        public string DebugWhiteCheck()
+        {
+            return currentState.DebugCheck(Color.White);
+        }
+        public string DebugBlackCheck()
+        {
+            return currentState.DebugCheck(Color.Black);
         }
     }
 }
