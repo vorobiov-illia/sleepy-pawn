@@ -73,6 +73,14 @@ namespace SleepyPawn.Core.Chess
                     break;
                 case 'k':
                     type = PieceType.King;
+                    if (color == Color.White)
+                    {
+                        currentState.whiteKingPosition = position;
+                    }
+                    if (color == Color.Black)
+                    {
+                        currentState.blackKingPosition = position;
+                    }
                     break;
                 default:
                     return;
