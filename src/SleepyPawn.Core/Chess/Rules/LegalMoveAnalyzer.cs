@@ -38,5 +38,45 @@ namespace SleepyPawn.Core.Chess.Rules
             }
             return false;
         }
+
+        public static bool IsValid(Move move)
+        {
+            if (move.firstPos.x < 0 || move.firstPos.x > 7) return false;
+            if (move.firstPos.y < 0 || move.firstPos.y > 7) return false;
+            if (move.secondPos.x < 0 || move.secondPos.x > 7) return false;
+            if (move.secondPos.y < 0 || move.secondPos.y > 7) return false;
+            return true;
+        }
+
+        public static List<Move> GetLegalMoves(GameState state)
+        {
+            List<Move> legalMoves = new List<Move>();
+
+            List<Move> pseudoMoves = new List<Move>();
+            for(int i = 0; i < 8; i++)
+            {
+                for (int j = 0; j < 8; j++)
+                {
+                    EnginePosition position = new EnginePosition(i,j);
+                    Piece piece = state.GetPiece(position);
+
+                    if (piece == null) continue;
+                    if (piece.isEmpty) continue;
+                    if (piece.color != state.playerToMove) continue;
+
+                    pseudoMoves.AddRange(pieceRules.GetPseudoMoves(position, state));
+                }
+            }
+
+            foreach(Move move in pseudoMoves)
+            {
+                if (IsLegal(move, state))
+                {
+                    legalMoves.Add(move);
+                }
+            }
+
+            return legalMoves;
+        }
     }
 }

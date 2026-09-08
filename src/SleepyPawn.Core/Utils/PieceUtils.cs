@@ -68,6 +68,33 @@ namespace SleepyPawn.Core.Utils
 
             return true;
         }
+        internal static List<Move> GetSlideMoves(EnginePosition piecePosition, Board board, int xDir, int yDir)
+        {
+            List<Move> moves = new List<Move>();
+
+            int stepX = Math.Sign(xDir);
+            int stepY = Math.Sign(yDir);
+
+            int x = piecePosition.x + stepX;
+            int y = piecePosition.y + stepY;
+
+            while (x < 8 && y < 8 && x > -1 && y > -1)
+            {
+                EnginePosition currentPosition = new EnginePosition(x, y);
+                Move newMove = new Move(piecePosition, currentPosition);
+                moves.Add(newMove);
+
+                Piece piece = board.GetPiece(currentPosition);
+                if (piece != null)
+                {
+                    if (!piece.isEmpty) break;
+                }
+
+                x += stepX;
+                y += stepY;
+            }
+            return moves;
+        }
         internal static void SlideThreat(EnginePosition piecePosition, Board board, ThreatBoard threats, int xDir, int yDir, Color color)
         {
             int stepX = Math.Sign(xDir);

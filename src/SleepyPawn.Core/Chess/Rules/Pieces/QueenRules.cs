@@ -30,6 +30,39 @@ namespace SleepyPawn.Core.Chess.Rules.Pieces
 
             return true;
         }
+
+        internal override List<Move> GeneratePseudoMoves(EnginePosition piecePosition, GameState state)
+        {
+            List<Move> moves = new List<Move>();
+
+            Piece queen = state.GetPiece(piecePosition);
+            if (queen == null) return moves;
+            if (queen.isEmpty) return moves;
+            if (queen.type != PieceType.Queen) return moves;
+
+            List<Move> rightUpMoves = PieceUtils.GetSlideMoves(piecePosition, state.boardState, 1, 1);
+            List<Move> rightDownMoves = PieceUtils.GetSlideMoves(piecePosition, state.boardState, 1, -1);
+            List<Move> leftDownMoves = PieceUtils.GetSlideMoves(piecePosition, state.boardState, -1, -1);
+            List<Move> leftUpMoves = PieceUtils.GetSlideMoves(piecePosition, state.boardState, -1, 1);
+
+            moves.AddRange(rightUpMoves);
+            moves.AddRange(rightDownMoves);
+            moves.AddRange(leftDownMoves);
+            moves.AddRange(leftUpMoves);
+
+            List<Move> rightMoves = PieceUtils.GetSlideMoves(piecePosition, state.boardState, 1, 0);
+            List<Move> DownMoves = PieceUtils.GetSlideMoves(piecePosition, state.boardState, 0, -1);
+            List<Move> leftMoves = PieceUtils.GetSlideMoves(piecePosition, state.boardState, -1, 0);
+            List<Move> upMoves = PieceUtils.GetSlideMoves(piecePosition, state.boardState, 0, 1);
+
+            moves.AddRange(rightMoves);
+            moves.AddRange(DownMoves);
+            moves.AddRange(leftMoves);
+            moves.AddRange(upMoves);
+
+            return moves;
+        }
+
         internal override void GenerateThreat(EnginePosition piecePosition, Board board, ThreatBoard threats)
         {
             Piece thisPiece = board.GetPiece(piecePosition);

@@ -24,6 +24,29 @@ namespace SleepyPawn.Core.Chess.Rules.Pieces
 
             return true;
         }
+
+        internal override List<Move> GeneratePseudoMoves(EnginePosition piecePosition, GameState state)
+        {
+            List<Move> moves = new List<Move>();
+
+            Piece rook = state.GetPiece(piecePosition);
+            if (rook == null) return moves;
+            if (rook.isEmpty) return moves;
+            if (rook.type != PieceType.Rook) return moves;
+
+            List<Move> rightMoves = PieceUtils.GetSlideMoves(piecePosition, state.boardState, 1, 0);
+            List<Move> DownMoves = PieceUtils.GetSlideMoves(piecePosition, state.boardState, 0, -1);
+            List<Move> leftMoves = PieceUtils.GetSlideMoves(piecePosition, state.boardState, -1, 0);
+            List<Move> upMoves = PieceUtils.GetSlideMoves(piecePosition, state.boardState, 0, 1);
+
+            moves.AddRange(rightMoves);
+            moves.AddRange(DownMoves);
+            moves.AddRange(leftMoves);
+            moves.AddRange(upMoves);
+
+            return moves;
+        }
+
         internal override void GenerateThreat(EnginePosition piecePosition, Board board, ThreatBoard threats)
         {
             Piece thisPiece = board.GetPiece(piecePosition);

@@ -152,6 +152,10 @@ namespace SleepyPawn.Core.Chess
         {
             return currentState.DebugMoveOrder();
         }
+        public string DebugLegalMoveCount()
+        {
+            return "Legal moves for this position: " + currentState.GetLegalMoves().Count;
+        }
         public string DebugWhiteCheck()
         {
             return currentState.DebugCheck(Color.White);

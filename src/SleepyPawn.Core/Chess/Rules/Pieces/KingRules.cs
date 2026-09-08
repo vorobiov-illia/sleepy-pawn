@@ -132,6 +132,54 @@ namespace SleepyPawn.Core.Chess.Rules.Pieces
             return false;
         }
 
+        internal override List<Move> GeneratePseudoMoves(EnginePosition piecePosition, GameState state)
+        {
+            List<Move> moves = new List<Move>();
+
+            Piece king = state.GetPiece(piecePosition);
+            if (king == null) return moves;
+            if (king.isEmpty) return moves;
+            if (king.type != PieceType.King) return moves;
+
+            Move upMove = new Move(piecePosition, new EnginePosition(piecePosition.x, piecePosition.y + 1));
+            Move rightUpMove = new Move(piecePosition, new EnginePosition(piecePosition.x + 1, piecePosition.y + 1));
+            Move rightMove = new Move(piecePosition, new EnginePosition(piecePosition.x + 1, piecePosition.y));
+            Move rightDownMove = new Move(piecePosition, new EnginePosition(piecePosition.x + 1, piecePosition.y - 1));
+            Move downMove = new Move(piecePosition, new EnginePosition(piecePosition.x, piecePosition.y - 1));
+            Move leftDownMove = new Move(piecePosition, new EnginePosition(piecePosition.x, piecePosition.y - 1));
+            Move leftMove = new Move(piecePosition, new EnginePosition(piecePosition.x - 1, piecePosition.y));
+            Move leftUpMove = new Move(piecePosition, new EnginePosition(piecePosition.x - 1, piecePosition.y + 1));
+
+            moves.Add(upMove);
+            moves.Add(rightUpMove);
+            moves.Add(rightMove);
+            moves.Add(rightDownMove);
+            moves.Add(downMove);
+            moves.Add(leftDownMove);
+            moves.Add(leftMove);
+            moves.Add(leftUpMove);
+
+            if(king.color == Color.White && piecePosition == PieceUtils.defaultWhiteKingPosition)
+            {
+                Move castling = new Move(piecePosition, PieceUtils.whiteKingShortCastle);
+                Move longCastling = new Move(piecePosition, PieceUtils.whiteKingLongCastle);
+
+                moves.Add(castling);
+                moves.Add(longCastling);
+            }
+
+            if (king.color == Color.Black && piecePosition == PieceUtils.defaultBlackKingPosition)
+            {
+                Move castling = new Move(piecePosition, PieceUtils.blackKingShortCastle);
+                Move longCastling = new Move(piecePosition, PieceUtils.blackKingLongCastle);
+
+                moves.Add(castling);
+                moves.Add(longCastling);
+            }
+
+            return moves;
+        }
+
         internal override void GenerateThreat(EnginePosition piecePosition, Board board, ThreatBoard threats)
         {
             Piece thisPiece = board.GetPiece(piecePosition);

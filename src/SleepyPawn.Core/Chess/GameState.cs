@@ -1,4 +1,5 @@
 ﻿using SleepyPawn.Core.Chess.Enums;
+using SleepyPawn.Core.Chess.Rules;
 using SleepyPawn.Core.Utils;
 
 namespace SleepyPawn.Core.Chess
@@ -102,6 +103,11 @@ namespace SleepyPawn.Core.Chess
                 return false;
             }
             return false;
+        }
+
+        internal List<Move> GetLegalMoves()
+        {
+            return LegalMoveAnalyzer.GetLegalMoves(this);
         }
 
         internal GameState AppendMove(Move move)

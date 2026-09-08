@@ -100,6 +100,127 @@ namespace SleepyPawn.Core.Chess.Rules.Pieces
             }
         }
 
+        internal override List<Move> GeneratePseudoMoves(EnginePosition piecePosition, GameState state)
+        {
+            List<Move> moves = new List<Move>();
+
+            Piece pawn = state.GetPiece(piecePosition);
+            if (pawn == null) return moves;
+            if (pawn.isEmpty) return moves;
+            if (pawn.type != PieceType.Sleepy) return moves;
+
+            if (pawn.color == Color.White)
+            {
+                EnginePosition singleMovePosition = new EnginePosition(piecePosition.x, piecePosition.y + 1);
+                Move singleMove = new Move(piecePosition, singleMovePosition);
+                moves.Add(singleMove);
+                if(singleMovePosition.y == 7)
+                {
+                    Move singleMoveBishop = new Move(piecePosition, singleMovePosition, PieceType.Bishop);
+                    Move singleMoveKnight = new Move(piecePosition, singleMovePosition, PieceType.Knight);
+                    Move singleMoveRook = new Move(piecePosition, singleMovePosition, PieceType.Rook);
+                    Move singleMoveQueen = new Move(piecePosition, singleMovePosition, PieceType.Queen);
+
+                    moves.Add(singleMoveBishop);
+                    moves.Add(singleMoveKnight);
+                    moves.Add(singleMoveRook);
+                    moves.Add(singleMoveQueen);
+                }
+                if (piecePosition.y == 1)
+                {
+                    EnginePosition doubleMovePosition = new EnginePosition(piecePosition.x, piecePosition.y + 2);
+                    Move doubleMove = new Move(piecePosition, doubleMovePosition);
+                    moves.Add(doubleMove);
+                }
+                EnginePosition leftMovePosition = new EnginePosition(piecePosition.x - 1, piecePosition.y + 1);
+                Move leftMove = new Move(piecePosition, leftMovePosition);
+                moves.Add(leftMove);
+                if (leftMovePosition.y == 7)
+                {
+                    Move leftMoveBishop = new Move(piecePosition, leftMovePosition, PieceType.Bishop);
+                    Move leftMoveKnight = new Move(piecePosition, leftMovePosition, PieceType.Knight);
+                    Move leftMoveRook = new Move(piecePosition, leftMovePosition, PieceType.Rook);
+                    Move leftMoveQueen = new Move(piecePosition, leftMovePosition, PieceType.Queen);
+
+                    moves.Add(leftMoveBishop);
+                    moves.Add(leftMoveKnight);
+                    moves.Add(leftMoveRook);
+                    moves.Add(leftMoveQueen);
+                }
+                EnginePosition rightMovePosition = new EnginePosition(piecePosition.x + 1, piecePosition.y + 1);
+                Move rightMove = new Move(piecePosition, rightMovePosition);
+                moves.Add(rightMove);
+                if (rightMovePosition.y == 7)
+                {
+                    Move rightMoveBishop = new Move(piecePosition, rightMovePosition, PieceType.Bishop);
+                    Move rightMoveKnight = new Move(piecePosition, rightMovePosition, PieceType.Knight);
+                    Move rightMoveRook = new Move(piecePosition, rightMovePosition, PieceType.Rook);
+                    Move rightMoveQueen = new Move(piecePosition, rightMovePosition, PieceType.Queen);
+
+                    moves.Add(rightMoveBishop);
+                    moves.Add(rightMoveKnight);
+                    moves.Add(rightMoveRook);
+                    moves.Add(rightMoveQueen);
+                }
+            }
+            if (pawn.color == Color.Black)
+            {
+                EnginePosition singleMovePosition = new EnginePosition(piecePosition.x, piecePosition.y - 1);
+                Move singleMove = new Move(piecePosition, singleMovePosition);
+                moves.Add(singleMove);
+                if (singleMovePosition.y == 0)
+                {
+                    Move singleMoveBishop = new Move(piecePosition, singleMovePosition, PieceType.Bishop);
+                    Move singleMoveKnight = new Move(piecePosition, singleMovePosition, PieceType.Knight);
+                    Move singleMoveRook = new Move(piecePosition, singleMovePosition, PieceType.Rook);
+                    Move singleMoveQueen = new Move(piecePosition, singleMovePosition, PieceType.Queen);
+
+                    moves.Add(singleMoveBishop);
+                    moves.Add(singleMoveKnight);
+                    moves.Add(singleMoveRook);
+                    moves.Add(singleMoveQueen);
+                }
+                if (piecePosition.y == 6)
+                {
+                    EnginePosition doubleMovePosition = new EnginePosition(piecePosition.x, piecePosition.y - 2);
+                    Move doubleMove = new Move(piecePosition, doubleMovePosition);
+                    moves.Add(doubleMove);
+                }
+                EnginePosition leftMovePosition = new EnginePosition(piecePosition.x - 1, piecePosition.y - 1);
+                Move leftMove = new Move(piecePosition, leftMovePosition);
+                moves.Add(leftMove);
+                if (leftMovePosition.y == 0)
+                {
+                    Move leftMoveBishop = new Move(piecePosition, leftMovePosition, PieceType.Bishop);
+                    Move leftMoveKnight = new Move(piecePosition, leftMovePosition, PieceType.Knight);
+                    Move leftMoveRook = new Move(piecePosition, leftMovePosition, PieceType.Rook);
+                    Move leftMoveQueen = new Move(piecePosition, leftMovePosition, PieceType.Queen);
+
+                    moves.Add(leftMoveBishop);
+                    moves.Add(leftMoveKnight);
+                    moves.Add(leftMoveRook);
+                    moves.Add(leftMoveQueen);
+                }
+                EnginePosition rightMovePosition = new EnginePosition(piecePosition.x + 1, piecePosition.y - 1);
+                Move rightMove = new Move(piecePosition, rightMovePosition);
+                moves.Add(rightMove);
+                if (rightMovePosition.y == 0)
+                {
+                    Move rightMoveBishop = new Move(piecePosition, rightMovePosition, PieceType.Bishop);
+                    Move rightMoveKnight = new Move(piecePosition, rightMovePosition, PieceType.Knight);
+                    Move rightMoveRook = new Move(piecePosition, rightMovePosition, PieceType.Rook);
+                    Move rightMoveQueen = new Move(piecePosition, rightMovePosition, PieceType.Queen);
+
+                    moves.Add(rightMoveBishop);
+                    moves.Add(rightMoveKnight);
+                    moves.Add(rightMoveRook);
+                    moves.Add(rightMoveQueen);
+                }
+            }
+
+            return moves;
+        }
+
         internal override void GenerateThreat(EnginePosition piecePosition, Board board, ThreatBoard threats)
         {
             Piece thisPiece = board.GetPiece(piecePosition);

@@ -45,6 +45,39 @@ namespace SleepyPawn.Core.Chess.Rules
             }
         }
 
+        internal List<Move> GetPseudoMoves(EnginePosition position, GameState state)
+        {
+            List<Move> moves = new List<Move>();
+
+            Piece thisPiece = state.GetPiece(position);
+            if (thisPiece == null) return moves;
+            if (thisPiece.isEmpty) return moves;
+            switch (thisPiece.type)
+            {
+                case PieceType.Sleepy:
+                    moves = pawns.GeneratePseudoMoves(position, state);
+                    break;
+                case PieceType.Bishop:
+                    moves = bishops.GeneratePseudoMoves(position, state);
+                    break;
+                case PieceType.Knight:
+                    moves = knights.GeneratePseudoMoves(position, state);
+                    break;
+                case PieceType.Rook:
+                    moves = rooks.GeneratePseudoMoves(position, state);
+                    break;
+                case PieceType.Queen:
+                    moves = queens.GeneratePseudoMoves(position, state);
+                    break;
+                case PieceType.King:
+                    moves = kings.GeneratePseudoMoves(position, state);
+                    break;
+                default:
+                    return moves;
+            }
+            return moves;
+        }
+
         internal void GenerateThreat(EnginePosition position, Board board, ThreatBoard threats)
         {
             Piece thisPiece = board.GetPiece(position);

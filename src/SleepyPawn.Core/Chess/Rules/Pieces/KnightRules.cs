@@ -1,4 +1,5 @@
 ﻿using SleepyPawn.Core.Chess.Enums;
+using SleepyPawn.Core.Utils;
 
 namespace SleepyPawn.Core.Chess.Rules.Pieces
 {
@@ -15,6 +16,38 @@ namespace SleepyPawn.Core.Chess.Rules.Pieces
                 otherPiece.color == thisPiece.color) return false;
 
             return IsLMove(move);
+        }
+
+        internal override List<Move> GeneratePseudoMoves(EnginePosition piecePosition, GameState state)
+        {
+            List<Move> moves = new List<Move>();
+
+            Piece knight = state.GetPiece(piecePosition);
+            if (knight == null) return moves;
+            if (knight.isEmpty) return moves;
+            if (knight.type != PieceType.Knight) return moves;
+
+            Move rightUpUpMove = new Move(piecePosition, new EnginePosition(piecePosition.x + 1, piecePosition.y + 2));
+            Move rightRightUpMove = new Move(piecePosition, new EnginePosition(piecePosition.x + 2, piecePosition.y + 1));
+            Move rightRightDownMove = new Move(piecePosition, new EnginePosition(piecePosition.x + 2, piecePosition.y - 1));
+            Move rightDownDownMove = new Move(piecePosition, new EnginePosition(piecePosition.x + 1, piecePosition.y - 2));
+
+            Move leftUpUpMove = new Move(piecePosition, new EnginePosition(piecePosition.x - 1, piecePosition.y + 2));
+            Move leftLeftUpMove = new Move(piecePosition, new EnginePosition(piecePosition.x - 2, piecePosition.y + 1));
+            Move leftLeftDownMove = new Move(piecePosition, new EnginePosition(piecePosition.x - 2, piecePosition.y - 1));
+            Move leftDownDownMove = new Move(piecePosition, new EnginePosition(piecePosition.x - 1, piecePosition.y - 2));
+
+            moves.Add(rightUpUpMove);
+            moves.Add(rightRightUpMove);
+            moves.Add(rightRightDownMove);
+            moves.Add(rightDownDownMove);
+
+            moves.Add(leftUpUpMove);
+            moves.Add(leftLeftUpMove);
+            moves.Add(leftLeftDownMove);
+            moves.Add(leftDownDownMove);
+
+            return moves;
         }
 
         internal override void GenerateThreat(EnginePosition piecePosition, Board board, ThreatBoard threats)

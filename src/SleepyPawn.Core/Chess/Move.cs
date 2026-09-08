@@ -1,4 +1,5 @@
 ﻿using SleepyPawn.Core.Chess.Enums;
+using SleepyPawn.Core.Chess.Rules;
 using SleepyPawn.Core.Utils;
 
 namespace SleepyPawn.Core.Chess
@@ -16,6 +17,17 @@ namespace SleepyPawn.Core.Chess
             isValid = false;
             firstPos = new EnginePosition();
             secondPos = new EnginePosition();
+        }
+
+        internal Move(EnginePosition fp, EnginePosition sp, PieceType promotion = PieceType.None)
+        {
+            isValid = true;
+            nullMove = false;
+            firstPos = fp;
+            secondPos = sp;
+            promotionPiece = promotion;
+
+            isValid = LegalMoveAnalyzer.IsValid(this);
         }
 
         public void FromUci(string uciMove)
