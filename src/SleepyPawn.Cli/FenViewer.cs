@@ -67,7 +67,7 @@ namespace SleepyPawn.Cli
                         case "play":
                             DebugGame testGame = new DebugGame(lastFen);
                             testGame.Play();
-                            break;
+                            return;
                         case "change":
                             game = null;
                             break;
