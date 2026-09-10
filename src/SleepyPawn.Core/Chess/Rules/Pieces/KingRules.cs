@@ -146,7 +146,7 @@ namespace SleepyPawn.Core.Chess.Rules.Pieces
             Move rightMove = new Move(piecePosition, new EnginePosition(piecePosition.x + 1, piecePosition.y));
             Move rightDownMove = new Move(piecePosition, new EnginePosition(piecePosition.x + 1, piecePosition.y - 1));
             Move downMove = new Move(piecePosition, new EnginePosition(piecePosition.x, piecePosition.y - 1));
-            Move leftDownMove = new Move(piecePosition, new EnginePosition(piecePosition.x, piecePosition.y - 1));
+            Move leftDownMove = new Move(piecePosition, new EnginePosition(piecePosition.x - 1, piecePosition.y - 1));
             Move leftMove = new Move(piecePosition, new EnginePosition(piecePosition.x - 1, piecePosition.y));
             Move leftUpMove = new Move(piecePosition, new EnginePosition(piecePosition.x - 1, piecePosition.y + 1));
 
