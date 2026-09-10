@@ -6,9 +6,16 @@ namespace SleepyPawn.Cli
     internal class DebugGame
     {
         Game game;
-        internal DebugGame()
+        internal DebugGame(string? fen = null)
         {
-            game = new Game();
+            if(fen != null)
+            {
+                game = new Game(fen);
+            }
+            else
+            {
+                game = new Game();
+            }
         }
         internal void Play()
         {

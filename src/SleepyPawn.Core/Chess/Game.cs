@@ -14,6 +14,11 @@ namespace SleepyPawn.Core.Chess
             testGame = test;
             currentState = new GameState(testGame);
         }
+        public Game(string fen, bool test = false)
+        {
+            testGame = test;
+            currentState = new GameState(fen);
+        }
         public bool TryMove(Move move)
         {
             if(LegalMoveAnalyzer.IsLegal(move, currentState))

@@ -121,12 +121,38 @@ namespace SleepyPawn.Core.Chess
             pieces[position.y, position.x] = new Piece(color, type);
         }
 
+        internal void AddPiece(EnginePosition position, Piece piece)
+        {
+            if (!PositionCheck(position)) return;
+            pieces[position.y, position.x] = new Piece(piece.color, piece.type);
+        }
+
         private bool PositionCheck(EnginePosition position)
         {
             if (position.x > 7 || position.x < 0) return false;
             if (position.y > 7 || position.y < 0) return false;
 
             return true;
+        }
+
+        internal EnginePosition FindKing(Color color)
+        {
+            EnginePosition kingPosition = new EnginePosition(-1, -1);
+
+            for(int i = 0; i < 8; i++)
+            {
+                for (int j = 0; j < 8; j++)
+                {
+                    if (pieces[i, j].type == PieceType.King && pieces[i,j].color == color)
+                    {
+                        kingPosition.x = j;
+                        kingPosition.y = i;
+
+                        return kingPosition;
+                    }
+                }
+            }
+            return kingPosition;
         }
     }
 

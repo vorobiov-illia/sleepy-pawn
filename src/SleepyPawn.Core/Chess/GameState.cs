@@ -34,6 +34,27 @@ namespace SleepyPawn.Core.Chess
             playerToMove = Color.White;
         }
 
+        internal GameState(string fen)
+        {
+            Tuple<CastlingRights, CastlingRights> rights = FenUtils.GetCastlingRights(fen);
+            whiteCastlingRights = rights.Item1;
+            blackCastlingRights = rights.Item2;
+
+            Tuple<EnPassantState, EnPassantState> enPassantStates = FenUtils.GetEnPassantStates(fen);
+            whiteEnPassantState = enPassantStates.Item1;
+            blackEnPassantState = enPassantStates.Item2;
+
+            boardState = FenUtils.GetBoard(fen);
+            threats = new ThreatBoard();
+
+            whiteKingPosition = boardState.FindKing(Color.White);
+            blackKingPosition = boardState.FindKing(Color.Black);
+
+            threats.GenerateThreats(boardState);
+
+            playerToMove = FenUtils.GetPlayerToMove(fen);
+        }
+
         internal GameState(
             Board board,
             Color player,
@@ -76,10 +97,16 @@ namespace SleepyPawn.Core.Chess
             Piece piece;
             if (color == Color.White)
             {
+                if (whiteKingPosition.x > 7 || whiteKingPosition.x < 0) return false;
+                if (whiteKingPosition.y > 7 || whiteKingPosition.y < 0) return false;
+
                 piece = boardState.GetPiece(whiteKingPosition);
             }
             else if (color == Color.Black)
             {
+                if (blackKingPosition.x > 7 || blackKingPosition.x < 0) return false;
+                if (blackKingPosition.y > 7 || blackKingPosition.y < 0) return false;
+
                 piece = boardState.GetPiece(blackKingPosition);
             }
             else

@@ -1,13 +1,21 @@
-﻿using SleepyPawn.Cli.Debug;
-using SleepyPawn.Cli.Utils;
+﻿using SleepyPawn.Cli.Utils;
 
 namespace SleepyPawn.Cli
 {
     internal class Program
     {
         static string mainMenuTitle = "What do you want to do now?";
-        static string[] mainMenuOptions = { "uci", "debug", "exit" };
-        static string[] mainMenuComments = { "Enter UCI protocol mode (Usually for GUI's, not humans.)", "Play a debug game with yourself.", "Closes the program." };
+        static string[] mainMenuOptions = { 
+            "uci", 
+            "fen", 
+            "debug", 
+            "exit"
+        };
+        static string[] mainMenuComments = { 
+            "Enter UCI protocol mode (Usually for GUI's, not humans.)",
+            "View some FEN positions.",
+            "Play a debug game with yourself.",
+            "Closes the program." };
         static void Main(string[] args)
         {
             string? lastMessage = null;
@@ -32,6 +40,10 @@ namespace SleepyPawn.Cli
                     case "debug":
                         DebugGame testGame = new DebugGame();
                         testGame.Play();
+                        break;
+                    case "fen":
+                        FenViewer fen = new FenViewer();
+                        fen.Play();
                         break;
                     case "exit":
                         UI.Clear();
