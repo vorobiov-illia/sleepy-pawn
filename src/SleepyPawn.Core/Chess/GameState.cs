@@ -97,15 +97,13 @@ namespace SleepyPawn.Core.Chess
             Piece piece;
             if (color == Color.White)
             {
-                if (whiteKingPosition.x > 7 || whiteKingPosition.x < 0) return false;
-                if (whiteKingPosition.y > 7 || whiteKingPosition.y < 0) return false;
+                if (!boardState.PositionCheck(whiteKingPosition)) return false;
 
                 piece = boardState.GetPiece(whiteKingPosition);
             }
             else if (color == Color.Black)
             {
-                if (blackKingPosition.x > 7 || blackKingPosition.x < 0) return false;
-                if (blackKingPosition.y > 7 || blackKingPosition.y < 0) return false;
+                if (!boardState.PositionCheck(blackKingPosition)) return false;
 
                 piece = boardState.GetPiece(blackKingPosition);
             }

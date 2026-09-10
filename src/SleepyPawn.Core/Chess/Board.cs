@@ -127,7 +127,7 @@ namespace SleepyPawn.Core.Chess
             pieces[position.y, position.x] = new Piece(piece.color, piece.type);
         }
 
-        private bool PositionCheck(EnginePosition position)
+        internal bool PositionCheck(EnginePosition position)
         {
             if (position.x > 7 || position.x < 0) return false;
             if (position.y > 7 || position.y < 0) return false;
