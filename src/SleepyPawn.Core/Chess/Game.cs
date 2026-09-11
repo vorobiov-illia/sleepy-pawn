@@ -1,7 +1,6 @@
 ﻿using SleepyPawn.Core.Chess.Enums;
 using SleepyPawn.Core.Chess.Rules;
 using SleepyPawn.Core.Utils;
-using System.Security.AccessControl;
 
 namespace SleepyPawn.Core.Chess
 {
@@ -13,6 +12,11 @@ namespace SleepyPawn.Core.Chess
         {
             testGame = test;
             currentState = new GameState(testGame);
+        }
+        public Game(Game other)
+        {
+            testGame = other.testGame;
+            currentState = new GameState(other.currentState);
         }
         public Game(string fen, bool test = false)
         {
@@ -168,6 +172,20 @@ namespace SleepyPawn.Core.Chess
         public string DebugBlackCheck()
         {
             return currentState.DebugCheck(Color.Black);
+        }
+
+        public int GetLegalMoveCount()
+        {
+            return currentState.GetLegalMoves().Count();
+        }
+        public List<Move> GetLegalMoves()
+        {
+            return currentState.GetLegalMoves();
+        }
+
+        public void SetupInitialPosition()
+        {
+            currentState = new GameState();
         }
     }
 }

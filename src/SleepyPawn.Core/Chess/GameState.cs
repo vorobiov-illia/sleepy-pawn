@@ -79,6 +79,22 @@ namespace SleepyPawn.Core.Chess
             whiteKingPosition = wkp;
             blackKingPosition = bkp;
         }
+        internal GameState(GameState other)
+        {
+            boardState = new Board(other.boardState);
+            threats = new ThreatBoard();
+            threats.GenerateThreats(boardState);
+            playerToMove = other.playerToMove;
+
+            whiteCastlingRights = new CastlingRights(other.whiteCastlingRights);
+            blackCastlingRights = new CastlingRights(other.blackCastlingRights);
+
+            whiteEnPassantState = new EnPassantState(other.whiteEnPassantState);
+            blackEnPassantState = new EnPassantState(other.blackEnPassantState);
+
+            whiteKingPosition = other.whiteKingPosition;
+            blackKingPosition = other.blackKingPosition;
+        }
 
         internal Piece GetPiece(EnginePosition position)
         {
