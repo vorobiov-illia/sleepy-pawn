@@ -111,7 +111,6 @@ namespace SleepyPawn.Core.Chess
             
             Piece piece = currentState.GetPiece(position);
 
-            if (piece == null) return answer;
             if (piece.isEmpty) return answer;
             if (piece.type == PieceType.None) return answer;
             if (piece.color == Color.None) return answer;

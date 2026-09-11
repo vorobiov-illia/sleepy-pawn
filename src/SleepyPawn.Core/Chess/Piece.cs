@@ -2,23 +2,21 @@
 
 namespace SleepyPawn.Core.Chess
 {
-    internal class Piece
+    internal struct Piece
     {
-        internal bool isEmpty { get; private set; } = true;
+        internal bool isEmpty => color == Color.None;
         internal Color color { get; private set; }
         internal PieceType type { get; set; }
 
-        internal Piece()
+        public Piece()
         {
             color = Color.None;
             type = PieceType.None;
-            isEmpty = true;
         }
         internal Piece(Color c, PieceType t, bool empty = false)
         {
             color = c;
             type = t;
-            isEmpty = empty;
         }
 
         public override string ToString()

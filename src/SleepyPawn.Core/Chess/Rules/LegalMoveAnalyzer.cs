@@ -11,7 +11,6 @@ namespace SleepyPawn.Core.Chess.Rules
             if (!move.isValid) return false;
             if (move.nullMove) return true;
             Piece piece = state.GetPiece(move.firstPos);
-            if (piece == null) return false;
             if (piece.isEmpty) return false;
             if (state.playerToMove == ColorUtils.Reverse(piece.color)) return false;
             if (move.promotionPiece != PieceType.None)
@@ -60,7 +59,6 @@ namespace SleepyPawn.Core.Chess.Rules
                     EnginePosition position = new EnginePosition(i,j);
                     Piece piece = state.GetPiece(position);
 
-                    if (piece == null) continue;
                     if (piece.isEmpty) continue;
                     if (piece.color != state.playerToMove) continue;
 

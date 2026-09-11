@@ -1,4 +1,5 @@
 ﻿using SleepyPawn.Core.Chess.Enums;
+using SleepyPawn.Core.Utils;
 using System.Text;
 
 namespace SleepyPawn.Core.Chess
@@ -7,21 +8,10 @@ namespace SleepyPawn.Core.Chess
     {
         internal Piece[,] pieces = new Piece[8, 8];
 
-        internal Board()
-        {
-            Clear();
-        }
+        internal Board() { }
         internal Board(Board other)
         {
-            Clear();
-            for (int i = 0; i < 8; i++)
-            {
-                for (int j = 0; j < 8; j++)
-                {
-                    if (other.pieces[i, j] == null) continue;
-                    pieces[i, j] = new Piece(other.pieces[i, j].color, other.pieces[i, j].type, other.pieces[i, j].isEmpty);
-                }
-            }
+            Array.Copy(other.pieces, pieces, 64);
         }
         internal Piece GetPiece(EnginePosition position)
         {
@@ -29,13 +19,7 @@ namespace SleepyPawn.Core.Chess
         }
         internal void Clear()
         {
-            for (int i = 0; i < 8; i++)
-            {
-                for (int j = 0; j < 8; j++)
-                {
-                    pieces[i, j] = new Piece();
-                }
-            }
+            Array.Copy(BoardUtils.emptyPieces, pieces, 64);
         }
         internal void SetupStandard()
         {
@@ -100,7 +84,7 @@ namespace SleepyPawn.Core.Chess
             {
                 for(int j = 0; j<8; j++)
                 {
-                    if (pieces[i,j] == null)
+                    if (pieces[i,j].isEmpty)
                     {
                         res.Append("[ ]");
                     }

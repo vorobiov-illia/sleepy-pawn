@@ -36,7 +36,6 @@ namespace SleepyPawn.Core.Chess.Rules.Pieces
             List<Move> moves = new List<Move>();
 
             Piece queen = state.GetPiece(piecePosition);
-            if (queen == null) return moves;
             if (queen.isEmpty) return moves;
             if (queen.type != PieceType.Queen) return moves;
 
@@ -67,7 +66,6 @@ namespace SleepyPawn.Core.Chess.Rules.Pieces
         {
             Piece thisPiece = board.GetPiece(piecePosition);
 
-            if (thisPiece == null) return;
             if (thisPiece.isEmpty) return;
             if (thisPiece.type != PieceType.Queen) return;
 

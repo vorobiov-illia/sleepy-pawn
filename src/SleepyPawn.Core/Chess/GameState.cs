@@ -127,7 +127,7 @@ namespace SleepyPawn.Core.Chess
             {
                 return false;
             }
-            if (piece == null) return false;
+            if (piece.isEmpty) return false;
             if (piece.color != color) return false;
             if (piece.type != PieceType.King) return false;
             

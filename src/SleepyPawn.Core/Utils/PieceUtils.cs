@@ -58,10 +58,7 @@ namespace SleepyPawn.Core.Utils
             for(int i = 1; i < distance; i++)
             {
                 Piece piece = board.GetPiece(new EnginePosition(x, y));
-                if (piece != null)
-                {
-                    if (!piece.isEmpty) return false;
-                }
+                if (!piece.isEmpty) return false;
                 x += stepX;
                 y += stepY;
             }
@@ -85,10 +82,7 @@ namespace SleepyPawn.Core.Utils
                 moves.Add(newMove);
 
                 Piece piece = board.GetPiece(currentPosition);
-                if (piece != null)
-                {
-                    if (!piece.isEmpty) break;
-                }
+                if (!piece.isEmpty) break;
 
                 x += stepX;
                 y += stepY;
@@ -108,10 +102,7 @@ namespace SleepyPawn.Core.Utils
                 threats.AddThreat(new EnginePosition(x,y), color);
 
                 Piece piece = board.GetPiece(new EnginePosition(x, y));
-                if (piece != null)
-                {
-                    if (!piece.isEmpty) break;
-                }
+                if (!piece.isEmpty) break;
 
                 x += stepX;
                 y += stepY;

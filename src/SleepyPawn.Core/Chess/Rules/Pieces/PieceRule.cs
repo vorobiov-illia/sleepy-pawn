@@ -10,13 +10,7 @@ namespace SleepyPawn.Core.Chess.Rules.Pieces
 
         protected bool CommonCheck(Move move, GameState state, PieceType type, Piece thisPiece, Piece otherPiece)
         {
-            if (thisPiece == null) return false;
             if (thisPiece.type != type) return false;
-
-            if (otherPiece == null)
-            {
-                otherPiece = new Piece();
-            }
             return true;
         }
     }

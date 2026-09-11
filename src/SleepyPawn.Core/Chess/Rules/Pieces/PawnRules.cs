@@ -55,10 +55,6 @@ namespace SleepyPawn.Core.Chess.Rules.Pieces
                     if (move.secondPos.y == move.firstPos.y + 1) return true;
                     if (move.firstPos.y != 1) return false;
                     Piece pathway = state.GetPiece(new EnginePosition(move.firstPos.x, move.firstPos.y + 1));
-                    if(pathway == null)
-                    {
-                        pathway = new Piece();
-                    }
                     if (move.secondPos.y == move.firstPos.y + 2 &&
                         pathway.isEmpty) return true;
                     return false;
@@ -69,10 +65,6 @@ namespace SleepyPawn.Core.Chess.Rules.Pieces
                     if (move.secondPos.y == move.firstPos.y - 1) return true;
                     if (move.firstPos.y != 6) return false;
                     Piece pathway = state.GetPiece(new EnginePosition(move.firstPos.x, move.firstPos.y - 1));
-                    if (pathway == null)
-                    {
-                        pathway = new Piece();
-                    }
                     if (move.secondPos.y == move.firstPos.y - 2 &&
                         pathway.isEmpty) return true;
                     return false;
@@ -105,7 +97,6 @@ namespace SleepyPawn.Core.Chess.Rules.Pieces
             List<Move> moves = new List<Move>();
 
             Piece pawn = state.GetPiece(piecePosition);
-            if (pawn == null) return moves;
             if (pawn.isEmpty) return moves;
             if (pawn.type != PieceType.Sleepy) return moves;
 
@@ -225,7 +216,6 @@ namespace SleepyPawn.Core.Chess.Rules.Pieces
         {
             Piece thisPiece = board.GetPiece(piecePosition);
 
-            if (thisPiece == null) return;
             if (thisPiece.isEmpty) return;
             if (thisPiece.type != PieceType.Sleepy) return;
 

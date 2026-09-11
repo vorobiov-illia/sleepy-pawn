@@ -33,7 +33,6 @@ namespace SleepyPawn.Core.Chess.Rules.Pieces
                 if (move.secondPos == PieceUtils.whiteKingShortCastle)
                 {
                     Piece otherPiece = state.GetPiece(PieceUtils.whiteShortRook);
-                    if (otherPiece == null) return false;
                     if (otherPiece.isEmpty) return false;
                     if (otherPiece.type != PieceType.Rook) return false;
                     if (otherPiece.color != Color.White) return false;
@@ -46,17 +45,13 @@ namespace SleepyPawn.Core.Chess.Rules.Pieces
                     foreach (EnginePosition pos in PieceUtils.whiteShortCastlingBlockMap)
                     {
                         Piece piece = state.boardState.GetPiece(pos);
-                        if(piece != null)
-                        {
-                            if (!piece.isEmpty) return false;
-                        }
+                        if (!piece.isEmpty) return false;
                     }
                     return true;
                 }
                 if (move.secondPos == PieceUtils.whiteKingLongCastle)
                 {
                     Piece otherPiece = state.GetPiece(PieceUtils.whiteLongRook);
-                    if (otherPiece == null) return false;
                     if (otherPiece.isEmpty) return false;
                     if (otherPiece.type != PieceType.Rook) return false;
                     if (otherPiece.color != Color.White) return false;
@@ -69,10 +64,7 @@ namespace SleepyPawn.Core.Chess.Rules.Pieces
                     foreach (EnginePosition pos in PieceUtils.whiteLongCastlingBlockMap)
                     {
                         Piece piece = state.boardState.GetPiece(pos);
-                        if (piece != null)
-                        {
-                            if (!piece.isEmpty) return false;
-                        }
+                        if (!piece.isEmpty) return false;
                     }
                     return true;
                 }
@@ -84,7 +76,6 @@ namespace SleepyPawn.Core.Chess.Rules.Pieces
                 if (move.secondPos == PieceUtils.blackKingShortCastle)
                 {
                     Piece otherPiece = state.GetPiece(PieceUtils.blackShortRook);
-                    if (otherPiece == null) return false;
                     if (otherPiece.isEmpty) return false;
                     if (otherPiece.type != PieceType.Rook) return false;
                     if (otherPiece.color != Color.Black) return false;
@@ -97,17 +88,13 @@ namespace SleepyPawn.Core.Chess.Rules.Pieces
                     foreach (EnginePosition pos in PieceUtils.blackShortCastlingBlockMap)
                     {
                         Piece piece = state.boardState.GetPiece(pos);
-                        if (piece != null)
-                        {
-                            if (!piece.isEmpty) return false;
-                        }
+                        if (!piece.isEmpty) return false;
                     }
                     return true;
                 }
                 if (move.secondPos == PieceUtils.blackKingLongCastle)
                 {
                     Piece otherPiece = state.GetPiece(PieceUtils.blackLongRook);
-                    if (otherPiece == null) return false;
                     if (otherPiece.isEmpty) return false;
                     if (otherPiece.type != PieceType.Rook) return false;
                     if (otherPiece.color != Color.Black) return false;
@@ -120,10 +107,7 @@ namespace SleepyPawn.Core.Chess.Rules.Pieces
                     foreach (EnginePosition pos in PieceUtils.blackLongCastlingBlockMap)
                     {
                         Piece piece = state.boardState.GetPiece(pos);
-                        if (piece != null)
-                        {
-                            if (!piece.isEmpty) return false;
-                        }
+                        if (!piece.isEmpty) return false;
                     }
                     return true;
                 }
@@ -137,7 +121,6 @@ namespace SleepyPawn.Core.Chess.Rules.Pieces
             List<Move> moves = new List<Move>();
 
             Piece king = state.GetPiece(piecePosition);
-            if (king == null) return moves;
             if (king.isEmpty) return moves;
             if (king.type != PieceType.King) return moves;
 
@@ -184,7 +167,6 @@ namespace SleepyPawn.Core.Chess.Rules.Pieces
         {
             Piece thisPiece = board.GetPiece(piecePosition);
 
-            if (thisPiece == null) return;
             if (thisPiece.isEmpty) return;
             if (thisPiece.type != PieceType.King) return;
 
