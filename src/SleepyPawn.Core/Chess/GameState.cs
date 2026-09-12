@@ -7,7 +7,6 @@ namespace SleepyPawn.Core.Chess
     internal class GameState
     {
         internal Board boardState;
-        internal ThreatBoard threats;
         internal Color playerToMove;
         internal CastlingRights whiteCastlingRights;
         internal CastlingRights blackCastlingRights;
@@ -23,13 +22,16 @@ namespace SleepyPawn.Core.Chess
             whiteEnPassantState = new EnPassantState();
             blackEnPassantState = new EnPassantState();
             boardState = new Board();
-            threats = new ThreatBoard();
-            threats.GenerateThreats(boardState);
             if (!emptyBoard)
             {
                 boardState.SetupStandard();
                 whiteKingPosition = PieceUtils.defaultWhiteKingPosition;
                 blackKingPosition = PieceUtils.defaultBlackKingPosition;
+            }
+            else
+            {
+                whiteKingPosition = BoardUtils.IllegalPosition;
+                blackKingPosition = BoardUtils.IllegalPosition;
             }
             playerToMove = Color.White;
         }
@@ -45,12 +47,9 @@ namespace SleepyPawn.Core.Chess
             blackEnPassantState = enPassantStates.Item2;
 
             boardState = FenUtils.GetBoard(fen);
-            threats = new ThreatBoard();
 
             whiteKingPosition = boardState.FindKing(Color.White);
             blackKingPosition = boardState.FindKing(Color.Black);
-
-            threats.GenerateThreats(boardState);
 
             playerToMove = FenUtils.GetPlayerToMove(fen);
         }
@@ -66,8 +65,6 @@ namespace SleepyPawn.Core.Chess
             EnginePosition bkp)
         {
             boardState = board;
-            threats = new ThreatBoard();
-            threats.GenerateThreats(board);
             playerToMove = player;
 
             whiteCastlingRights = new CastlingRights(wc);
@@ -82,8 +79,6 @@ namespace SleepyPawn.Core.Chess
         internal GameState(GameState other)
         {
             boardState = new Board(other.boardState);
-            threats = new ThreatBoard();
-            threats.GenerateThreats(boardState);
             playerToMove = other.playerToMove;
 
             whiteCastlingRights = new CastlingRights(other.whiteCastlingRights);
@@ -100,9 +95,76 @@ namespace SleepyPawn.Core.Chess
         {
             return boardState.GetPiece(position);
         }
-        internal void GenerateThreats()
+        internal bool KingSafetyPrecheck(Move move)
         {
-            threats.GenerateThreats(boardState);
+            EnginePosition oldKingPosition = BoardUtils.IllegalPosition;
+            if (boardState.GetPiece(move.firstPos).type == PieceType.King)
+            {
+                if (playerToMove == Color.White)
+                {
+                    if (!boardState.PositionCheck(whiteKingPosition)) return true;
+                    oldKingPosition = whiteKingPosition;
+                    whiteKingPosition = move.secondPos;
+                }
+                else if (playerToMove == Color.Black)
+                {
+                    if (!boardState.PositionCheck(blackKingPosition)) return true;
+                    oldKingPosition = blackKingPosition;
+                    blackKingPosition = move.secondPos;
+                }
+                else return false;
+            }
+
+            Piece potentialVictim = boardState.GetPiece(move.secondPos);
+            Piece pieceToMove = boardState.GetPiece(move.firstPos);
+
+            bool enPassantMove = false;
+            Piece enPassantVictim = new Piece();
+            EnginePosition enPassantVictimPosition = BoardUtils.IllegalPosition;
+
+            if (boardState.GetPiece(move.firstPos).type == PieceType.Sleepy
+                && potentialVictim.isEmpty
+                && move.firstPos.x != move.secondPos.x)
+            {
+                enPassantMove = true;
+                if(pieceToMove.color == Color.White)
+                {
+                    enPassantVictimPosition.x = move.secondPos.x;
+                    enPassantVictimPosition.y = move.secondPos.y - 1;
+                }
+                if (pieceToMove.color == Color.Black)
+                {
+                    enPassantVictimPosition.x = move.secondPos.x;
+                    enPassantVictimPosition.y = move.secondPos.y + 1;
+                }
+                enPassantVictim = boardState.GetPiece(enPassantVictimPosition);
+                boardState.RemovePiece(enPassantVictimPosition);
+            }
+
+            boardState.ReplacePiece(move.firstPos,move.secondPos);
+
+            bool safe = !KingChecked(playerToMove);
+
+            if (enPassantMove)
+            {
+                boardState.AddPiece(enPassantVictimPosition, enPassantVictim);
+            }
+
+            if (boardState.PositionCheck(oldKingPosition))
+            {
+                if (playerToMove == Color.White)
+                {
+                    whiteKingPosition = oldKingPosition;
+                }
+                else if (playerToMove == Color.Black)
+                {
+                    blackKingPosition = oldKingPosition;
+                }
+            }
+            
+            boardState.ReplacePiece(move.secondPos, move.firstPos);
+            boardState.AddPiece(move.secondPos, potentialVictim);
+            return safe;
         }
         internal void AddPiece(EnginePosition position, Color color, PieceType type)
         {
@@ -133,11 +195,11 @@ namespace SleepyPawn.Core.Chess
             
             if (color == Color.White)
             {
-                if (threats.GetThreat(ColorUtils.Reverse(color), whiteKingPosition)) return true;
+                if (boardState.IsTileAttacked(whiteKingPosition, Color.Black)) return true;
             }
             else if (color == Color.Black)
             {
-                if (threats.GetThreat(ColorUtils.Reverse(color), blackKingPosition)) return true;
+                if (boardState.IsTileAttacked(blackKingPosition, Color.White)) return true;
             }
             else
             {

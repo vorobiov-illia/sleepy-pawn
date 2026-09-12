@@ -4,9 +4,9 @@ namespace SleepyPawn.Core.Utils
 {
     internal static class UciUtils
     {
-        private static List<int> allowedNums = new List<int> {1,2,3,4,5,6,7,8};
-        private static List<char> allowedLetters = new List<char> {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'};
-        private static List<char> allowedPromotions = new List<char> { 'b', 'n', 'r', 'q'};
+        private static readonly List<int> allowedNums = new List<int> {1,2,3,4,5,6,7,8};
+        private static readonly List<char> allowedLetters = new List<char> {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'};
+        private static readonly List<char> allowedPromotions = new List<char> { 'b', 'n', 'r', 'q'};
         internal static bool ValidateMove(string uciMove)
         {
             if (uciMove == null) return false;

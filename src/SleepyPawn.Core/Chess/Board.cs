@@ -15,6 +15,7 @@ namespace SleepyPawn.Core.Chess
         }
         internal Piece GetPiece(EnginePosition position)
         {
+            if (!PositionCheck(position)) return new Piece();
             return pieces[position.y, position.x];
         }
         internal void Clear()
@@ -76,6 +77,65 @@ namespace SleepyPawn.Core.Chess
             pieces[position.y, position.x] = new Piece();
         }
 
+        internal bool IsTileAttacked(EnginePosition position, Color attacker)
+        {
+            if (attacker == Color.Black)
+            {
+                Piece leftPawn = GetPiece(new EnginePosition(position.x - 1, position.y + 1));
+                if (leftPawn.color == Color.Black && leftPawn.type == PieceType.Sleepy) return true;
+                Piece rightPawn = GetPiece(new EnginePosition(position.x + 1, position.y + 1));
+                if (rightPawn.color == Color.Black && rightPawn.type == PieceType.Sleepy) return true;
+            }
+            else if (attacker == Color.White)
+            {
+                Piece leftPawn = GetPiece(new EnginePosition(position.x - 1, position.y - 1));
+                if (leftPawn.color == Color.White && leftPawn.type == PieceType.Sleepy) return true;
+                Piece rightPawn = GetPiece(new EnginePosition(position.x + 1, position.y - 1));
+                if (rightPawn.color == Color.White && rightPawn.type == PieceType.Sleepy) return true;
+            }
+            else
+            {
+                return true;
+            }
+
+            foreach (EnginePosition vector in PieceUtils.rookVectors)
+            {
+                Piece potentialRook = PieceUtils.GetPieceSlide(position, this, vector.x, vector.y);
+                if (potentialRook.color == attacker && (potentialRook.type == PieceType.Rook || potentialRook.type == PieceType.Queen))
+                {
+                    return true;
+                }
+            }
+
+            foreach (EnginePosition vector in PieceUtils.bishopVectors)
+            {
+                Piece potentialBishop = PieceUtils.GetPieceSlide(position, this, vector.x, vector.y);
+                if (potentialBishop.color == attacker && (potentialBishop.type == PieceType.Bishop || potentialBishop.type == PieceType.Queen))
+                {
+                    return true;
+                }
+            }
+
+            foreach (EnginePosition offset in PieceUtils.knightOffsets)
+            {
+                Piece potentialKnight = GetPiece(new EnginePosition(position.x + offset.x, position.y + offset.y));
+                if (potentialKnight.color == attacker && potentialKnight.type == PieceType.Knight)
+                {
+                    return true;
+                }
+            }
+
+            foreach (EnginePosition offset in PieceUtils.kingOffsets)
+            {
+                Piece potenrialKing = GetPiece(new EnginePosition(position.x + offset.x, position.y + offset.y));
+                if (potenrialKing.color == attacker && potenrialKing.type == PieceType.King)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
         public override string ToString()
         {
             StringBuilder res = new StringBuilder();
@@ -121,7 +181,7 @@ namespace SleepyPawn.Core.Chess
 
         internal EnginePosition FindKing(Color color)
         {
-            EnginePosition kingPosition = new EnginePosition(-1, -1);
+            EnginePosition kingPosition = BoardUtils.IllegalPosition;
 
             for(int i = 0; i < 8; i++)
             {

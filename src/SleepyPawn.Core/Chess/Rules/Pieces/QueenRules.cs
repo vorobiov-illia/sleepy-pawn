@@ -33,7 +33,7 @@ namespace SleepyPawn.Core.Chess.Rules.Pieces
 
         internal override List<Move> GeneratePseudoMoves(EnginePosition piecePosition, GameState state)
         {
-            List<Move> moves = new List<Move>();
+            List<Move> moves = new List<Move>(27);
 
             Piece queen = state.GetPiece(piecePosition);
             if (queen.isEmpty) return moves;

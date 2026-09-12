@@ -40,7 +40,7 @@ namespace SleepyPawn.Core.Chess.Rules.Pieces
                     if (!state.whiteCastlingRights.CastlingRetained) return false;
                     foreach (EnginePosition pos in PieceUtils.whiteShortCastlingVunurableMap)
                     {
-                        if (state.threats.GetThreat(Color.Black, pos)) return false;
+                        if (state.boardState.IsTileAttacked(pos, Color.Black)) return false;
                     }
                     foreach (EnginePosition pos in PieceUtils.whiteShortCastlingBlockMap)
                     {
@@ -59,7 +59,7 @@ namespace SleepyPawn.Core.Chess.Rules.Pieces
                     if (!state.whiteCastlingRights.LongCastlingRetained) return false;
                     foreach (EnginePosition pos in PieceUtils.whiteLongCastlingVunurableMap)
                     {
-                        if (state.threats.GetThreat(Color.Black, pos)) return false;
+                        if (state.boardState.IsTileAttacked(pos, Color.Black)) return false;
                     }
                     foreach (EnginePosition pos in PieceUtils.whiteLongCastlingBlockMap)
                     {
@@ -83,7 +83,7 @@ namespace SleepyPawn.Core.Chess.Rules.Pieces
                     if (!state.blackCastlingRights.CastlingRetained) return false;
                     foreach (EnginePosition pos in PieceUtils.blackShortCastlingVunurableMap)
                     {
-                        if (state.threats.GetThreat(Color.White, pos)) return false;
+                        if (state.boardState.IsTileAttacked(pos, Color.White)) return false;
                     }
                     foreach (EnginePosition pos in PieceUtils.blackShortCastlingBlockMap)
                     {
@@ -102,7 +102,7 @@ namespace SleepyPawn.Core.Chess.Rules.Pieces
                     if (!state.blackCastlingRights.LongCastlingRetained) return false;
                     foreach (EnginePosition pos in PieceUtils.blackLongCastlingVunurableMap)
                     {
-                        if (state.threats.GetThreat(Color.White, pos)) return false;
+                        if (state.boardState.IsTileAttacked(pos, Color.White)) return false;
                     }
                     foreach (EnginePosition pos in PieceUtils.blackLongCastlingBlockMap)
                     {
@@ -118,7 +118,7 @@ namespace SleepyPawn.Core.Chess.Rules.Pieces
 
         internal override List<Move> GeneratePseudoMoves(EnginePosition piecePosition, GameState state)
         {
-            List<Move> moves = new List<Move>();
+            List<Move> moves = new List<Move>(10);
 
             Piece king = state.GetPiece(piecePosition);
             if (king.isEmpty) return moves;

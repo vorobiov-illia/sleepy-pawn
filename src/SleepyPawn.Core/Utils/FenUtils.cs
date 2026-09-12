@@ -1,6 +1,5 @@
 ﻿using SleepyPawn.Core.Chess;
 using SleepyPawn.Core.Chess.Enums;
-using System.Text;
 
 namespace SleepyPawn.Core.Utils
 {
