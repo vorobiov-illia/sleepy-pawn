@@ -6,7 +6,7 @@ namespace SleepyPawn.Core.Chess
 {
     internal class Board
     {
-        internal Piece[,] pieces = new Piece[8, 8];
+        internal Piece[] pieces = new Piece[64];
 
         internal Board() { }
         internal Board(Board other)
@@ -16,7 +16,7 @@ namespace SleepyPawn.Core.Chess
         internal Piece GetPiece(EnginePosition position)
         {
             if (!PositionCheck(position)) return new Piece();
-            return pieces[position.y, position.x];
+            return pieces[BoardUtils.EnginePositionToIndex(position)];
         }
         internal void Clear()
         {
@@ -29,52 +29,53 @@ namespace SleepyPawn.Core.Chess
             // Placing white pawns
             for (int i = 0; i < 8; i++)
             {
-                pieces[1, i] = new Piece(Color.White, PieceType.Sleepy);
+                pieces[BoardUtils.EnginePositionToIndex(i, 1)] = new Piece(Color.White, PieceType.Sleepy);
             }
 
             // Placing black pawns
             for (int i = 0; i < 8; i++)
             {
-                pieces[6, i] = new Piece(Color.Black, PieceType.Sleepy);
+                pieces[BoardUtils.EnginePositionToIndex(i, 6)] = new Piece(Color.Black, PieceType.Sleepy);
             }
 
             // Placing white king row
-            pieces[0, 0] = new Piece(Color.White, PieceType.Rook);
-            pieces[0, 1] = new Piece(Color.White, PieceType.Knight);
-            pieces[0, 2] = new Piece(Color.White, PieceType.Bishop);
-            pieces[0, 3] = new Piece(Color.White, PieceType.Queen);
-            pieces[0, 4] = new Piece(Color.White, PieceType.King);
-            pieces[0, 5] = new Piece(Color.White, PieceType.Bishop);
-            pieces[0, 6] = new Piece(Color.White, PieceType.Knight);
-            pieces[0, 7] = new Piece(Color.White, PieceType.Rook);
+            pieces[0] = new Piece(Color.White, PieceType.Rook);
+            pieces[BoardUtils.EnginePositionToIndex(1, 0)] = new Piece(Color.White, PieceType.Knight);
+            pieces[BoardUtils.EnginePositionToIndex(2, 0)] = new Piece(Color.White, PieceType.Bishop);
+            pieces[BoardUtils.EnginePositionToIndex(3, 0)] = new Piece(Color.White, PieceType.Queen);
+            pieces[BoardUtils.EnginePositionToIndex(4, 0)] = new Piece(Color.White, PieceType.King);
+            pieces[BoardUtils.EnginePositionToIndex(5, 0)] = new Piece(Color.White, PieceType.Bishop);
+            pieces[BoardUtils.EnginePositionToIndex(6, 0)] = new Piece(Color.White, PieceType.Knight);
+            pieces[BoardUtils.EnginePositionToIndex(7, 0)] = new Piece(Color.White, PieceType.Rook);
 
             // Placing black king row
-            pieces[7, 0] = new Piece(Color.Black, PieceType.Rook);
-            pieces[7, 1] = new Piece(Color.Black, PieceType.Knight);
-            pieces[7, 2] = new Piece(Color.Black, PieceType.Bishop);
-            pieces[7, 3] = new Piece(Color.Black, PieceType.Queen);
-            pieces[7, 4] = new Piece(Color.Black, PieceType.King);
-            pieces[7, 5] = new Piece(Color.Black, PieceType.Bishop);
-            pieces[7, 6] = new Piece(Color.Black, PieceType.Knight);
-            pieces[7, 7] = new Piece(Color.Black, PieceType.Rook);
+            pieces[BoardUtils.EnginePositionToIndex(0, 7)] = new Piece(Color.Black, PieceType.Rook);
+            pieces[BoardUtils.EnginePositionToIndex(1, 7)] = new Piece(Color.Black, PieceType.Knight);
+            pieces[BoardUtils.EnginePositionToIndex(2, 7)] = new Piece(Color.Black, PieceType.Bishop);
+            pieces[BoardUtils.EnginePositionToIndex(3, 7)] = new Piece(Color.Black, PieceType.Queen);
+            pieces[BoardUtils.EnginePositionToIndex(4, 7)] = new Piece(Color.Black, PieceType.King);
+            pieces[BoardUtils.EnginePositionToIndex(5, 7)] = new Piece(Color.Black, PieceType.Bishop);
+            pieces[BoardUtils.EnginePositionToIndex(6, 7)] = new Piece(Color.Black, PieceType.Knight);
+            pieces[BoardUtils.EnginePositionToIndex(7, 7)] = new Piece(Color.Black, PieceType.Rook);
         }
 
         internal void ReplacePiece(EnginePosition piece, EnginePosition newPosition, PieceType promotion = PieceType.None)
         {
             if (!PositionCheck(piece)) return;
             if (!PositionCheck(newPosition)) return;
-            pieces[newPosition.y, newPosition.x] = pieces[piece.y, piece.x];
-            pieces[piece.y, piece.x] = new Piece();
+            int pieceIndex = BoardUtils.EnginePositionToIndex(piece);
+            pieces[BoardUtils.EnginePositionToIndex(newPosition)] = pieces[pieceIndex];
+            pieces[pieceIndex] = new Piece();
             if(promotion != PieceType.None)
             {
-                pieces[newPosition.y, newPosition.x].type = promotion;
+                pieces[(newPosition.y * 8) + newPosition.x].type = promotion;
             }
         }
 
         internal void RemovePiece(EnginePosition position)
         {
             if (!PositionCheck(position)) return;
-            pieces[position.y, position.x] = new Piece();
+            pieces[BoardUtils.EnginePositionToIndex(position)] = new Piece();
         }
 
         internal bool IsTileAttacked(EnginePosition position, Color attacker)
@@ -144,13 +145,14 @@ namespace SleepyPawn.Core.Chess
             {
                 for(int j = 0; j<8; j++)
                 {
-                    if (pieces[i,j].isEmpty)
+                    int index = BoardUtils.EnginePositionToIndex(j, i);
+                    if (pieces[index].isEmpty)
                     {
                         res.Append("[ ]");
                     }
                     else
                     {
-                        res.Append("[" + pieces[i, j].ToString() + "]");
+                        res.Append("[" + pieces[index].ToString() + "]");
                     }
                 }
                 res.Append('\n');
@@ -162,13 +164,13 @@ namespace SleepyPawn.Core.Chess
         internal void AddPiece(EnginePosition position, Color color, PieceType type)
         {
             if (!PositionCheck(position)) return;
-            pieces[position.y, position.x] = new Piece(color, type);
+            pieces[BoardUtils.EnginePositionToIndex(position)] = new Piece(color, type);
         }
 
         internal void AddPiece(EnginePosition position, Piece piece)
         {
             if (!PositionCheck(position)) return;
-            pieces[position.y, position.x] = new Piece(piece.color, piece.type);
+            pieces[BoardUtils.EnginePositionToIndex(position)] = new Piece(piece.color, piece.type);
         }
 
         internal bool PositionCheck(EnginePosition position)
@@ -187,7 +189,8 @@ namespace SleepyPawn.Core.Chess
             {
                 for (int j = 0; j < 8; j++)
                 {
-                    if (pieces[i, j].type == PieceType.King && pieces[i,j].color == color)
+                    int index = BoardUtils.EnginePositionToIndex(j, i);
+                    if (pieces[index].type == PieceType.King && pieces[index].color == color)
                     {
                         kingPosition.x = j;
                         kingPosition.y = i;
