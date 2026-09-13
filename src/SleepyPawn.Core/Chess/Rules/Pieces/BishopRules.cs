@@ -1,5 +1,6 @@
 ﻿using SleepyPawn.Core.Chess.Enums;
 using SleepyPawn.Core.Utils;
+using System.Net.Http.Headers;
 
 namespace SleepyPawn.Core.Chess.Rules.Pieces
 {
@@ -25,25 +26,20 @@ namespace SleepyPawn.Core.Chess.Rules.Pieces
             return true;
         }
 
-        internal override List<Move> GeneratePseudoMoves(EnginePosition piecePosition, GameState state)
+        internal override int GeneratePseudoMoves(EnginePosition piecePosition, GameState state, ref Span<Move> pseudoMoves, int count)
         {
-            List<Move> moves = new List<Move>(13);
-
+            int newCount = count;
+            
             Piece bishop = state.GetPiece(piecePosition);
-            if (bishop.isEmpty) return moves;
-            if (bishop.type != PieceType.Bishop) return moves;
+            if (bishop.isEmpty) return newCount;
+            if (bishop.type != PieceType.Bishop) return newCount;
 
-            List<Move> rightUpMoves = PieceUtils.GetSlideMoves(piecePosition, state.boardState, 1, 1);
-            List<Move> rightDownMoves = PieceUtils.GetSlideMoves(piecePosition, state.boardState, 1, -1);
-            List<Move> leftDownMoves = PieceUtils.GetSlideMoves(piecePosition, state.boardState, -1, -1);
-            List<Move> leftUpMoves = PieceUtils.GetSlideMoves(piecePosition, state.boardState, -1, 1);
+            newCount = PieceUtils.GetSlideMoves(piecePosition, state.boardState, 1, 1, ref pseudoMoves, newCount);
+            newCount = PieceUtils.GetSlideMoves(piecePosition, state.boardState, 1, -1, ref pseudoMoves, newCount);
+            newCount = PieceUtils.GetSlideMoves(piecePosition, state.boardState, -1, -1, ref pseudoMoves, newCount);
+            newCount = PieceUtils.GetSlideMoves(piecePosition, state.boardState, -1, 1, ref pseudoMoves, newCount);
 
-            moves.AddRange(rightUpMoves);
-            moves.AddRange(rightDownMoves);
-            moves.AddRange(leftDownMoves);
-            moves.AddRange(leftUpMoves);
-
-            return moves;
+            return newCount;
         }
 
         internal override void GenerateThreat(EnginePosition piecePosition, Board board, ThreatBoard threats)

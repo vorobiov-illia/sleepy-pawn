@@ -94,10 +94,10 @@ namespace SleepyPawn.Core.Utils
 
             return true;
         }
-        internal static List<Move> GetSlideMoves(EnginePosition piecePosition, Board board, int xDir, int yDir)
+        internal static int GetSlideMoves(EnginePosition piecePosition, Board board, int xDir, int yDir, ref Span<Move> pseudoMoves, int count)
         {
-            List<Move> moves = new List<Move>();
-
+            int newCount = count;
+            
             int stepX = Math.Sign(xDir);
             int stepY = Math.Sign(yDir);
 
@@ -108,7 +108,7 @@ namespace SleepyPawn.Core.Utils
             {
                 EnginePosition currentPosition = new EnginePosition(x, y);
                 Move newMove = new Move(piecePosition, currentPosition);
-                moves.Add(newMove);
+                pseudoMoves[newCount++] = newMove;
 
                 Piece piece = board.GetPiece(currentPosition);
                 if (!piece.isEmpty) break;
@@ -116,7 +116,7 @@ namespace SleepyPawn.Core.Utils
                 x += stepX;
                 y += stepY;
             }
-            return moves;
+            return newCount;
         }
         internal static void SlideThreat(EnginePosition piecePosition, Board board, ThreatBoard threats, int xDir, int yDir, Color color)
         {

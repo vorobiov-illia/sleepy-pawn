@@ -4,7 +4,7 @@ using SleepyPawn.Core.Utils;
 
 namespace SleepyPawn.Core.Chess
 {
-    public class Move
+    public struct Move
     {
         internal EnginePosition firstPos;
         internal EnginePosition secondPos;

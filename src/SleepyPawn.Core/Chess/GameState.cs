@@ -207,10 +207,9 @@ namespace SleepyPawn.Core.Chess
             }
             return false;
         }
-
-        internal List<Move> GetLegalMoves()
+        internal int GetLegalMoves(ref Span<Move> moves)
         {
-            return LegalMoveAnalyzer.GetLegalMoves(this);
+            return LegalMoveAnalyzer.GetLegalMoves(this, ref moves);
         }
 
         internal GameState AppendMove(Move move)

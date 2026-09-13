@@ -116,13 +116,13 @@ namespace SleepyPawn.Core.Chess.Rules.Pieces
             return false;
         }
 
-        internal override List<Move> GeneratePseudoMoves(EnginePosition piecePosition, GameState state)
+        internal override int GeneratePseudoMoves(EnginePosition piecePosition, GameState state, ref Span<Move> pseudoMoves, int count)
         {
-            List<Move> moves = new List<Move>(10);
+            int newCount = count;
 
             Piece king = state.GetPiece(piecePosition);
-            if (king.isEmpty) return moves;
-            if (king.type != PieceType.King) return moves;
+            if (king.isEmpty) return newCount;
+            if (king.type != PieceType.King) return newCount;
 
             Move upMove = new Move(piecePosition, new EnginePosition(piecePosition.x, piecePosition.y + 1));
             Move rightUpMove = new Move(piecePosition, new EnginePosition(piecePosition.x + 1, piecePosition.y + 1));
@@ -133,22 +133,22 @@ namespace SleepyPawn.Core.Chess.Rules.Pieces
             Move leftMove = new Move(piecePosition, new EnginePosition(piecePosition.x - 1, piecePosition.y));
             Move leftUpMove = new Move(piecePosition, new EnginePosition(piecePosition.x - 1, piecePosition.y + 1));
 
-            moves.Add(upMove);
-            moves.Add(rightUpMove);
-            moves.Add(rightMove);
-            moves.Add(rightDownMove);
-            moves.Add(downMove);
-            moves.Add(leftDownMove);
-            moves.Add(leftMove);
-            moves.Add(leftUpMove);
+            pseudoMoves[newCount++] = upMove;
+            pseudoMoves[newCount++] = rightUpMove;
+            pseudoMoves[newCount++] = rightMove;
+            pseudoMoves[newCount++] = rightDownMove;
+            pseudoMoves[newCount++] = downMove;
+            pseudoMoves[newCount++] = leftDownMove;
+            pseudoMoves[newCount++] = leftMove;
+            pseudoMoves[newCount++] = leftUpMove;
 
-            if(king.color == Color.White && piecePosition == PieceUtils.defaultWhiteKingPosition)
+            if (king.color == Color.White && piecePosition == PieceUtils.defaultWhiteKingPosition)
             {
                 Move castling = new Move(piecePosition, PieceUtils.whiteKingShortCastle);
                 Move longCastling = new Move(piecePosition, PieceUtils.whiteKingLongCastle);
 
-                moves.Add(castling);
-                moves.Add(longCastling);
+                pseudoMoves[newCount++] = castling;
+                pseudoMoves[newCount++] = longCastling;
             }
 
             if (king.color == Color.Black && piecePosition == PieceUtils.defaultBlackKingPosition)
@@ -156,11 +156,11 @@ namespace SleepyPawn.Core.Chess.Rules.Pieces
                 Move castling = new Move(piecePosition, PieceUtils.blackKingShortCastle);
                 Move longCastling = new Move(piecePosition, PieceUtils.blackKingLongCastle);
 
-                moves.Add(castling);
-                moves.Add(longCastling);
+                pseudoMoves[newCount++] = castling;
+                pseudoMoves[newCount++] = longCastling;
             }
 
-            return moves;
+            return newCount;
         }
 
         internal override void GenerateThreat(EnginePosition piecePosition, Board board, ThreatBoard threats)

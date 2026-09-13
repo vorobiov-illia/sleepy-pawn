@@ -44,36 +44,33 @@ namespace SleepyPawn.Core.Chess.Rules
             }
         }
 
-        internal List<Move> GetPseudoMoves(EnginePosition position, GameState state)
+        internal int GetPseudoMoves(EnginePosition position, GameState state, ref Span<Move> pseudoMoves, int count)
         {
-            List<Move> moves = new List<Move>();
-
+            int newCount = count;
             Piece thisPiece = state.GetPiece(position);
-            if (thisPiece.isEmpty) return moves;
+            if (thisPiece.isEmpty) return newCount;
             switch (thisPiece.type)
             {
                 case PieceType.Sleepy:
-                    moves = pawns.GeneratePseudoMoves(position, state);
+                    newCount = pawns.GeneratePseudoMoves(position, state, ref pseudoMoves, count);
                     break;
                 case PieceType.Bishop:
-                    moves = bishops.GeneratePseudoMoves(position, state);
+                    newCount = bishops.GeneratePseudoMoves(position, state, ref pseudoMoves, count);
                     break;
                 case PieceType.Knight:
-                    moves = knights.GeneratePseudoMoves(position, state);
+                    newCount = knights.GeneratePseudoMoves(position, state, ref pseudoMoves, count);
                     break;
                 case PieceType.Rook:
-                    moves = rooks.GeneratePseudoMoves(position, state);
+                    newCount = rooks.GeneratePseudoMoves(position, state, ref pseudoMoves, count);
                     break;
                 case PieceType.Queen:
-                    moves = queens.GeneratePseudoMoves(position, state);
+                    newCount = queens.GeneratePseudoMoves(position, state, ref pseudoMoves, count);
                     break;
                 case PieceType.King:
-                    moves = kings.GeneratePseudoMoves(position, state);
+                    newCount = kings.GeneratePseudoMoves(position, state, ref pseudoMoves, count);
                     break;
-                default:
-                    return moves;
             }
-            return moves;
+            return newCount;
         }
 
         internal void GenerateThreat(EnginePosition position, Board board, ThreatBoard threats)

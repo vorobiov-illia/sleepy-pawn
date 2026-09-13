@@ -18,13 +18,12 @@ namespace SleepyPawn.Core.Chess.Rules.Pieces
             return IsLMove(move);
         }
 
-        internal override List<Move> GeneratePseudoMoves(EnginePosition piecePosition, GameState state)
+        internal override int GeneratePseudoMoves(EnginePosition piecePosition, GameState state, ref Span<Move> pseudoMoves, int count)
         {
-            List<Move> moves = new List<Move>(8);
-
+            int newCount = count;
             Piece knight = state.GetPiece(piecePosition);
-            if (knight.isEmpty) return moves;
-            if (knight.type != PieceType.Knight) return moves;
+            if (knight.isEmpty) return newCount;
+            if (knight.type != PieceType.Knight) return newCount;
 
             Move rightUpUpMove = new Move(piecePosition, new EnginePosition(piecePosition.x + 1, piecePosition.y + 2));
             Move rightRightUpMove = new Move(piecePosition, new EnginePosition(piecePosition.x + 2, piecePosition.y + 1));
@@ -36,17 +35,17 @@ namespace SleepyPawn.Core.Chess.Rules.Pieces
             Move leftLeftDownMove = new Move(piecePosition, new EnginePosition(piecePosition.x - 2, piecePosition.y - 1));
             Move leftDownDownMove = new Move(piecePosition, new EnginePosition(piecePosition.x - 1, piecePosition.y - 2));
 
-            moves.Add(rightUpUpMove);
-            moves.Add(rightRightUpMove);
-            moves.Add(rightRightDownMove);
-            moves.Add(rightDownDownMove);
+            pseudoMoves[newCount++] = rightUpUpMove;
+            pseudoMoves[newCount++] = rightRightUpMove;
+            pseudoMoves[newCount++] = rightRightDownMove;
+            pseudoMoves[newCount++] = rightDownDownMove;
 
-            moves.Add(leftUpUpMove);
-            moves.Add(leftLeftUpMove);
-            moves.Add(leftLeftDownMove);
-            moves.Add(leftDownDownMove);
+            pseudoMoves[newCount++] = leftUpUpMove;
+            pseudoMoves[newCount++] = leftLeftUpMove;
+            pseudoMoves[newCount++] = leftLeftDownMove;
+            pseudoMoves[newCount++] = leftDownDownMove;
 
-            return moves;
+            return newCount;
         }
 
         internal override void GenerateThreat(EnginePosition piecePosition, Board board, ThreatBoard threats)

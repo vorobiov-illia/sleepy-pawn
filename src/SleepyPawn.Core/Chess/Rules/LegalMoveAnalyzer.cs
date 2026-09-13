@@ -45,12 +45,13 @@ namespace SleepyPawn.Core.Chess.Rules
             return true;
         }
 
-        public static List<Move> GetLegalMoves(GameState state)
+        public static int GetLegalMoves(GameState state, ref Span<Move> legalMoves)
         {
-            List<Move> legalMoves = new List<Move>();
+            int legalCount = 0;
 
-            List<Move> pseudoMoves = new List<Move>();
-            for(int i = 0; i < 8; i++)
+            Span<Move> pseudoMoves = stackalloc Move[256];
+            int pseudoCount = 0;
+            for (int i = 0; i < 8; i++)
             {
                 for (int j = 0; j < 8; j++)
                 {
@@ -60,19 +61,19 @@ namespace SleepyPawn.Core.Chess.Rules
                     if (piece.isEmpty) continue;
                     if (piece.color != state.playerToMove) continue;
 
-                    pseudoMoves.AddRange(pieceRules.GetPseudoMoves(position, state));
+                    pseudoCount = pieceRules.GetPseudoMoves(position, state, ref pseudoMoves, pseudoCount);
                 }
             }
 
-            foreach(Move move in pseudoMoves)
+            for(int i = 0; i < pseudoCount; i++)
             {
-                if (IsLegal(move, state))
+                if (IsLegal(pseudoMoves[i], state))
                 {
-                    legalMoves.Add(move);
+                    legalMoves[legalCount++] = pseudoMoves[i];
                 }
             }
 
-            return legalMoves;
+            return legalCount;
         }
     }
 }

@@ -17,7 +17,11 @@ namespace SleepyPawn.Tests
         }
         private ulong Perft(Game game ,int depth)
         {
-            if (depth == 1) return (ulong)game.GetLegalMoveCount();
+            if (depth == 1)
+            {
+                Span<Move> res = stackalloc Move[256];
+                return (ulong)game.GetLegalMoves(ref res);
+            }
 
             int targetTaskCount = Environment.ProcessorCount;
 
@@ -26,22 +30,24 @@ namespace SleepyPawn.Tests
 
             ulong preResult = 0;
 
+            Span<Move> moves = stackalloc Move[256];
+
             while (tasks.Count > 0 && tasks.Count < targetTaskCount)
             {
                 PerftTask currentTask = tasks.Dequeue();
 
                 if(currentTask.depth == 1)
                 {
-                    preResult += (ulong)currentTask.game.GetLegalMoves().Count;
+                    preResult += (ulong)currentTask.game.GetLegalMoves(ref moves);
                     continue;
                 }
 
-                List<Move> moves = currentTask.game.GetLegalMoves();
+                int count = currentTask.game.GetLegalMoves(ref moves);
 
-                foreach(Move move in moves)
+                for(int i = 0; i < count; i++)
                 {
                     Game newGame = new Game(currentTask.game);
-                    newGame.TryMove(move);
+                    newGame.ForceMove(moves[i]);
                     tasks.Enqueue(new PerftTask(newGame, currentTask.depth - 1));
                 }
             }
@@ -56,16 +62,18 @@ namespace SleepyPawn.Tests
         }
         private ulong RunPerftTask(Game game, int depth)
         {
-            if (depth == 1) return (ulong)game.GetLegalMoveCount();
+            Span<Move> moves = stackalloc Move[256];
+            int count = game.GetLegalMoves(ref moves);
+
+
+            if (depth == 1) return (ulong)count;
 
             ulong result = 0;
 
-            List<Move> moves = game.GetLegalMoves();
-
-            foreach (Move move in moves)
+            for (int i = 0; i < count; i++)
             {
                 Game newGame = new Game(game);
-                newGame.TryMove(move);
+                newGame.ForceMove(moves[i]);
                 result += RunPerftTask(newGame, depth - 1);
             }
             return result;

@@ -31,35 +31,25 @@ namespace SleepyPawn.Core.Chess.Rules.Pieces
             return true;
         }
 
-        internal override List<Move> GeneratePseudoMoves(EnginePosition piecePosition, GameState state)
+        internal override int GeneratePseudoMoves(EnginePosition piecePosition, GameState state, ref Span<Move> pseudoMoves, int count)
         {
-            List<Move> moves = new List<Move>(27);
-
+            int newCount = count;
+            
             Piece queen = state.GetPiece(piecePosition);
-            if (queen.isEmpty) return moves;
-            if (queen.type != PieceType.Queen) return moves;
+            if (queen.isEmpty) return newCount;
+            if (queen.type != PieceType.Queen) return newCount;
 
-            List<Move> rightUpMoves = PieceUtils.GetSlideMoves(piecePosition, state.boardState, 1, 1);
-            List<Move> rightDownMoves = PieceUtils.GetSlideMoves(piecePosition, state.boardState, 1, -1);
-            List<Move> leftDownMoves = PieceUtils.GetSlideMoves(piecePosition, state.boardState, -1, -1);
-            List<Move> leftUpMoves = PieceUtils.GetSlideMoves(piecePosition, state.boardState, -1, 1);
+            newCount = PieceUtils.GetSlideMoves(piecePosition, state.boardState, 1, 1, ref pseudoMoves, newCount);
+            newCount = PieceUtils.GetSlideMoves(piecePosition, state.boardState, 1, -1, ref pseudoMoves, newCount);
+            newCount = PieceUtils.GetSlideMoves(piecePosition, state.boardState, -1, -1, ref pseudoMoves, newCount);
+            newCount = PieceUtils.GetSlideMoves(piecePosition, state.boardState, -1, 1, ref pseudoMoves, newCount);
 
-            moves.AddRange(rightUpMoves);
-            moves.AddRange(rightDownMoves);
-            moves.AddRange(leftDownMoves);
-            moves.AddRange(leftUpMoves);
+            newCount = PieceUtils.GetSlideMoves(piecePosition, state.boardState, 1, 0, ref pseudoMoves, newCount);
+            newCount = PieceUtils.GetSlideMoves(piecePosition, state.boardState, 0, -1, ref pseudoMoves, newCount);
+            newCount = PieceUtils.GetSlideMoves(piecePosition, state.boardState, -1, 0, ref pseudoMoves, newCount);
+            newCount = PieceUtils.GetSlideMoves(piecePosition, state.boardState, 0, 1, ref pseudoMoves, newCount);
 
-            List<Move> rightMoves = PieceUtils.GetSlideMoves(piecePosition, state.boardState, 1, 0);
-            List<Move> DownMoves = PieceUtils.GetSlideMoves(piecePosition, state.boardState, 0, -1);
-            List<Move> leftMoves = PieceUtils.GetSlideMoves(piecePosition, state.boardState, -1, 0);
-            List<Move> upMoves = PieceUtils.GetSlideMoves(piecePosition, state.boardState, 0, 1);
-
-            moves.AddRange(rightMoves);
-            moves.AddRange(DownMoves);
-            moves.AddRange(leftMoves);
-            moves.AddRange(upMoves);
-
-            return moves;
+            return newCount;
         }
 
         internal override void GenerateThreat(EnginePosition piecePosition, Board board, ThreatBoard threats)

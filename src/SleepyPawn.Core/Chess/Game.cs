@@ -35,6 +35,10 @@ namespace SleepyPawn.Core.Chess
                 return false;
             }
         }
+        public void ForceMove(Move move)
+        {
+            currentState = currentState.AppendMove(move);
+        }
         public bool TryUciMove(string uciMove)
         {
             Move move = new Move();
@@ -161,7 +165,8 @@ namespace SleepyPawn.Core.Chess
         }
         public string DebugLegalMoveCount()
         {
-            return "Legal moves for this position: " + currentState.GetLegalMoves().Count;
+            Span<Move> moves = stackalloc Move[256];
+            return "Legal moves for this position: " + currentState.GetLegalMoves(ref moves);
         }
         public string DebugWhiteCheck()
         {
@@ -171,14 +176,9 @@ namespace SleepyPawn.Core.Chess
         {
             return currentState.DebugCheck(Color.Black);
         }
-
-        public int GetLegalMoveCount()
+        public int GetLegalMoves(ref Span<Move> moves)
         {
-            return currentState.GetLegalMoves().Count();
-        }
-        public List<Move> GetLegalMoves()
-        {
-            return currentState.GetLegalMoves();
+            return currentState.GetLegalMoves(ref moves);
         }
 
         public void SetupInitialPosition()

@@ -6,7 +6,7 @@ namespace SleepyPawn.Core.Chess.Rules.Pieces
     {
         internal abstract bool CanMove(Move move, GameState state);
         internal abstract void GenerateThreat(EnginePosition piecePosition, Board board, ThreatBoard threats);
-        internal abstract List<Move> GeneratePseudoMoves(EnginePosition piecePosition, GameState state);
+        internal abstract int GeneratePseudoMoves(EnginePosition piecePosition, GameState state, ref Span<Move> pseudoMoves, int count);
 
         protected bool CommonCheck(Move move, GameState state, PieceType type, Piece thisPiece, Piece otherPiece)
         {
