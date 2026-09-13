@@ -8,14 +8,16 @@ namespace SleepyPawn.Cli
         static string[] mainMenuOptions = { 
             "uci", 
             "fen", 
+            "perft",
             "debug", 
             "exit"
         };
         static string[] mainMenuComments = { 
-            "Enter UCI protocol mode (Usually for GUI's, not humans.)",
+            "Enter UCI protocol mode (Usually for GUIs, not humans.)",
             "View some FEN positions.",
-            "Play a debug game with yourself.",
-            "Closes the program." };
+            "Run some Perft tests.",
+            "Play a debug game against yourself.",
+            "Close the program." };
         static void Main(string[] args)
         {
             string? lastMessage = null;
@@ -44,6 +46,10 @@ namespace SleepyPawn.Cli
                     case "fen":
                         FenViewer fen = new FenViewer();
                         fen.Play();
+                        break;
+                    case "perft":
+                        PerftViewer perft = new PerftViewer();
+                        perft.Play();
                         break;
                     case "exit":
                         UI.Clear();

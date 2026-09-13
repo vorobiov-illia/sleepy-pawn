@@ -37,7 +37,7 @@ namespace SleepyPawn.Core.Chess.Rules.Pieces
                     if (otherPiece.type != PieceType.Rook) return false;
                     if (otherPiece.color != Color.White) return false;
 
-                    if (!state.whiteCastlingRights.CastlingRetained) return false;
+                    if (!state.info.whiteCastlingRights.CastlingRetained) return false;
                     foreach (EnginePosition pos in PieceUtils.whiteShortCastlingVunurableMap)
                     {
                         if (state.boardState.IsTileAttacked(pos, Color.Black)) return false;
@@ -56,7 +56,7 @@ namespace SleepyPawn.Core.Chess.Rules.Pieces
                     if (otherPiece.type != PieceType.Rook) return false;
                     if (otherPiece.color != Color.White) return false;
 
-                    if (!state.whiteCastlingRights.LongCastlingRetained) return false;
+                    if (!state.info.whiteCastlingRights.LongCastlingRetained) return false;
                     foreach (EnginePosition pos in PieceUtils.whiteLongCastlingVunurableMap)
                     {
                         if (state.boardState.IsTileAttacked(pos, Color.Black)) return false;
@@ -80,7 +80,7 @@ namespace SleepyPawn.Core.Chess.Rules.Pieces
                     if (otherPiece.type != PieceType.Rook) return false;
                     if (otherPiece.color != Color.Black) return false;
 
-                    if (!state.blackCastlingRights.CastlingRetained) return false;
+                    if (!state.info.blackCastlingRights.CastlingRetained) return false;
                     foreach (EnginePosition pos in PieceUtils.blackShortCastlingVunurableMap)
                     {
                         if (state.boardState.IsTileAttacked(pos, Color.White)) return false;
@@ -99,7 +99,7 @@ namespace SleepyPawn.Core.Chess.Rules.Pieces
                     if (otherPiece.type != PieceType.Rook) return false;
                     if (otherPiece.color != Color.Black) return false;
 
-                    if (!state.blackCastlingRights.LongCastlingRetained) return false;
+                    if (!state.info.blackCastlingRights.LongCastlingRetained) return false;
                     foreach (EnginePosition pos in PieceUtils.blackLongCastlingVunurableMap)
                     {
                         if (state.boardState.IsTileAttacked(pos, Color.White)) return false;

@@ -1,5 +1,6 @@
 ﻿using SleepyPawn.Core.Chess.Enums;
 using SleepyPawn.Core.Chess.Rules;
+using SleepyPawn.Core.Chess.Rules.Pieces;
 using SleepyPawn.Core.Utils;
 
 namespace SleepyPawn.Core.Chess
@@ -8,87 +9,57 @@ namespace SleepyPawn.Core.Chess
     {
         internal Board boardState;
         internal Color playerToMove;
-        internal CastlingRights whiteCastlingRights;
-        internal CastlingRights blackCastlingRights;
-        internal EnPassantState whiteEnPassantState;
-        internal EnPassantState blackEnPassantState;
-        internal EnginePosition whiteKingPosition;
-        internal EnginePosition blackKingPosition;
+        internal StateInfo[] history;
+        internal int ply;
+        internal ref StateInfo info => ref history[ply];
 
         internal GameState(bool emptyBoard = false)
         {
-            whiteCastlingRights = new CastlingRights();
-            blackCastlingRights = new CastlingRights();
-            whiteEnPassantState = new EnPassantState();
-            blackEnPassantState = new EnPassantState();
+            history = new StateInfo[2048];
+            ply = 0;
             boardState = new Board();
             if (!emptyBoard)
             {
                 boardState.SetupStandard();
-                whiteKingPosition = PieceUtils.defaultWhiteKingPosition;
-                blackKingPosition = PieceUtils.defaultBlackKingPosition;
             }
-            else
-            {
-                whiteKingPosition = BoardUtils.IllegalPosition;
-                blackKingPosition = BoardUtils.IllegalPosition;
-            }
+            history[0] = new StateInfo(emptyBoard);
             playerToMove = Color.White;
         }
 
         internal GameState(string fen)
         {
+            history = new StateInfo[2048];
+            ply = 0;
+            history[0] = new StateInfo(true);
+
             Tuple<CastlingRights, CastlingRights> rights = FenUtils.GetCastlingRights(fen);
-            whiteCastlingRights = rights.Item1;
-            blackCastlingRights = rights.Item2;
+            history[0].whiteCastlingRights = rights.Item1;
+            history[0].blackCastlingRights = rights.Item2;
 
             Tuple<EnPassantState, EnPassantState> enPassantStates = FenUtils.GetEnPassantStates(fen);
-            whiteEnPassantState = enPassantStates.Item1;
-            blackEnPassantState = enPassantStates.Item2;
+            history[0].whiteEnPassantState = enPassantStates.Item1;
+            history[0].blackEnPassantState = enPassantStates.Item2;
 
             boardState = FenUtils.GetBoard(fen);
 
-            whiteKingPosition = boardState.FindKing(Color.White);
-            blackKingPosition = boardState.FindKing(Color.Black);
+            history[0].whiteKingPosition = boardState.FindKing(Color.White);
+            history[0].blackKingPosition = boardState.FindKing(Color.Black);
 
             playerToMove = FenUtils.GetPlayerToMove(fen);
-        }
-
-        internal GameState(
-            Board board,
-            Color player,
-            CastlingRights wc,
-            CastlingRights bc,
-            EnPassantState we,
-            EnPassantState be,
-            EnginePosition wkp,
-            EnginePosition bkp)
-        {
-            boardState = board;
-            playerToMove = player;
-
-            whiteCastlingRights = new CastlingRights(wc);
-            blackCastlingRights = new CastlingRights(bc);
-
-            whiteEnPassantState = new EnPassantState(we);
-            blackEnPassantState = new EnPassantState(be);
-
-            whiteKingPosition = wkp;
-            blackKingPosition = bkp;
         }
         internal GameState(GameState other)
         {
             boardState = new Board(other.boardState);
             playerToMove = other.playerToMove;
 
-            whiteCastlingRights = new CastlingRights(other.whiteCastlingRights);
-            blackCastlingRights = new CastlingRights(other.blackCastlingRights);
+            history = new StateInfo[2048];
+            ply = other.ply;
+            Array.Copy(other.history, history, 2048);
+        }
 
-            whiteEnPassantState = new EnPassantState(other.whiteEnPassantState);
-            blackEnPassantState = new EnPassantState(other.blackEnPassantState);
-
-            whiteKingPosition = other.whiteKingPosition;
-            blackKingPosition = other.blackKingPosition;
+        internal ref StateInfo GetInfo()
+        {
+            return ref history[ply];
         }
 
         internal Piece GetPiece(EnginePosition position)
@@ -102,15 +73,15 @@ namespace SleepyPawn.Core.Chess
             {
                 if (playerToMove == Color.White)
                 {
-                    if (!boardState.PositionCheck(whiteKingPosition)) return true;
-                    oldKingPosition = whiteKingPosition;
-                    whiteKingPosition = move.secondPos;
+                    if (!boardState.PositionCheck(info.whiteKingPosition)) return true;
+                    oldKingPosition = info.whiteKingPosition;
+                    info.whiteKingPosition = move.secondPos;
                 }
                 else if (playerToMove == Color.Black)
                 {
-                    if (!boardState.PositionCheck(blackKingPosition)) return true;
-                    oldKingPosition = blackKingPosition;
-                    blackKingPosition = move.secondPos;
+                    if (!boardState.PositionCheck(info.blackKingPosition)) return true;
+                    oldKingPosition = info.blackKingPosition;
+                    info.blackKingPosition = move.secondPos;
                 }
                 else return false;
             }
@@ -154,11 +125,11 @@ namespace SleepyPawn.Core.Chess
             {
                 if (playerToMove == Color.White)
                 {
-                    whiteKingPosition = oldKingPosition;
+                    info.whiteKingPosition = oldKingPosition;
                 }
                 else if (playerToMove == Color.Black)
                 {
-                    blackKingPosition = oldKingPosition;
+                    info.blackKingPosition = oldKingPosition;
                 }
             }
             
@@ -175,15 +146,15 @@ namespace SleepyPawn.Core.Chess
             Piece piece;
             if (color == Color.White)
             {
-                if (!boardState.PositionCheck(whiteKingPosition)) return false;
+                if (!boardState.PositionCheck(info.whiteKingPosition)) return false;
 
-                piece = boardState.GetPiece(whiteKingPosition);
+                piece = boardState.GetPiece(info.whiteKingPosition);
             }
             else if (color == Color.Black)
             {
-                if (!boardState.PositionCheck(blackKingPosition)) return false;
+                if (!boardState.PositionCheck(info.blackKingPosition)) return false;
 
-                piece = boardState.GetPiece(blackKingPosition);
+                piece = boardState.GetPiece(info.blackKingPosition);
             }
             else
             {
@@ -195,11 +166,11 @@ namespace SleepyPawn.Core.Chess
             
             if (color == Color.White)
             {
-                if (boardState.IsTileAttacked(whiteKingPosition, Color.Black)) return true;
+                if (boardState.IsTileAttacked(info.whiteKingPosition, Color.Black)) return true;
             }
             else if (color == Color.Black)
             {
-                if (boardState.IsTileAttacked(blackKingPosition, Color.White)) return true;
+                if (boardState.IsTileAttacked(info.blackKingPosition, Color.White)) return true;
             }
             else
             {
@@ -211,36 +182,47 @@ namespace SleepyPawn.Core.Chess
         {
             return LegalMoveAnalyzer.GetLegalMoves(this, ref moves);
         }
-
-        internal GameState AppendMove(Move move)
+        internal int GetPseudoMoves(ref Span<Move> moves)
         {
-            if (!move.isValid) return this;
+            int pseudoCount = 0;
+            for (int i = 0; i < 8; i++)
+            {
+                for (int j = 0; j < 8; j++)
+                {
+                    EnginePosition position = new EnginePosition(i, j);
+                    Piece piece = GetPiece(position);
+
+                    if (piece.isEmpty) continue;
+                    if (piece.color != playerToMove) continue;
+
+                    pseudoCount = LegalMoveAnalyzer.pieceRules.GetPseudoMoves(position, this, ref moves, pseudoCount);
+                }
+            }
+            return pseudoCount;
+        }
+
+        internal void AppendMove(Move move)
+        {
+            if (!move.isValid) return;
+
+            StateInfo currentStateInfo = history[ply];
+            StateInfo newStateInfo = history[ply];
+            newStateInfo.takenPiece = new Piece();
+            newStateInfo.takenPiecePosition = BoardUtils.IllegalPosition;
+            newStateInfo.blackEnPassantState = new EnPassantState();
+            newStateInfo.whiteEnPassantState = new EnPassantState();
+            newStateInfo.lastMove = move;
+
+            ply++;
+            
             if (move.nullMove)
             {
-                return new GameState(
-                    boardState, 
-                    ColorUtils.Reverse(playerToMove), 
-                    whiteCastlingRights, blackCastlingRights,
-                    whiteEnPassantState, blackEnPassantState,
-                    whiteKingPosition, blackKingPosition
-                );
+                playerToMove = ColorUtils.Reverse(playerToMove);
+                history[ply] = newStateInfo;
+                return;
             }
-            Board changedBoard = new Board(boardState);
 
-            Piece pieceToMove = changedBoard.GetPiece(move.firstPos);
-
-            bool wc = whiteCastlingRights.CastlingRetained;         // White short castling right
-            bool wlc = whiteCastlingRights.LongCastlingRetained;    // White long castling right
-            bool bc = blackCastlingRights.CastlingRetained;         // Black short castling right
-            bool blc = blackCastlingRights.LongCastlingRetained;    // Black long castling right
-
-            EnginePosition? wev = null; // White En Passant vulnerability tile position
-            EnginePosition? wel = null; // White En Passant according pawn position
-            EnginePosition? bev = null; // White En Passant vulnerability tile position
-            EnginePosition? bel = null; // White En Passant according pawn position
-
-            EnginePosition wkp = whiteKingPosition;
-            EnginePosition bkp = blackKingPosition;
+            Piece pieceToMove = boardState.GetPiece(move.firstPos);
 
             if (pieceToMove.type == PieceType.Sleepy)
             {
@@ -249,14 +231,16 @@ namespace SleepyPawn.Core.Chess
                 {
                     if (Math.Abs(move.secondPos.y - move.firstPos.y) > 1)
                     {
-                        wev = new EnginePosition(move.secondPos.x, move.secondPos.y - 1);
-                        wel = new EnginePosition(move.secondPos);
+                        newStateInfo.whiteEnPassantState.EnPassantVulnerability = new EnginePosition(move.secondPos.x, move.secondPos.y - 1);
+                        newStateInfo.whiteEnPassantState.EnPassantLink = new EnginePosition(move.secondPos);
                     }
-                    if(blackEnPassantState.EnPassantVulnerability != null && blackEnPassantState.EnPassantLink != null)
+                    if(currentStateInfo.blackEnPassantState.EnPassantVulnerability != null && currentStateInfo.blackEnPassantState.EnPassantLink != null)
                     {
-                        if (move.secondPos == blackEnPassantState.EnPassantVulnerability)
+                        if (move.secondPos == currentStateInfo.blackEnPassantState.EnPassantVulnerability)
                         {
-                            changedBoard.RemovePiece(blackEnPassantState.EnPassantLink.Value);
+                            newStateInfo.takenPiece = GetPiece(currentStateInfo.blackEnPassantState.EnPassantLink.Value);
+                            newStateInfo.takenPiecePosition = currentStateInfo.blackEnPassantState.EnPassantLink.Value;
+                            boardState.RemovePiece(currentStateInfo.blackEnPassantState.EnPassantLink.Value);
                         }
                     }
                 }
@@ -264,14 +248,16 @@ namespace SleepyPawn.Core.Chess
                 {
                     if (Math.Abs(move.secondPos.y - move.firstPos.y) > 1)
                     {
-                        bev = new EnginePosition(move.secondPos.x, move.secondPos.y + 1);
-                        bel = new EnginePosition(move.secondPos);
+                        newStateInfo.blackEnPassantState.EnPassantVulnerability = new EnginePosition(move.secondPos.x, move.secondPos.y + 1);
+                        newStateInfo.blackEnPassantState.EnPassantLink = new EnginePosition(move.secondPos);
                     }
-                    if (whiteEnPassantState.EnPassantVulnerability != null && whiteEnPassantState.EnPassantLink != null)
+                    if (currentStateInfo.whiteEnPassantState.EnPassantVulnerability != null && currentStateInfo.whiteEnPassantState.EnPassantLink != null)
                     {
-                        if (move.secondPos == whiteEnPassantState.EnPassantVulnerability)
+                        if (move.secondPos == currentStateInfo.whiteEnPassantState.EnPassantVulnerability)
                         {
-                            changedBoard.RemovePiece(whiteEnPassantState.EnPassantLink.Value);
+                            newStateInfo.takenPiece = GetPiece(currentStateInfo.whiteEnPassantState.EnPassantLink.Value);
+                            newStateInfo.takenPiecePosition = currentStateInfo.whiteEnPassantState.EnPassantLink.Value;
+                            boardState.RemovePiece(currentStateInfo.whiteEnPassantState.EnPassantLink.Value);
                         }
                     }
                 }
@@ -280,62 +266,124 @@ namespace SleepyPawn.Core.Chess
             {
                 if(pieceToMove.color == Color.White)
                 {
-                    wc = false;
-                    wlc = false;
-                    wkp = move.secondPos;
+                    newStateInfo.whiteCastlingRights.CastlingRetained = false;
+                    newStateInfo.whiteCastlingRights.LongCastlingRetained = false;
+                    newStateInfo.whiteKingPosition = move.secondPos;
 
                     if( move.firstPos == PieceUtils.defaultWhiteKingPosition &&
                         move.secondPos == PieceUtils.whiteKingShortCastle)
                     {
-                        changedBoard.ReplacePiece(PieceUtils.whiteShortRook, PieceUtils.whiteShortRookAfterCastle);
+                        boardState.ReplacePiece(PieceUtils.whiteShortRook, PieceUtils.whiteShortRookAfterCastle);
                     }
                     if (move.firstPos == PieceUtils.defaultWhiteKingPosition &&
                         move.secondPos == PieceUtils.whiteKingLongCastle)
                     {
-                        changedBoard.ReplacePiece(PieceUtils.whiteLongRook, PieceUtils.whiteLongRookAfterCastle);
+                        boardState.ReplacePiece(PieceUtils.whiteLongRook, PieceUtils.whiteLongRookAfterCastle);
                     }
                 }
                 if(pieceToMove.color == Color.Black)
                 {
-                    bc = false;
-                    blc = false;
-                    bkp = move.secondPos;
+                    newStateInfo.blackCastlingRights.CastlingRetained = false;
+                    newStateInfo.blackCastlingRights.LongCastlingRetained = false;
+                    newStateInfo.blackKingPosition = move.secondPos;
 
                     if (move.firstPos == PieceUtils.defaultBlackKingPosition &&
                         move.secondPos == PieceUtils.blackKingShortCastle)
                     {
-                        changedBoard.ReplacePiece(PieceUtils.blackShortRook, PieceUtils.blackShortRookAfterCastle);
+                        boardState.ReplacePiece(PieceUtils.blackShortRook, PieceUtils.blackShortRookAfterCastle);
                     }
                     if (move.firstPos == PieceUtils.defaultBlackKingPosition &&
                         move.secondPos == PieceUtils.blackKingLongCastle)
                     {
-                        changedBoard.ReplacePiece(PieceUtils.blackLongRook, PieceUtils.blackLongRookAfterCastle);
+                        boardState.ReplacePiece(PieceUtils.blackLongRook, PieceUtils.blackLongRookAfterCastle);
                     }
                 }
             }
             if (pieceToMove.type == PieceType.Rook)
             {
-                if (move.firstPos == PieceUtils.whiteShortRook) wc = false;
-                if (move.firstPos == PieceUtils.whiteLongRook) wlc = false;
-                if (move.firstPos == PieceUtils.blackShortRook) bc = false;
-                if (move.firstPos == PieceUtils.blackLongRook) blc = false;
+                if (move.firstPos == PieceUtils.whiteShortRook) 
+                    newStateInfo.whiteCastlingRights.CastlingRetained = false;
+                if (move.firstPos == PieceUtils.whiteLongRook) 
+                    newStateInfo.whiteCastlingRights.LongCastlingRetained = false;
+                if (move.firstPos == PieceUtils.blackShortRook) 
+                    newStateInfo.blackCastlingRights.CastlingRetained = false;
+                if (move.firstPos == PieceUtils.blackLongRook) 
+                    newStateInfo.blackCastlingRights.LongCastlingRetained = false;
             }
-            if (move.secondPos == PieceUtils.whiteShortRook) wc = false;
-            if (move.secondPos == PieceUtils.whiteLongRook) wlc = false;
-            if (move.secondPos == PieceUtils.blackShortRook) bc = false;
-            if (move.secondPos == PieceUtils.blackLongRook) blc = false;
+            if (move.secondPos == PieceUtils.whiteShortRook)
+                newStateInfo.whiteCastlingRights.CastlingRetained = false;
+            if (move.secondPos == PieceUtils.whiteLongRook)
+                newStateInfo.whiteCastlingRights.LongCastlingRetained = false;
+            if (move.secondPos == PieceUtils.blackShortRook)
+                newStateInfo.blackCastlingRights.CastlingRetained = false;
+            if (move.secondPos == PieceUtils.blackLongRook)
+                newStateInfo.blackCastlingRights.LongCastlingRetained = false;
 
-            changedBoard.ReplacePiece(move.firstPos, move.secondPos, move.promotionPiece);
-            return new GameState(
-                changedBoard,
-                ColorUtils.Reverse(playerToMove),
-                new CastlingRights(wc, wlc),
-                new CastlingRights(bc, blc),
-                new EnPassantState(wev, wel),
-                new EnPassantState(bev, bel),
-                wkp,
-                bkp
-            );
+            Piece takenPiece = boardState.GetPiece(move.secondPos);
+            if (!takenPiece.isEmpty)
+            {
+                newStateInfo.takenPiece = takenPiece;
+                newStateInfo.takenPiecePosition = move.secondPos;
+            }
+            boardState.ReplacePiece(move.firstPos, move.secondPos, move.promotionPiece);
+            playerToMove = ColorUtils.Reverse(playerToMove);
+            history[ply] = newStateInfo;
+        }
+
+        internal void UndoMove()
+        {
+            if (ply == 0) return;
+
+            Move move = info.lastMove;
+
+            if (move.isValid == false) return;
+            if (move.nullMove)
+            {
+                playerToMove = ColorUtils.Reverse(playerToMove);
+                ply--;
+                return;
+            }
+
+            Piece lastMovedPiece = boardState.GetPiece(move.secondPos);
+            if (move.promotionPiece != PieceType.None)
+            {
+                Color promotedPieceColor = lastMovedPiece.color;
+                boardState.RemovePiece(move.secondPos);
+                boardState.AddPiece(move.firstPos, new Piece(promotedPieceColor, PieceType.Sleepy));
+            }
+            else
+            {
+                boardState.ReplacePiece(move.secondPos, move.firstPos);
+                if(lastMovedPiece.type == PieceType.King)
+                {
+                    if(move.firstPos == PieceUtils.defaultWhiteKingPosition && lastMovedPiece.color == Color.White)
+                    {
+                        if(move.secondPos == PieceUtils.whiteKingShortCastle)
+                        {
+                            boardState.ReplacePiece(PieceUtils.whiteShortRookAfterCastle, PieceUtils.whiteShortRook);
+                        }
+                        if (move.secondPos == PieceUtils.whiteKingLongCastle)
+                        {
+                            boardState.ReplacePiece(PieceUtils.whiteLongRookAfterCastle, PieceUtils.whiteLongRook);
+                        }
+                    }
+                    if (move.firstPos == PieceUtils.defaultBlackKingPosition && lastMovedPiece.color == Color.Black)
+                    {
+                        if (move.secondPos == PieceUtils.blackKingShortCastle)
+                        {
+                            boardState.ReplacePiece(PieceUtils.blackShortRookAfterCastle, PieceUtils.blackShortRook);
+                        }
+                        if (move.secondPos == PieceUtils.blackKingLongCastle)
+                        {
+                            boardState.ReplacePiece(PieceUtils.blackLongRookAfterCastle, PieceUtils.blackLongRook);
+                        }
+                    }
+                }
+            }
+
+            boardState.AddPiece(info.takenPiecePosition,info.takenPiece);
+            playerToMove = ColorUtils.Reverse(playerToMove);
+            ply--;
         }
 
         internal string DebugMoveOrder()
@@ -387,6 +435,41 @@ namespace SleepyPawn.Core.Chess
         public override string ToString()
         {
             return boardState.ToString();
+        }
+    }
+    internal struct StateInfo
+    {
+        internal CastlingRights whiteCastlingRights;
+        internal CastlingRights blackCastlingRights;
+        internal EnPassantState whiteEnPassantState;
+        internal EnPassantState blackEnPassantState;
+        internal EnginePosition whiteKingPosition;
+        internal EnginePosition blackKingPosition;
+
+        internal Piece takenPiece;
+        internal EnginePosition takenPiecePosition;
+        internal Move lastMove;
+        public StateInfo(bool emptyBoard)
+        {
+            whiteCastlingRights = new CastlingRights();
+            blackCastlingRights = new CastlingRights();
+            whiteEnPassantState = new EnPassantState();
+            blackEnPassantState = new EnPassantState();
+
+            if (!emptyBoard)
+            {
+                whiteKingPosition = PieceUtils.defaultWhiteKingPosition;
+                blackKingPosition = PieceUtils.defaultBlackKingPosition;
+            }
+            else
+            {
+                whiteKingPosition = BoardUtils.IllegalPosition;
+                blackKingPosition = BoardUtils.IllegalPosition;
+            }
+
+            takenPiece = new Piece();
+            takenPiecePosition = BoardUtils.IllegalPosition;
+            lastMove = new Move();
         }
     }
     internal struct CastlingRights

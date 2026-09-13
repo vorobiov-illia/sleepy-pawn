@@ -28,7 +28,7 @@ namespace SleepyPawn.Cli
 
                 if (lastMessage == null)
                 {
-                    UI.WriteMessage("Here you can play with yourself.");
+                    UI.WriteMessage("Here you can play against yourself.");
                 }
                 else
                 {

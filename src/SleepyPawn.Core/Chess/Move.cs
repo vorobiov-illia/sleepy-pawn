@@ -15,8 +15,8 @@ namespace SleepyPawn.Core.Chess
         public Move()
         {
             isValid = false;
-            firstPos = new EnginePosition();
-            secondPos = new EnginePosition();
+            firstPos = BoardUtils.IllegalPosition;
+            secondPos = BoardUtils.IllegalPosition;
         }
 
         internal Move(EnginePosition fp, EnginePosition sp, PieceType promotion = PieceType.None)

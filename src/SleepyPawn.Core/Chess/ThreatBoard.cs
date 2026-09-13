@@ -1,5 +1,6 @@
 ﻿using SleepyPawn.Core.Chess.Enums;
 using SleepyPawn.Core.Chess.Rules;
+using SleepyPawn.Core.Utils;
 
 namespace SleepyPawn.Core.Chess
 {
@@ -50,7 +51,7 @@ namespace SleepyPawn.Core.Chess
         }
         internal void GenerateThreats(Board gameBoard)
         {
-            EnginePosition position = new EnginePosition();
+            EnginePosition position = BoardUtils.IllegalPosition;
             for(int i = 0; i < 8; i++)
             {
                 position.y = i;

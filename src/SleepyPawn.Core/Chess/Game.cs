@@ -23,11 +23,30 @@ namespace SleepyPawn.Core.Chess
             testGame = test;
             currentState = new GameState(fen);
         }
+
+        public bool WhiteKingChecked()
+        {
+            return currentState.KingChecked(Color.White);
+        }
+        public bool BlackKingChecked()
+        {
+            return currentState.KingChecked(Color.Black);
+        }
+
+        public bool ActiveKingChecked()
+        {
+            return currentState.KingChecked(currentState.playerToMove);
+        }
+        public bool PassiveKingChecked()
+        {
+            return currentState.KingChecked(ColorUtils.Reverse(currentState.playerToMove));
+        }
+
         public bool TryMove(Move move)
         {
             if(LegalMoveAnalyzer.IsLegal(move, currentState))
             {
-                currentState = currentState.AppendMove(move);
+                currentState.AppendMove(move);
                 return true;
             }
             else
@@ -37,7 +56,11 @@ namespace SleepyPawn.Core.Chess
         }
         public void ForceMove(Move move)
         {
-            currentState = currentState.AppendMove(move);
+            currentState.AppendMove(move);
+        }
+        public void UndoMove()
+        {
+            currentState.UndoMove();
         }
         public bool TryUciMove(string uciMove)
         {
@@ -46,7 +69,7 @@ namespace SleepyPawn.Core.Chess
 
             return TryMove(move);
         }
-        // For tests only
+
         public void AddPiece(string command)
         {
             if (command.Length != 4) return;
@@ -88,11 +111,11 @@ namespace SleepyPawn.Core.Chess
                     type = PieceType.King;
                     if (color == Color.White)
                     {
-                        currentState.whiteKingPosition = position;
+                        currentState.info.whiteKingPosition = position;
                     }
                     if (color == Color.Black)
                     {
-                        currentState.blackKingPosition = position;
+                        currentState.info.blackKingPosition = position;
                     }
                     break;
                 default:
@@ -179,6 +202,10 @@ namespace SleepyPawn.Core.Chess
         public int GetLegalMoves(ref Span<Move> moves)
         {
             return currentState.GetLegalMoves(ref moves);
+        }
+        public int GetPseudoMoves(ref Span<Move> moves)
+        {
+            return currentState.GetPseudoMoves(ref moves);
         }
 
         public void SetupInitialPosition()

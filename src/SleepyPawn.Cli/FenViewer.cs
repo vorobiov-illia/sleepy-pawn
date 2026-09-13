@@ -10,11 +10,13 @@ namespace SleepyPawn.Cli
         static string mainMenuTitle = "What do you want to do now?";
         static string[] mainMenuOptions = { 
             "play",
+            "perft",
             "change",
             "return"
         };
-        static string[] mainMenuComments = { 
-            "Play a debug game with yourself from this position.",
+        static string[] mainMenuComments = {
+            "Play a debug game against yourself from this position.",
+            "Run a perft test for this position.",
             "Try another FEN position.",
             "Return to main menu." };
         internal void Play()
@@ -41,16 +43,17 @@ namespace SleepyPawn.Cli
 
                 if (game == null)
                 {
-                    string action = UI.AskStringInput("Write a FEN position (example: \"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1\") or type return.");
+                    string action = UI.AskStringInput("Enter a FEN position (example: \"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1\") or type return.");
                     if (action == "return") return;
                     bool fenValid = FenUtils.IsValid(action);
                     if (!fenValid)
+
                     {
                         lastMessage = "Invalid FEN string: \"" + action + "\".";
                         continue;
                     }
                     lastFen = action;
-                    game = new Game(action);
+                    game = new Game(action, true);
                 }
                 else
                 {
@@ -67,6 +70,10 @@ namespace SleepyPawn.Cli
                         case "play":
                             DebugGame testGame = new DebugGame(lastFen);
                             testGame.Play();
+                            return;
+                        case "perft":
+                            PerftViewer perft = new PerftViewer(lastFen);
+                            perft.Play();
                             return;
                         case "change":
                             game = null;

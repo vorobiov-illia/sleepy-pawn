@@ -15,10 +15,10 @@ namespace SleepyPawn.Core.Chess.Rules.Pieces
             
             if(thisPiece.color == Color.White)
             {
-                if(move.secondPos == state.blackEnPassantState.EnPassantVulnerability)
+                if(move.secondPos == state.info.blackEnPassantState.EnPassantVulnerability)
                 {
-                    if (state.blackEnPassantState.EnPassantLink == null) return false;
-                    Piece target = state.GetPiece(state.blackEnPassantState.EnPassantLink.Value);
+                    if (state.info.blackEnPassantState.EnPassantLink == null) return false;
+                    Piece target = state.GetPiece(state.info.blackEnPassantState.EnPassantLink.Value);
                     if (target.color != thisPiece.color)
                     {
                         if (move.secondPos == new EnginePosition(move.firstPos.x + 1, move.firstPos.y + 1) ||
@@ -31,10 +31,10 @@ namespace SleepyPawn.Core.Chess.Rules.Pieces
             }
             else if (thisPiece.color == Color.Black)
             {
-                if (move.secondPos == state.whiteEnPassantState.EnPassantVulnerability)
+                if (move.secondPos == state.info.whiteEnPassantState.EnPassantVulnerability)
                 {
-                    if (state.whiteEnPassantState.EnPassantLink == null) return false;
-                    Piece target = state.GetPiece(state.whiteEnPassantState.EnPassantLink.Value);
+                    if (state.info.whiteEnPassantState.EnPassantLink == null) return false;
+                    Piece target = state.GetPiece(state.info.whiteEnPassantState.EnPassantLink.Value);
                     if (target.color != thisPiece.color)
                     {
                         if (move.secondPos == new EnginePosition(move.firstPos.x + 1, move.firstPos.y - 1) ||

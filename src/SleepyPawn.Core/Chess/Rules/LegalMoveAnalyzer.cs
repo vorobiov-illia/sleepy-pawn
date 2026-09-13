@@ -5,7 +5,7 @@ namespace SleepyPawn.Core.Chess.Rules
 {
     internal static class LegalMoveAnalyzer
     {
-        private static PieceRuleset pieceRules = new PieceRuleset();
+        internal static readonly PieceRuleset pieceRules = new PieceRuleset();
         public static bool IsLegal(Move move, GameState state)
         {
             if (!move.isValid) return false;
@@ -50,20 +50,7 @@ namespace SleepyPawn.Core.Chess.Rules
             int legalCount = 0;
 
             Span<Move> pseudoMoves = stackalloc Move[256];
-            int pseudoCount = 0;
-            for (int i = 0; i < 8; i++)
-            {
-                for (int j = 0; j < 8; j++)
-                {
-                    EnginePosition position = new EnginePosition(i,j);
-                    Piece piece = state.GetPiece(position);
-
-                    if (piece.isEmpty) continue;
-                    if (piece.color != state.playerToMove) continue;
-
-                    pseudoCount = pieceRules.GetPseudoMoves(position, state, ref pseudoMoves, pseudoCount);
-                }
-            }
+            int pseudoCount = state.GetPseudoMoves(ref pseudoMoves);
 
             for(int i = 0; i < pseudoCount; i++)
             {
