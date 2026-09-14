@@ -181,13 +181,13 @@ namespace SleepyPawn.Cli
                                 lastFen = null;
                                 game = null;
                                 depth = 0;
-                                continue;
+                                return;
                             case "n":
                                 RunPerft(game, depth, false, positionName);
                                 lastFen = null;
                                 game = null;
                                 depth = 0;
-                                continue;
+                                return;
                             default:
                                 lastMessage = "Sorry, not implemented yet...";
                                 UI.WriteMessage("Sorry, not implemented yet...");
