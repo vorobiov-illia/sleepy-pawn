@@ -11,11 +11,9 @@ namespace SleepyPawn.Core.Chess.Rules.Pieces
 
             if (!CommonCheck(move, state, PieceType.Sleepy, thisPiece, otherPiece)) return false;
 
-            // TO-DO: Refactor this mess, double color checks and code duplication
-            
-            if(thisPiece.color == Color.White)
+            if (thisPiece.color == Color.White)
             {
-                if(move.secondPos == state.info.blackEnPassantState.EnPassantVulnerability)
+                if (move.secondPos == state.info.blackEnPassantState.EnPassantVulnerability)
                 {
                     if (state.info.blackEnPassantState.EnPassantLink == null) return false;
                     Piece target = state.GetPiece(state.info.blackEnPassantState.EnPassantLink.Value);
@@ -28,6 +26,7 @@ namespace SleepyPawn.Core.Chess.Rules.Pieces
                         }
                     }
                 }
+                return CanMoveWhite(state,move,thisPiece, otherPiece);
             }
             else if (thisPiece.color == Color.Black)
             {
@@ -44,51 +43,53 @@ namespace SleepyPawn.Core.Chess.Rules.Pieces
                         }
                     }
                 }
+                return CanMoveBlack(state, move, thisPiece, otherPiece);
             }
+            return false;
+        }
 
+        private bool CanMoveBlack(GameState state, Move move, Piece thisPiece, Piece otherPiece) 
+        {
             if (otherPiece.isEmpty)
             {
                 if (move.firstPos.x != move.secondPos.x) return false;
-                if(thisPiece.color == Color.White)
-                {
-                    if (move.promotionPiece == PieceType.None && move.secondPos.y == 7) return false;
-                    if (move.secondPos.y == move.firstPos.y + 1) return true;
-                    if (move.firstPos.y != 1) return false;
-                    Piece pathway = state.GetPiece(new EnginePosition(move.firstPos.x, move.firstPos.y + 1));
-                    if (move.secondPos.y == move.firstPos.y + 2 &&
-                        pathway.isEmpty) return true;
-                    return false;
-                }
-                if(thisPiece.color == Color.Black)
-                {
-                    if (move.promotionPiece == PieceType.None && move.secondPos.y == 0) return false;
-                    if (move.secondPos.y == move.firstPos.y - 1) return true;
-                    if (move.firstPos.y != 6) return false;
-                    Piece pathway = state.GetPiece(new EnginePosition(move.firstPos.x, move.firstPos.y - 1));
-                    if (move.secondPos.y == move.firstPos.y - 2 &&
-                        pathway.isEmpty) return true;
-                    return false;
-                }
+                if (move.promotionPiece == PieceType.None && move.secondPos.y == 0) return false;
+                if (move.secondPos.y == move.firstPos.y - 1) return true;
+                if (move.firstPos.y != 6) return false;
+                Piece pathway = state.GetPiece(new EnginePosition(move.firstPos.x, move.firstPos.y - 1));
+                if (move.secondPos.y == move.firstPos.y - 2 &&
+                    pathway.isEmpty) return true;
                 return false;
             }
             else
             {
-                if(otherPiece.color == thisPiece.color) return false;
-                if (thisPiece.color == Color.White)
-                {
-                    if (move.promotionPiece == PieceType.None && move.secondPos.y == 7) return false;
-                    if (move.secondPos != new EnginePosition(move.firstPos.x + 1, move.firstPos.y + 1) &&
-                        move.secondPos != new EnginePosition(move.firstPos.x - 1, move.firstPos.y + 1)) return false;
-                    return true;
-                }
-                if (thisPiece.color == Color.Black)
-                {
-                    if (move.promotionPiece == PieceType.None && move.secondPos.y == 0) return false;
-                    if (move.secondPos != new EnginePosition(move.firstPos.x + 1, move.firstPos.y - 1) &&
-                        move.secondPos != new EnginePosition(move.firstPos.x - 1, move.firstPos.y - 1)) return false;
-                    return true;
-                }
+                if (otherPiece.color == thisPiece.color) return false;
+                if (move.promotionPiece == PieceType.None && move.secondPos.y == 0) return false;
+                if (move.secondPos != new EnginePosition(move.firstPos.x + 1, move.firstPos.y - 1) &&
+                    move.secondPos != new EnginePosition(move.firstPos.x - 1, move.firstPos.y - 1)) return false;
+                return true;
+            }
+        }
+        private bool CanMoveWhite(GameState state, Move move, Piece thisPiece, Piece otherPiece) 
+        {
+            if (otherPiece.isEmpty)
+            {
+                if (move.firstPos.x != move.secondPos.x) return false;
+                if (move.promotionPiece == PieceType.None && move.secondPos.y == 7) return false;
+                if (move.secondPos.y == move.firstPos.y + 1) return true;
+                if (move.firstPos.y != 1) return false;
+                Piece pathway = state.GetPiece(new EnginePosition(move.firstPos.x, move.firstPos.y + 1));
+                if (move.secondPos.y == move.firstPos.y + 2 &&
+                    pathway.isEmpty) return true;
                 return false;
+            }
+            else
+            {
+                if (otherPiece.color == thisPiece.color) return false;
+                if (move.promotionPiece == PieceType.None && move.secondPos.y == 7) return false;
+                if (move.secondPos != new EnginePosition(move.firstPos.x + 1, move.firstPos.y + 1) &&
+                    move.secondPos != new EnginePosition(move.firstPos.x - 1, move.firstPos.y + 1)) return false;
+                return true;
             }
         }
 
