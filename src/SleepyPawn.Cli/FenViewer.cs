@@ -24,7 +24,7 @@ namespace SleepyPawn.Cli
             string? lastMessage = null;
             string lastFen = "";
 
-            Game? game = null;
+            SleepyChess? game = null;
             while (true)
             {
                 UI.Clear();
@@ -52,7 +52,7 @@ namespace SleepyPawn.Cli
                         continue;
                     }
                     lastFen = action;
-                    game = new Game(action, true);
+                    game = new SleepyChess(action, true);
                 }
                 else
                 {

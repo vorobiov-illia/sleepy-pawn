@@ -10,7 +10,7 @@ namespace SleepyPawn.Tests.MoveRules
         public void WhiteShortLegalCastling()
         {
             // Initializing game
-            Game game = new Game(true);
+            SleepyChess game = new SleepyChess(true);
 
             // White rook
             game.AddPiece("h1wr");
@@ -25,7 +25,7 @@ namespace SleepyPawn.Tests.MoveRules
         public void WhiteLongLegalCastling()
         {
             // Initializing game
-            Game game = new Game(true);
+            SleepyChess game = new SleepyChess(true);
 
             // White rook
             game.AddPiece("a1wr");
@@ -40,7 +40,7 @@ namespace SleepyPawn.Tests.MoveRules
         public void WhiteShortFakeThreat()
         {
             // Initializing game
-            Game game = new Game(true);
+            SleepyChess game = new SleepyChess(true);
 
             // White rook
             game.AddPiece("h1wr");
@@ -57,7 +57,7 @@ namespace SleepyPawn.Tests.MoveRules
         public void WhiteLongFakeThreat()
         {
             // Initializing game
-            Game game = new Game(true);
+            SleepyChess game = new SleepyChess(true);
 
             // White rook
             game.AddPiece("a1wr");
@@ -74,7 +74,7 @@ namespace SleepyPawn.Tests.MoveRules
         public void WhiteLongAnotherFakeThreat()
         {
             // Initializing game
-            Game game = new Game(true);
+            SleepyChess game = new SleepyChess(true);
 
             // White rook
             game.AddPiece("a1wr");
@@ -92,7 +92,7 @@ namespace SleepyPawn.Tests.MoveRules
         public void WhiteShortCastlingKingMoved()
         {
             // Initializing game
-            Game game = new Game(true);
+            SleepyChess game = new SleepyChess(true);
 
             // White rook
             game.AddPiece("h1wr");
@@ -115,7 +115,7 @@ namespace SleepyPawn.Tests.MoveRules
         public void WhiteLongCastlingKingMoved()
         {
             // Initializing game
-            Game game = new Game(true);
+            SleepyChess game = new SleepyChess(true);
 
             // White rook
             game.AddPiece("a1wr");
@@ -138,7 +138,7 @@ namespace SleepyPawn.Tests.MoveRules
         public void WhiteShortCastlingRookMoved()
         {
             // Initializing game
-            Game game = new Game(true);
+            SleepyChess game = new SleepyChess(true);
 
             // White rook
             game.AddPiece("h1wr");
@@ -161,7 +161,7 @@ namespace SleepyPawn.Tests.MoveRules
         public void WhiteLongCastlingRookMoved()
         {
             // Initializing game
-            Game game = new Game(true);
+            SleepyChess game = new SleepyChess(true);
 
             // White rook
             game.AddPiece("a1wr");
@@ -188,7 +188,7 @@ namespace SleepyPawn.Tests.MoveRules
         public void WhiteShortCastlingBlocked(string blockPiece)
         {
             // Initializing game
-            Game game = new Game(true);
+            SleepyChess game = new SleepyChess(true);
 
             // White rook
             game.AddPiece("h1wr");
@@ -211,7 +211,7 @@ namespace SleepyPawn.Tests.MoveRules
         public void WhiteLongCastlingBlocked(string blockPiece)
         {
             // Initializing game
-            Game game = new Game(true);
+            SleepyChess game = new SleepyChess(true);
 
             // White rook
             game.AddPiece("a1wr");
@@ -231,7 +231,7 @@ namespace SleepyPawn.Tests.MoveRules
         public void WhiteShortCastlingUnderThreat(string threatPiece)
         {
             // Initializing game
-            Game game = new Game(true);
+            SleepyChess game = new SleepyChess(true);
 
             // White rook
             game.AddPiece("h1wr");
@@ -251,7 +251,7 @@ namespace SleepyPawn.Tests.MoveRules
         public void WhiteLongCastlingUnderThreat(string threatPiece)
         {
             // Initializing game
-            Game game = new Game(true);
+            SleepyChess game = new SleepyChess(true);
 
             // White rook
             game.AddPiece("a1wr");
@@ -268,7 +268,7 @@ namespace SleepyPawn.Tests.MoveRules
         public void WhiteShortNoRook()
         {
             // Initializing game
-            Game game = new Game(true);
+            SleepyChess game = new SleepyChess(true);
 
             // White king
             game.AddPiece("e1wk");
@@ -281,7 +281,7 @@ namespace SleepyPawn.Tests.MoveRules
         public void WhiteLongNoRook()
         {
             // Initializing game
-            Game game = new Game(true);
+            SleepyChess game = new SleepyChess(true);
 
             // White king
             game.AddPiece("e1wk");
@@ -305,7 +305,7 @@ namespace SleepyPawn.Tests.MoveRules
         public void WhiteShortWrongPiece(string wrongPiece)
         {
             // Initializing game
-            Game game = new Game(true);
+            SleepyChess game = new SleepyChess(true);
 
             // White king
             game.AddPiece("e1wk");
@@ -331,7 +331,7 @@ namespace SleepyPawn.Tests.MoveRules
         public void WhiteLongWrongPiece(string wrongPiece)
         {
             // Initializing game
-            Game game = new Game(true);
+            SleepyChess game = new SleepyChess(true);
 
             // White king
             game.AddPiece("e1wk");
@@ -348,7 +348,7 @@ namespace SleepyPawn.Tests.MoveRules
         public void BlackShortLegalCastling()
         {
             // Initializing game
-            Game game = new Game(true);
+            SleepyChess game = new SleepyChess(true);
 
             // Black rook
             game.AddPiece("h8br");
@@ -365,7 +365,7 @@ namespace SleepyPawn.Tests.MoveRules
         public void BlackLongLegalCastling()
         {
             // Initializing game
-            Game game = new Game(true);
+            SleepyChess game = new SleepyChess(true);
 
             // Black rook
             game.AddPiece("a8br");
@@ -382,7 +382,7 @@ namespace SleepyPawn.Tests.MoveRules
         public void BlackShortFakeThreat()
         {
             // Initializing game
-            Game game = new Game(true);
+            SleepyChess game = new SleepyChess(true);
 
             // Black rook
             game.AddPiece("h8br");
@@ -401,7 +401,7 @@ namespace SleepyPawn.Tests.MoveRules
         public void BlackLongFakeThreat()
         {
             // Initializing game
-            Game game = new Game(true);
+            SleepyChess game = new SleepyChess(true);
 
             // Black rook
             game.AddPiece("a8br");
@@ -420,7 +420,7 @@ namespace SleepyPawn.Tests.MoveRules
         public void BlackLongAnotherFakeThreat()
         {
             // Initializing game
-            Game game = new Game(true);
+            SleepyChess game = new SleepyChess(true);
 
             // Black rook
             game.AddPiece("a8br");
@@ -440,7 +440,7 @@ namespace SleepyPawn.Tests.MoveRules
         public void BlackShortCastlingKingMoved()
         {
             // Initializing game
-            Game game = new Game(true);
+            SleepyChess game = new SleepyChess(true);
 
             // Black rook
             game.AddPiece("h8br");
@@ -465,7 +465,7 @@ namespace SleepyPawn.Tests.MoveRules
         public void BlackLongCastlingKingMoved()
         {
             // Initializing game
-            Game game = new Game(true);
+            SleepyChess game = new SleepyChess(true);
 
             // Black rook
             game.AddPiece("a8br");
@@ -490,7 +490,7 @@ namespace SleepyPawn.Tests.MoveRules
         public void BlackShortCastlingRookMoved()
         {
             // Initializing game
-            Game game = new Game(true);
+            SleepyChess game = new SleepyChess(true);
 
             // Black rook
             game.AddPiece("h8br");
@@ -515,7 +515,7 @@ namespace SleepyPawn.Tests.MoveRules
         public void BlackLongCastlingRookMoved()
         {
             // Initializing game
-            Game game = new Game(true);
+            SleepyChess game = new SleepyChess(true);
 
             // Black rook
             game.AddPiece("a8br");
@@ -544,7 +544,7 @@ namespace SleepyPawn.Tests.MoveRules
         public void BlackShortCastlingBlocked(string blockPiece)
         {
             // Initializing game
-            Game game = new Game(true);
+            SleepyChess game = new SleepyChess(true);
 
             // Black rook
             game.AddPiece("h8br");
@@ -569,7 +569,7 @@ namespace SleepyPawn.Tests.MoveRules
         public void BlackLongCastlingBlocked(string blockPiece)
         {
             // Initializing game
-            Game game = new Game(true);
+            SleepyChess game = new SleepyChess(true);
 
             // Black rook
             game.AddPiece("a8br");
@@ -591,7 +591,7 @@ namespace SleepyPawn.Tests.MoveRules
         public void BlackShortCastlingUnderThreat(string threatPiece)
         {
             // Initializing game
-            Game game = new Game(true);
+            SleepyChess game = new SleepyChess(true);
 
             // Black rook
             game.AddPiece("h8br");
@@ -613,7 +613,7 @@ namespace SleepyPawn.Tests.MoveRules
         public void BlackLongCastlingUnderThreat(string threatPiece)
         {
             // Initializing game
-            Game game = new Game(true);
+            SleepyChess game = new SleepyChess(true);
 
             // Black rook
             game.AddPiece("a8br");
@@ -632,7 +632,7 @@ namespace SleepyPawn.Tests.MoveRules
         public void BlackShortNoRook()
         {
             // Initializing game
-            Game game = new Game(true);
+            SleepyChess game = new SleepyChess(true);
 
             // Black king
             game.AddPiece("e8bk");
@@ -647,7 +647,7 @@ namespace SleepyPawn.Tests.MoveRules
         public void BlackLongNoRook()
         {
             // Initializing game
-            Game game = new Game(true);
+            SleepyChess game = new SleepyChess(true);
 
             // Black king
             game.AddPiece("e8bk");
@@ -673,7 +673,7 @@ namespace SleepyPawn.Tests.MoveRules
         public void BlackShortWrongPiece(string wrongPiece)
         {
             // Initializing game
-            Game game = new Game(true);
+            SleepyChess game = new SleepyChess(true);
 
             // Black king
             game.AddPiece("e8bk");
@@ -701,7 +701,7 @@ namespace SleepyPawn.Tests.MoveRules
         public void BlackLongWrongPiece(string wrongPiece)
         {
             // Initializing game
-            Game game = new Game(true);
+            SleepyChess game = new SleepyChess(true);
 
             // Black king
             game.AddPiece("e8bk");

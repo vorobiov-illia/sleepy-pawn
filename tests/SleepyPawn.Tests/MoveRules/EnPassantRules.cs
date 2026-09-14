@@ -31,7 +31,7 @@ namespace SleepyPawn.Tests.MoveRules
             string secondMove)
         {
             // Initializing game
-            Game game = new Game(true);
+            SleepyChess game = new SleepyChess(true);
 
             // Attacker pawn
             game.AddPiece(attackerPawn);
@@ -78,7 +78,7 @@ namespace SleepyPawn.Tests.MoveRules
             string secondMove)
         {
             // Initializing game
-            Game game = new Game(true);
+            SleepyChess game = new SleepyChess(true);
 
             // Attacker pawn
             game.AddPiece(attackerPawn);
@@ -126,7 +126,7 @@ namespace SleepyPawn.Tests.MoveRules
             string secondMove)
         {
             // Initializing game
-            Game game = new Game(true);
+            SleepyChess game = new SleepyChess(true);
 
             // Attacker pawn
             game.AddPiece(attackerPawn);
@@ -172,7 +172,7 @@ namespace SleepyPawn.Tests.MoveRules
             string secondMove)
         {
             // Initializing game
-            Game game = new Game(true);
+            SleepyChess game = new SleepyChess(true);
 
             // Attacker pawn
             game.AddPiece(attackerPawn);
@@ -215,7 +215,7 @@ namespace SleepyPawn.Tests.MoveRules
             string secondMove)
         {
             // Initializing game
-            Game game = new Game(true);
+            SleepyChess game = new SleepyChess(true);
 
             // Attacker pawn
             game.AddPiece(attackerPawn);

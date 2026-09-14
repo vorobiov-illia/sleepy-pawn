@@ -1,11 +1,10 @@
 ﻿using SleepyPawn.Core.Chess.Enums;
 using SleepyPawn.Core.Chess.Rules;
-using SleepyPawn.Core.Chess.Rules.Pieces;
 using SleepyPawn.Core.Utils;
 
 namespace SleepyPawn.Core.Chess
 {
-    internal class GameState
+    internal class ChessState
     {
         internal Board boardState;
         internal Color playerToMove;
@@ -13,7 +12,7 @@ namespace SleepyPawn.Core.Chess
         internal int ply;
         internal ref StateInfo info => ref history[ply];
 
-        internal GameState(bool emptyBoard = false)
+        internal ChessState(bool emptyBoard = false)
         {
             history = new StateInfo[2048];
             ply = 0;
@@ -26,7 +25,7 @@ namespace SleepyPawn.Core.Chess
             playerToMove = Color.White;
         }
 
-        internal GameState(string fen)
+        internal ChessState(string fen)
         {
             history = new StateInfo[2048];
             ply = 0;
@@ -47,7 +46,7 @@ namespace SleepyPawn.Core.Chess
 
             playerToMove = FenUtils.GetPlayerToMove(fen);
         }
-        internal GameState(GameState other)
+        internal ChessState(ChessState other)
         {
             boardState = new Board(other.boardState);
             playerToMove = other.playerToMove;

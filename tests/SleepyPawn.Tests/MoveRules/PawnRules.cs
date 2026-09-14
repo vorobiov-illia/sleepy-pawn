@@ -10,7 +10,7 @@ namespace SleepyPawn.Tests.MoveRules
         public void WhitePawnOpenMove()
         {
             // Initializing game
-            Game game = new Game(true);
+            SleepyChess game = new SleepyChess(true);
 
             // White pawn
             game.AddPiece("e2wp");
@@ -23,7 +23,7 @@ namespace SleepyPawn.Tests.MoveRules
         public void WhitePawnClosedMove()
         {
             // Initializing game
-            Game game = new Game(true);
+            SleepyChess game = new SleepyChess(true);
 
             // White pawn
             game.AddPiece("e2wp");
@@ -38,7 +38,7 @@ namespace SleepyPawn.Tests.MoveRules
         public void WhitePawnMoveBack()
         {
             // Initializing game
-            Game game = new Game(true);
+            SleepyChess game = new SleepyChess(true);
 
             // White pawn
             game.AddPiece("e2wp");
@@ -51,7 +51,7 @@ namespace SleepyPawn.Tests.MoveRules
         public void WhiteLongOpenMove()
         {
             // Initializing game
-            Game game = new Game(true);
+            SleepyChess game = new SleepyChess(true);
 
             // White pawn
             game.AddPiece("e2wp");
@@ -66,7 +66,7 @@ namespace SleepyPawn.Tests.MoveRules
         public void WhitePawnHorizontalMove(string illegalMove)
         {
             // Initializing game
-            Game game = new Game(true);
+            SleepyChess game = new SleepyChess(true);
 
             // White pawn
             game.AddPiece("e2wp");
@@ -82,7 +82,7 @@ namespace SleepyPawn.Tests.MoveRules
         public void WhitePawnOutOfBounds(string pawn, string move)
         {
             // Initializing game
-            Game game = new Game(true);
+            SleepyChess game = new SleepyChess(true);
 
             // White pawn
             game.AddPiece(pawn);
@@ -96,7 +96,7 @@ namespace SleepyPawn.Tests.MoveRules
         public void WhitePawnDoubleOpenMove()
         {
             // Initializing game
-            Game game = new Game(true);
+            SleepyChess game = new SleepyChess(true);
 
             // White pawn
             game.AddPiece("e2wp");
@@ -109,7 +109,7 @@ namespace SleepyPawn.Tests.MoveRules
         public void WhitePawnDoubleOpenMoveBlocked()
         {
             // Initializing game
-            Game game = new Game(true);
+            SleepyChess game = new SleepyChess(true);
 
             // White pawn
             game.AddPiece("e2wp");
@@ -124,7 +124,7 @@ namespace SleepyPawn.Tests.MoveRules
         public void WhitePawnDoubleClosedMove()
         {
             // Initializing game
-            Game game = new Game(true);
+            SleepyChess game = new SleepyChess(true);
 
             // White pawn
             game.AddPiece("e2wp");
@@ -139,7 +139,7 @@ namespace SleepyPawn.Tests.MoveRules
         public void WhitePawnDoubleIllegalMove()
         {
             // Initializing game
-            Game game = new Game(true);
+            SleepyChess game = new SleepyChess(true);
 
             // White pawn
             game.AddPiece("e2wp");
@@ -159,7 +159,7 @@ namespace SleepyPawn.Tests.MoveRules
         public void WhitePawnTakesBlack(string captureTarget, string move)
         {
             // Initializing game
-            Game game = new Game(true);
+            SleepyChess game = new SleepyChess(true);
 
             // White pawn
             game.AddPiece("e2wp");
@@ -177,7 +177,7 @@ namespace SleepyPawn.Tests.MoveRules
         public void WhitePawnTakesBlackBack(string captureTarget, string move)
         {
             // Initializing game
-            Game game = new Game(true);
+            SleepyChess game = new SleepyChess(true);
 
             // White pawn
             game.AddPiece("e2wp");
@@ -195,7 +195,7 @@ namespace SleepyPawn.Tests.MoveRules
         public void WhitePawnTakesWhite(string captureTarget, string move)
         {
             // Initializing game
-            Game game = new Game(true);
+            SleepyChess game = new SleepyChess(true);
 
             // White pawn
             game.AddPiece("e2wp");
@@ -213,7 +213,7 @@ namespace SleepyPawn.Tests.MoveRules
         public void WhitePawnTakesNothing(string move)
         {
             // Initializing game
-            Game game = new Game(true);
+            SleepyChess game = new SleepyChess(true);
 
             // White pawn
             game.AddPiece("e2wp");
@@ -229,7 +229,7 @@ namespace SleepyPawn.Tests.MoveRules
         public void BlackPawnOpenMove()
         {
             // Initializing game
-            Game game = new Game(true);
+            SleepyChess game = new SleepyChess(true);
 
             // Black pawn
             game.AddPiece("e7bp");
@@ -244,7 +244,7 @@ namespace SleepyPawn.Tests.MoveRules
         public void BlackPawnClosedMove()
         {
             // Initializing game
-            Game game = new Game(true);
+            SleepyChess game = new SleepyChess(true);
 
             // Black pawn
             game.AddPiece("e7bp");
@@ -261,7 +261,7 @@ namespace SleepyPawn.Tests.MoveRules
         public void BlackPawnMoveBack()
         {
             // Initializing game
-            Game game = new Game(true);
+            SleepyChess game = new SleepyChess(true);
 
             // Black pawn
             game.AddPiece("e7bp");
@@ -276,7 +276,7 @@ namespace SleepyPawn.Tests.MoveRules
         public void BlackLongOpenMove()
         {
             // Initializing game
-            Game game = new Game(true);
+            SleepyChess game = new SleepyChess(true);
 
             // Black pawn
             game.AddPiece("e7bp");
@@ -293,7 +293,7 @@ namespace SleepyPawn.Tests.MoveRules
         public void BlackPawnHorizontalMove(string illegalMove)
         {
             // Initializing game
-            Game game = new Game(true);
+            SleepyChess game = new SleepyChess(true);
 
             // Black pawn
             game.AddPiece("e7bp");
@@ -309,7 +309,7 @@ namespace SleepyPawn.Tests.MoveRules
         public void BlackPawnDoubleOpenMove()
         {
             // Initializing game
-            Game game = new Game(true);
+            SleepyChess game = new SleepyChess(true);
 
             // Black pawn
             game.AddPiece("e7bp");
@@ -324,7 +324,7 @@ namespace SleepyPawn.Tests.MoveRules
         public void BlackPawnDoubleOpenMoveBlocked()
         {
             // Initializing game
-            Game game = new Game(true);
+            SleepyChess game = new SleepyChess(true);
 
             // Black pawn
             game.AddPiece("e7bp");
@@ -341,7 +341,7 @@ namespace SleepyPawn.Tests.MoveRules
         public void BlackPawnDoubleClosedMove()
         {
             // Initializing game
-            Game game = new Game(true);
+            SleepyChess game = new SleepyChess(true);
 
             // Black pawn
             game.AddPiece("e7bp");
@@ -358,7 +358,7 @@ namespace SleepyPawn.Tests.MoveRules
         public void BlackPawnDoubleIllegalMove()
         {
             // Initializing game
-            Game game = new Game(true);
+            SleepyChess game = new SleepyChess(true);
 
             // Black pawn
             game.AddPiece("e7bp");
@@ -380,7 +380,7 @@ namespace SleepyPawn.Tests.MoveRules
         public void BlackPawnTakesWhite(string captureTarget, string move)
         {
             // Initializing game
-            Game game = new Game(true);
+            SleepyChess game = new SleepyChess(true);
 
             // Black pawn
             game.AddPiece("e7bp");
@@ -400,7 +400,7 @@ namespace SleepyPawn.Tests.MoveRules
         public void BlackPawnTakesWhiteBack(string captureTarget, string move)
         {
             // Initializing game
-            Game game = new Game(true);
+            SleepyChess game = new SleepyChess(true);
 
             // Black pawn
             game.AddPiece("e7bp");
@@ -420,7 +420,7 @@ namespace SleepyPawn.Tests.MoveRules
         public void BlackPawnTakesBlack(string captureTarget, string move)
         {
             // Initializing game
-            Game game = new Game(true);
+            SleepyChess game = new SleepyChess(true);
 
             // Black pawn
             game.AddPiece("e7bp");
@@ -440,7 +440,7 @@ namespace SleepyPawn.Tests.MoveRules
         public void BlackPawnTakesNothing(string move)
         {
             // Initializing game
-            Game game = new Game(true);
+            SleepyChess game = new SleepyChess(true);
 
             // Black pawn
             game.AddPiece("e7bp");

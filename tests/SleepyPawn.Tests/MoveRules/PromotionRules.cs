@@ -74,7 +74,7 @@ namespace SleepyPawn.Tests.MoveRules
         public void LegalPromotion(bool white, string pawn, string move)
         {
             // Initializing game
-            Game game = new Game(true);
+            SleepyChess game = new SleepyChess(true);
 
             // Pawn
             game.AddPiece(pawn);
@@ -100,7 +100,7 @@ namespace SleepyPawn.Tests.MoveRules
         public void LegalCapturePromotion(bool white, string pawn, string pieceToCapture, string move)
         {
             // Initializing game
-            Game game = new Game(true);
+            SleepyChess game = new SleepyChess(true);
 
             // Pawn
             game.AddPiece(pawn);
@@ -153,7 +153,7 @@ namespace SleepyPawn.Tests.MoveRules
         public void WrongPromotion(bool white, string pawn, string move)
         {
             // Initializing game
-            Game game = new Game(true);
+            SleepyChess game = new SleepyChess(true);
 
             // Pawn
             game.AddPiece(pawn);
@@ -187,7 +187,7 @@ namespace SleepyPawn.Tests.MoveRules
         public void NoPromotion(bool white, string pawn, string move)
         {
             // Initializing game
-            Game game = new Game(true);
+            SleepyChess game = new SleepyChess(true);
 
             // Pawn
             game.AddPiece(pawn);
@@ -246,7 +246,7 @@ namespace SleepyPawn.Tests.MoveRules
         public void WrongPiecePromotion(bool white, string pawn, string move)
         {
             // Initializing game
-            Game game = new Game(true);
+            SleepyChess game = new SleepyChess(true);
 
             // Piece to promote
             game.AddPiece(pawn);
@@ -328,7 +328,7 @@ namespace SleepyPawn.Tests.MoveRules
         public void WrongPositionPromotion(bool white, string pawn, string move)
         {
             // Initializing game
-            Game game = new Game(true);
+            SleepyChess game = new SleepyChess(true);
 
             // Pawn
             game.AddPiece(pawn);
@@ -354,7 +354,7 @@ namespace SleepyPawn.Tests.MoveRules
         public void BlockedPromotion(bool white, string pawn, string block, string move)
         {
             // Initializing game
-            Game game = new Game(true);
+            SleepyChess game = new SleepyChess(true);
 
             // Pawn
             game.AddPiece(pawn);

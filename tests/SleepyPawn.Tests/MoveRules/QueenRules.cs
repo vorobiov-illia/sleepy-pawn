@@ -64,7 +64,7 @@ namespace SleepyPawn.Tests.MoveRules
         public void QueenOpenMove(bool white, string queen, string move)
         {
             // Initializing game
-            Game game = new Game(true);
+            SleepyChess game = new SleepyChess(true);
 
             // Queen
             game.AddPiece(queen);
@@ -98,7 +98,7 @@ namespace SleepyPawn.Tests.MoveRules
         public void QueenLMove(bool white, string queen, string illegalMove)
         {
             // Initializing game
-            Game game = new Game(true);
+            SleepyChess game = new SleepyChess(true);
 
             // Queen
             game.AddPiece(queen);
@@ -148,7 +148,7 @@ namespace SleepyPawn.Tests.MoveRules
         public void QueenClosedMove(bool white, string queen, string blockPiece, string move)
         {
             // Initializing game
-            Game game = new Game(true);
+            SleepyChess game = new SleepyChess(true);
 
             // Queen
             game.AddPiece(queen);
@@ -183,7 +183,7 @@ namespace SleepyPawn.Tests.MoveRules
         public void QueenOutOfBoundsMove(bool white, string queen, string illegalMove)
         {
             // Initializing game
-            Game game = new Game(true);
+            SleepyChess game = new SleepyChess(true);
 
             // Queen
             game.AddPiece(queen);
@@ -218,7 +218,7 @@ namespace SleepyPawn.Tests.MoveRules
         public void QueenTakesOpponentPiece(bool white, string queen, string captureTarget, string move)
         {
             // Initializing game
-            Game game = new Game(true);
+            SleepyChess game = new SleepyChess(true);
 
             // Queen
             game.AddPiece(queen);
@@ -255,7 +255,7 @@ namespace SleepyPawn.Tests.MoveRules
         public void QueenTakesAllyPiece(bool white, string queen, string captureTarget, string move)
         {
             // Initializing game
-            Game game = new Game(true);
+            SleepyChess game = new SleepyChess(true);
 
             // Queen
             game.AddPiece(queen);

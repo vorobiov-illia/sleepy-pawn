@@ -38,7 +38,7 @@ namespace SleepyPawn.Tests.MoveRules
         public void RookOpenMove(bool white, string rook, string move)
         {
             // Initializing game
-            Game game = new Game(true);
+            SleepyChess game = new SleepyChess(true);
 
             // Rook
             game.AddPiece(rook);
@@ -82,7 +82,7 @@ namespace SleepyPawn.Tests.MoveRules
         public void RookDiagonalMove(bool white, string rook, string illegalMove)
         {
             // Initializing game
-            Game game = new Game(true);
+            SleepyChess game = new SleepyChess(true);
 
             // Rook
             game.AddPiece(rook);
@@ -116,7 +116,7 @@ namespace SleepyPawn.Tests.MoveRules
         public void RookLMove(bool white, string rook, string illegalMove)
         {
             // Initializing game
-            Game game = new Game(true);
+            SleepyChess game = new SleepyChess(true);
 
             // Rook
             game.AddPiece(rook);
@@ -150,7 +150,7 @@ namespace SleepyPawn.Tests.MoveRules
         public void RookClosedMove(bool white, string rook, string blockPiece, string move)
         {
             // Initializing game
-            Game game = new Game(true);
+            SleepyChess game = new SleepyChess(true);
 
             // Rook
             game.AddPiece(rook);
@@ -179,7 +179,7 @@ namespace SleepyPawn.Tests.MoveRules
         public void RookOutOfBoundsMove(bool white, string rook, string illegalMove)
         {
             // Initializing game
-            Game game = new Game(true);
+            SleepyChess game = new SleepyChess(true);
 
             // Rook
             game.AddPiece(rook);
@@ -206,7 +206,7 @@ namespace SleepyPawn.Tests.MoveRules
         public void RookTakesOpponentPiece(bool white, string rook, string captureTarget, string move)
         {
             // Initializing game
-            Game game = new Game(true);
+            SleepyChess game = new SleepyChess(true);
 
             // Rook
             game.AddPiece(rook);
@@ -235,7 +235,7 @@ namespace SleepyPawn.Tests.MoveRules
         public void RookTakesAllyPiece(bool white, string rook, string captureTarget, string move)
         {
             // Initializing game
-            Game game = new Game(true);
+            SleepyChess game = new SleepyChess(true);
 
             // Rook
             game.AddPiece(rook);

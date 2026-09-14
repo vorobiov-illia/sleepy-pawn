@@ -4,24 +4,24 @@ using SleepyPawn.Core.Utils;
 
 namespace SleepyPawn.Core.Chess
 {
-    public class Game
+    public class SleepyChess
     {
-        private GameState currentState;
+        private ChessState currentState;
         private bool testGame = false;
-        public Game(bool test = false)
+        public SleepyChess(bool test = false)
         {
             testGame = test;
-            currentState = new GameState(testGame);
+            currentState = new ChessState(testGame);
         }
-        public Game(Game other)
+        public SleepyChess(SleepyChess other)
         {
             testGame = other.testGame;
-            currentState = new GameState(other.currentState);
+            currentState = new ChessState(other.currentState);
         }
-        public Game(string fen, bool test = false)
+        public SleepyChess(string fen, bool test = false)
         {
             testGame = test;
-            currentState = new GameState(fen);
+            currentState = new ChessState(fen);
         }
 
         public bool WhiteKingChecked()
@@ -210,7 +210,7 @@ namespace SleepyPawn.Core.Chess
 
         public void SetupInitialPosition()
         {
-            currentState = new GameState();
+            currentState = new ChessState();
         }
     }
 }

@@ -6,16 +6,16 @@ namespace SleepyPawn.Core.Utils
     {
         private struct PerftTask
         {
-            internal Game game = new Game(true);
+            internal SleepyChess game = new SleepyChess(true);
             internal int depth;
 
-            internal PerftTask(Game game, int depth)
+            internal PerftTask(SleepyChess game, int depth)
             {
                 this.game = game;
                 this.depth = depth;
             }
         }
-        public static ulong Perft(Game game, int depth)
+        public static ulong Perft(SleepyChess game, int depth)
         {
             if (depth == 1)
             {
@@ -46,7 +46,7 @@ namespace SleepyPawn.Core.Utils
 
                 for (int i = 0; i < count; i++)
                 {
-                    Game newGame = new Game(currentTask.game);
+                    SleepyChess newGame = new SleepyChess(currentTask.game);
                     newGame.ForceMove(moves[i]);
                     tasks.Enqueue(new PerftTask(newGame, currentTask.depth - 1));
                 }
@@ -60,7 +60,7 @@ namespace SleepyPawn.Core.Utils
 
             return preResult + sufResult;
         }
-        public static ulong PerftSingleCore(Game game, int depth)
+        public static ulong PerftSingleCore(SleepyChess game, int depth)
         {
             Span<Move> moves = stackalloc Move[512];
             int count = game.GetLegalMoves(ref moves);

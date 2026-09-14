@@ -5,16 +5,16 @@ namespace SleepyPawn.Cli
 {
     internal class DebugGame
     {
-        Game game;
+        SleepyChess game;
         internal DebugGame(string? fen = null)
         {
             if(fen != null)
             {
-                game = new Game(fen);
+                game = new SleepyChess(fen);
             }
             else
             {
-                game = new Game();
+                game = new SleepyChess();
             }
         }
         internal void Play()

@@ -26,7 +26,7 @@ namespace SleepyPawn.Tests.MoveRules
         public void KingOpenMove(bool white, string king, string move)
         {
             // Initializing game
-            Game game = new Game(true);
+            SleepyChess game = new SleepyChess(true);
 
             // King
             game.AddPiece(king);
@@ -76,7 +76,7 @@ namespace SleepyPawn.Tests.MoveRules
         public void KingIllegalMove(bool white, string king, string illegalMove)
         {
             // Initializing game
-            Game game = new Game(true);
+            SleepyChess game = new SleepyChess(true);
 
             // King
             game.AddPiece(king);
@@ -106,7 +106,7 @@ namespace SleepyPawn.Tests.MoveRules
         public void KingOutOfBoundsMove(bool white, string king, string illegalMove)
         {
             // Initializing game
-            Game game = new Game(true);
+            SleepyChess game = new SleepyChess(true);
 
             // King
             game.AddPiece(king);
@@ -141,7 +141,7 @@ namespace SleepyPawn.Tests.MoveRules
         public void KingTakesOpponentPiece(bool white, string king, string captureTarget, string move)
         {
             // Initializing game
-            Game game = new Game(true);
+            SleepyChess game = new SleepyChess(true);
 
             // King
             game.AddPiece(king);
@@ -178,7 +178,7 @@ namespace SleepyPawn.Tests.MoveRules
         public void KingTakesAllyPiece(bool white, string king, string captureTarget, string move)
         {
             // Initializing game
-            Game game = new Game(true);
+            SleepyChess game = new SleepyChess(true);
 
             // King
             game.AddPiece(king);

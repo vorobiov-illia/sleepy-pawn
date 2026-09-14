@@ -6,7 +6,7 @@ namespace SleepyPawn.Core.Chess.Rules
     internal static class LegalMoveAnalyzer
     {
         internal static readonly PieceRuleset pieceRules = new PieceRuleset();
-        public static bool IsLegal(Move move, GameState state)
+        public static bool IsLegal(Move move, ChessState state)
         {
             if (!move.isValid) return false;
             if (move.nullMove) return true;
@@ -45,7 +45,7 @@ namespace SleepyPawn.Core.Chess.Rules
             return true;
         }
 
-        public static int GetLegalMoves(GameState state, ref Span<Move> legalMoves)
+        public static int GetLegalMoves(ChessState state, ref Span<Move> legalMoves)
         {
             int legalCount = 0;
 

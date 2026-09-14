@@ -5,7 +5,7 @@ namespace SleepyPawn.Core.Chess.Rules.Pieces
 {
     internal class RookRules : PieceRule
     {
-        internal override bool CanMove(Move move, GameState state)
+        internal override bool CanMove(Move move, ChessState state)
         {
             Piece thisPiece = state.GetPiece(move.firstPos);
             Piece otherPiece = state.GetPiece(move.secondPos);
@@ -25,7 +25,7 @@ namespace SleepyPawn.Core.Chess.Rules.Pieces
             return true;
         }
 
-        internal override int GeneratePseudoMoves(EnginePosition piecePosition, GameState state, ref Span<Move> pseudoMoves, int count)
+        internal override int GeneratePseudoMoves(EnginePosition piecePosition, ChessState state, ref Span<Move> pseudoMoves, int count)
         {
             int newCount = count;
 

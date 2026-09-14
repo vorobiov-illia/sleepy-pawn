@@ -8,7 +8,7 @@ namespace SleepyPawn.Tests.MoveRules
         public void WhitePlayerMovesBlackPiece()
         {
             // Initializing game
-            Game game = new Game(true);
+            SleepyChess game = new SleepyChess(true);
 
             // Black pawn
             game.AddPiece("e7bp");
@@ -21,7 +21,7 @@ namespace SleepyPawn.Tests.MoveRules
         public void BlackPlayerMovesWhitePiece()
         {
             // Initializing game
-            Game game = new Game(true);
+            SleepyChess game = new SleepyChess(true);
 
             // White pawn
             game.AddPiece("e7wp");
@@ -36,7 +36,7 @@ namespace SleepyPawn.Tests.MoveRules
         public void PlayerMovesEmptySquare()
         {
             // Initializing game
-            Game game = new Game(true);
+            SleepyChess game = new SleepyChess(true);
 
             // White player makes illegal move
             bool isLegal = game.TryUciMove("e2e4");
@@ -58,7 +58,7 @@ namespace SleepyPawn.Tests.MoveRules
         public void PlayerIsNotMoving(bool white, string piece, string move)
         {
             // Initializing game
-            Game game = new Game(true);
+            SleepyChess game = new SleepyChess(true);
             
             game.AddPiece(piece);
 

@@ -21,7 +21,7 @@ namespace SleepyPawn.Core.Chess.Rules
             queens = new QueenRules();
             kings = new KingRules();
         }
-        internal bool CheckRules(Move move, GameState state)
+        internal bool CheckRules(Move move, ChessState state)
         {
             Piece thisPiece = state.GetPiece(move.firstPos);
             if (thisPiece.isEmpty) return false;
@@ -44,7 +44,7 @@ namespace SleepyPawn.Core.Chess.Rules
             }
         }
 
-        internal int GetPseudoMoves(EnginePosition position, GameState state, ref Span<Move> pseudoMoves, int count)
+        internal int GetPseudoMoves(EnginePosition position, ChessState state, ref Span<Move> pseudoMoves, int count)
         {
             int newCount = count;
             Piece thisPiece = state.GetPiece(position);

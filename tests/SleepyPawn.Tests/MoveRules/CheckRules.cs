@@ -20,7 +20,7 @@ namespace SleepyPawn.Tests.MoveRules
         public void KingMoveToAttackedTile(bool white, string king, string attacker, string move)
         {
             // Initializing game
-            Game game = new Game(true);
+            SleepyChess game = new SleepyChess(true);
 
             // King
             game.AddPiece(king);
@@ -50,7 +50,7 @@ namespace SleepyPawn.Tests.MoveRules
         public void KingMoveToAllyTile(bool white, string king, string attacker, string move)
         {
             // Initializing game
-            Game game = new Game(true);
+            SleepyChess game = new SleepyChess(true);
 
             // King
             game.AddPiece(king);
@@ -86,7 +86,7 @@ namespace SleepyPawn.Tests.MoveRules
         public void LinkedPiece(bool white, string king, string defender, string attacker, string move)
         {
             // Initializing game
-            Game game = new Game(true);
+            SleepyChess game = new SleepyChess(true);
 
             // King
             game.AddPiece(king);
@@ -110,7 +110,7 @@ namespace SleepyPawn.Tests.MoveRules
         public void KingNotMoveFromAttackedTile(bool white, string king, string otherPiece, string attacker, string move)
         {
             // Initializing game
-            Game game = new Game(true);
+            SleepyChess game = new SleepyChess(true);
 
             // King
             game.AddPiece(king);
@@ -134,7 +134,7 @@ namespace SleepyPawn.Tests.MoveRules
         public void TakeAttackerPiece(bool white, string king, string defender, string attacker, string move)
         {
             // Initializing game
-            Game game = new Game(true);
+            SleepyChess game = new SleepyChess(true);
 
             // King
             game.AddPiece(king);
@@ -158,7 +158,7 @@ namespace SleepyPawn.Tests.MoveRules
         public void BlockAttackerPiece(bool white, string king, string defender, string attacker, string move)
         {
             // Initializing game
-            Game game = new Game(true);
+            SleepyChess game = new SleepyChess(true);
 
             // King
             game.AddPiece(king);
@@ -192,7 +192,7 @@ namespace SleepyPawn.Tests.MoveRules
         public void KingEscape(bool white, string king, string attacker, string move)
         {
             // Initializing game
-            Game game = new Game(true);
+            SleepyChess game = new SleepyChess(true);
 
             // King
             game.AddPiece(king);
@@ -224,7 +224,7 @@ namespace SleepyPawn.Tests.MoveRules
         public void KingWrongEscape(bool white, string king, string attacker, string move)
         {
             // Initializing game
-            Game game = new Game(true);
+            SleepyChess game = new SleepyChess(true);
 
             // King
             game.AddPiece(king);

@@ -15,7 +15,7 @@ namespace SleepyPawn.Tests
         public void InitialPosition(int depth, ulong answer)
         {
             // Initializing game
-            Game game = new Game(true);
+            SleepyChess game = new SleepyChess(true);
             game.SetupInitialPosition();
 
             bool match = PerftUtils.Perft(game, depth) == answer;
@@ -33,7 +33,7 @@ namespace SleepyPawn.Tests
         public void Kiwipete(int depth, ulong answer)
         {
             // Initializing game
-            Game game = new Game("r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - ", true);
+            SleepyChess game = new SleepyChess("r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - ", true);
 
             bool match = PerftUtils.Perft(game, depth) == answer;
 
@@ -50,7 +50,7 @@ namespace SleepyPawn.Tests
         public void PositionN3(int depth, ulong answer)
         {
             // Initializing game
-            Game game = new Game("8/2p5/3p4/KP5r/1R3p1k/8/4P1P1/8 w - - 0 1 ", true);
+            SleepyChess game = new SleepyChess("8/2p5/3p4/KP5r/1R3p1k/8/4P1P1/8 w - - 0 1 ", true);
 
             bool match = PerftUtils.Perft(game, depth) == answer;
 
@@ -67,7 +67,7 @@ namespace SleepyPawn.Tests
         public void PositionN4(int depth, ulong answer)
         {
             // Initializing game
-            Game game = new Game("r3k2r/Pppp1ppp/1b3nbN/nP6/BBP1P3/q4N2/Pp1P2PP/R2Q1RK1 w kq - 0 1", true);
+            SleepyChess game = new SleepyChess("r3k2r/Pppp1ppp/1b3nbN/nP6/BBP1P3/q4N2/Pp1P2PP/R2Q1RK1 w kq - 0 1", true);
 
             bool match = PerftUtils.Perft(game, depth) == answer;
 

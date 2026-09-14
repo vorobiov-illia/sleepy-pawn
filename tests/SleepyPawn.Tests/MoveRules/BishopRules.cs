@@ -36,7 +36,7 @@ namespace SleepyPawn.Tests.MoveRules
         public void BishopOpenMove(bool white, string bishop, string move)
         {
             // Initializing game
-            Game game = new Game(true);
+            SleepyChess game = new SleepyChess(true);
 
             // Bishop
             game.AddPiece(bishop);
@@ -82,7 +82,7 @@ namespace SleepyPawn.Tests.MoveRules
         public void BishopStraightMove(bool white, string bishop, string illegalMove)
         {
             // Initializing game
-            Game game = new Game(true);
+            SleepyChess game = new SleepyChess(true);
 
             // Bishop
             game.AddPiece(bishop);
@@ -116,7 +116,7 @@ namespace SleepyPawn.Tests.MoveRules
         public void BishopLMove(bool white, string bishop, string illegalMove)
         {
             // Initializing game
-            Game game = new Game(true);
+            SleepyChess game = new SleepyChess(true);
 
             // Bishop
             game.AddPiece(bishop);
@@ -150,7 +150,7 @@ namespace SleepyPawn.Tests.MoveRules
         public void BishopClosedMove(bool white, string bishop, string blockPiece, string move)
         {
             // Initializing game
-            Game game = new Game(true);
+            SleepyChess game = new SleepyChess(true);
 
             // Bishop
             game.AddPiece(bishop);
@@ -179,7 +179,7 @@ namespace SleepyPawn.Tests.MoveRules
         public void BishopOutOfBoundsMove(bool white, string bishop, string illegalMove)
         {
             // Initializing game
-            Game game = new Game(true);
+            SleepyChess game = new SleepyChess(true);
 
             // Bishop
             game.AddPiece(bishop);
@@ -206,7 +206,7 @@ namespace SleepyPawn.Tests.MoveRules
         public void BishopTakesOpponentPiece(bool white, string bishop, string captureTarget, string move)
         {
             // Initializing game
-            Game game = new Game(true);
+            SleepyChess game = new SleepyChess(true);
 
             // Bishop
             game.AddPiece(bishop);
@@ -235,7 +235,7 @@ namespace SleepyPawn.Tests.MoveRules
         public void BishopTakesAllyPiece(bool white, string bishop, string captureTarget, string move)
         {
             // Initializing game
-            Game game = new Game(true);
+            SleepyChess game = new SleepyChess(true);
 
             // Bishop
             game.AddPiece(bishop);

@@ -63,7 +63,7 @@ namespace SleepyPawn.Cli
         {
             string? lastMessage = null;
 
-            Game? game = null;
+            SleepyChess? game = null;
             string positionName = "Custom";
             int depth = 0;
 
@@ -85,7 +85,7 @@ namespace SleepyPawn.Cli
 
                 if(lastFen != null)
                 {
-                    game = new Game(lastFen, true);
+                    game = new SleepyChess(lastFen, true);
                     lastFen = null;
                 }
 
@@ -96,17 +96,17 @@ namespace SleepyPawn.Cli
                     switch (fenMenuInput)
                     {
                         case "initial":
-                            game = new Game(true);
+                            game = new SleepyChess(true);
                             game.SetupInitialPosition();
                             break;
                         case "kiwipete":
-                            game = new Game("r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - ", true);
+                            game = new SleepyChess("r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - ", true);
                             break;
                         case "pn3":
-                            game = new Game("8/2p5/3p4/KP5r/1R3p1k/8/4P1P1/8 w - - 0 1 ", true);
+                            game = new SleepyChess("8/2p5/3p4/KP5r/1R3p1k/8/4P1P1/8 w - - 0 1 ", true);
                             break;
                         case "pn4":
-                            game = new Game("r3k2r/Pppp1ppp/1b3nbN/nP6/BBP1P3/q4N2/Pp1P2PP/R2Q1RK1 w kq - 0 1", true);
+                            game = new SleepyChess("r3k2r/Pppp1ppp/1b3nbN/nP6/BBP1P3/q4N2/Pp1P2PP/R2Q1RK1 w kq - 0 1", true);
                             break;
                         case "custom":
                             string action = UI.AskStringInput("Write a FEN position (example: \"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1\") or type return.");
@@ -118,7 +118,7 @@ namespace SleepyPawn.Cli
                                 continue;
                             }
                             lastFen = action;
-                            game = new Game(action, true);
+                            game = new SleepyChess(action, true);
                             break;
                         case "return":
                             return;
@@ -197,7 +197,7 @@ namespace SleepyPawn.Cli
                 }
             }
         }
-        private void RunPerft(Game game, int depth, bool multithread, string positionName)
+        private void RunPerft(SleepyChess game, int depth, bool multithread, string positionName)
         {
             UI.Clear();
             UI.WriteDivider();
