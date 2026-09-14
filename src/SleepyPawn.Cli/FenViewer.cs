@@ -47,7 +47,6 @@ namespace SleepyPawn.Cli
                     if (action == "return") return;
                     bool fenValid = FenUtils.IsValid(action);
                     if (!fenValid)
-
                     {
                         lastMessage = "Invalid FEN string: \"" + action + "\".";
                         continue;

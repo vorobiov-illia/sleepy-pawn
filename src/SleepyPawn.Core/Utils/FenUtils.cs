@@ -12,7 +12,7 @@ namespace SleepyPawn.Core.Utils
         private static Tuple<Piece,int> GetPieceFromRank(string fenRank, int position)
         {
             char fenChar = fenRank[position];
-            if (char.IsNumber(fenChar))
+            if (char.IsDigit(fenChar))
             {
                 Piece nullPiece = new Piece();
                 int num;
@@ -91,6 +91,8 @@ namespace SleepyPawn.Core.Utils
         }
         internal static Color GetPlayerToMove(string fen)
         {
+            if (fen.Split(' ').Length < 2) return Color.White;
+
             string player = fen.Split(' ')[1];
             if (player == "w") return Color.White;
             if (player == "b") return Color.Black;
@@ -100,6 +102,13 @@ namespace SleepyPawn.Core.Utils
         {
             CastlingRights whiteRights = new CastlingRights();
             CastlingRights blackRights = new CastlingRights();
+
+            whiteRights.CastlingRetained = false;
+            whiteRights.LongCastlingRetained = false;
+            blackRights.CastlingRetained = false;
+            blackRights.LongCastlingRetained = false;
+
+            if (fen.Split(' ').Length < 3) return new Tuple<CastlingRights, CastlingRights>(whiteRights, blackRights);
 
             string fenRights = fen.Split(' ')[2];
             if(fenRights != "-")
@@ -123,13 +132,14 @@ namespace SleepyPawn.Core.Utils
                     }
                 }
             }
-
             return new Tuple<CastlingRights, CastlingRights>(whiteRights,blackRights);
         }
         internal static Tuple<EnPassantState, EnPassantState> GetEnPassantStates(string fen)
         {
             EnPassantState whiteEnPassantState = new EnPassantState();
             EnPassantState blackEnPassantState = new EnPassantState();
+
+            if (fen.Split(' ').Length < 4) return new Tuple<EnPassantState, EnPassantState>(whiteEnPassantState, blackEnPassantState);
 
             string fenPassant = fen.Split(' ')[3];
             if (fenPassant != "-")
@@ -219,6 +229,8 @@ namespace SleepyPawn.Core.Utils
         }
         internal static int GetHalfMoveCounter(string fen)
         {
+            if (fen.Split(' ').Length < 5) return 0;
+
             int res = 0;
 
             int.TryParse(fen.Split(' ')[4], out res);
@@ -227,17 +239,51 @@ namespace SleepyPawn.Core.Utils
         }
         internal static int GetMoveCounter(string fen)
         {
+            if (fen.Split(' ').Length < 6) return 1;
+
             int res = 0;
 
             int.TryParse(fen.Split(' ')[5], out res);
 
             return res;
         }
-        
-        // TO-DO: Implement
         public static bool IsValid(string fen)
         {
+            int count = fen.Split(' ').Length;
+
+            if (count < 4) return false;
+
+            string pieces = GetPiecesField(fen);
+            int rankCount = pieces.Split('/').Length;
+
+            if (rankCount != 8) return false;
+            for (int i = 0; i < 8; i++)
+            {
+                string rank = GetRank(pieces, i + 1);
+
+                if (!IsValidRank(rank)) return false;
+            }
+
             return true;
+        }
+        private static bool IsValidRank(string rank)
+        {
+            int sum = 0;
+
+            for(int i = 0; i < rank.Length; i++)
+            {
+                if (char.IsDigit(rank[i]))
+                {
+                    sum += int.Parse(rank[i].ToString());
+                }
+                else
+                {
+                    if (FenPieceTypeToEngine(rank[i]) == PieceType.None) return false;
+                    sum++;
+                }
+            }
+
+            return sum == 8;
         }
     }
 }
