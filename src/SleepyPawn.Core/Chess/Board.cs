@@ -143,7 +143,8 @@ namespace SleepyPawn.Core.Chess
 
             for (int i = 7; i >= 0; i--)
             {
-                for(int j = 0; j<8; j++)
+                res.Append((i + 1) + ": ");
+                for (int j = 0; j<8; j++)
                 {
                     int index = BoardUtils.EnginePositionToIndex(j, i);
                     if (pieces[index].isEmpty)
@@ -157,7 +158,12 @@ namespace SleepyPawn.Core.Chess
                 }
                 res.Append('\n');
             }
-
+            res.Append("   ");
+            for (int i = 0; i < 8; i++)
+            {
+                res.Append(" " + (char)(97 + i) + " ");
+            }
+            res.Append("\n");
             return res.ToString();
         }
 

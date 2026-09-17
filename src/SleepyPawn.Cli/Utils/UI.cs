@@ -56,15 +56,22 @@
             for(int i = 0; i < board.Length; i++)
             {
                 char c = board[i];
-                if (char.IsLetter(c))
+                if(i > 0)
                 {
-                    if (char.IsUpper(c))
+                    if (char.IsLetter(c) && board[i-1] == '[')
                     {
-                        Console.ForegroundColor = ConsoleColor.White;
+                        if (char.IsUpper(c))
+                        {
+                            Console.ForegroundColor = ConsoleColor.White;
+                        }
+                        else
+                        {
+                            Console.ForegroundColor = ConsoleColor.Blue;
+                        }
                     }
                     else
                     {
-                        Console.ForegroundColor = ConsoleColor.Blue;
+                        Console.ForegroundColor = ConsoleColor.DarkGray;
                     }
                 }
                 else
