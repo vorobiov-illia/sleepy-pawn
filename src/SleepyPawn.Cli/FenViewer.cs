@@ -57,10 +57,17 @@ namespace SleepyPawn.Cli
                 else
                 {
                     UI.WriteDivider();
-                    UI.WriteMessage(game.DebugCurrentMoveOrder());
-                    UI.WriteMessage(game.DebugLegalMoveCount());
-                    UI.WriteMessage(game.DebugWhiteCheck());
-                    UI.WriteMessage(game.DebugBlackCheck());
+                    if (game.GetOutcome() == Outcome.InProgress)
+                    {
+                        UI.WriteMessage(game.DebugCurrentMoveOrder());
+                        UI.WriteMessage(game.DebugLegalMoveCount());
+                        UI.WriteMessage(game.DebugWhiteCheck());
+                        UI.WriteMessage(game.DebugBlackCheck());
+                    }
+                    else
+                    {
+                        UI.WriteMessage(game.DebugOutcome());
+                    }
                     UI.WriteBoard(game.DebugCurrentBoard());
 
                     string fenMenuInput = UI.AskInput(mainMenuTitle, mainMenuOptions, mainMenuComments);

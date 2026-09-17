@@ -37,10 +37,17 @@ namespace SleepyPawn.Cli
                 lastMessage = null;
 
                 UI.WriteDivider();
-                UI.WriteMessage(game.DebugCurrentMoveOrder());
-                UI.WriteMessage(game.DebugLegalMoveCount());
-                UI.WriteMessage(game.DebugWhiteCheck());
-                UI.WriteMessage(game.DebugBlackCheck());
+                if(game.GetOutcome() == Outcome.InProgress)
+                {
+                    UI.WriteMessage(game.DebugCurrentMoveOrder());
+                    UI.WriteMessage(game.DebugLegalMoveCount());
+                    UI.WriteMessage(game.DebugWhiteCheck());
+                    UI.WriteMessage(game.DebugBlackCheck());
+                }
+                else
+                {
+                    UI.WriteMessage(game.DebugOutcome());
+                }
                 UI.WriteBoard(game.DebugCurrentBoard());
 
                 string action = UI.AskStringInput("Write a move in long algebraic notation (example: \"e2e4\") or type exit.");

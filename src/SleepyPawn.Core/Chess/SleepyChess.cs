@@ -33,13 +33,21 @@ namespace SleepyPawn.Core.Chess
             return currentState.KingChecked(Color.Black);
         }
 
-        public bool ActiveKingChecked()
+        public Outcome GetOutcome()
         {
-            return currentState.KingChecked(currentState.playerToMove);
-        }
-        public bool PassiveKingChecked()
-        {
-            return currentState.KingChecked(ColorUtils.Reverse(currentState.playerToMove));
+            if (GetLegalMoves() == 0)
+            {
+                if(currentState.playerToMove == Color.White)
+                {
+                    if (WhiteKingChecked()) return Outcome.BlackWon;
+                }
+                else if (currentState.playerToMove == Color.Black) 
+                {
+                    if (BlackKingChecked()) return Outcome.WhiteWon;
+                }
+                return Outcome.Stalemate;
+            }
+            return Outcome.InProgress;
         }
 
         public bool TryMove(Move move)
@@ -178,29 +186,14 @@ namespace SleepyPawn.Core.Chess
 
             return answer;
         }
-        public string DebugCurrentBoard()
-        {
-            return currentState.DebugBoard();
-        }
-        public string DebugCurrentMoveOrder()
-        {
-            return currentState.DebugMoveOrder();
-        }
-        public string DebugLegalMoveCount()
-        {
-            Span<Move> moves = stackalloc Move[256];
-            return "Legal moves for this position: " + currentState.GetLegalMoves(ref moves);
-        }
-        public string DebugWhiteCheck()
-        {
-            return currentState.DebugCheck(Color.White);
-        }
-        public string DebugBlackCheck()
-        {
-            return currentState.DebugCheck(Color.Black);
-        }
+
         public int GetLegalMoves(ref Span<Move> moves)
         {
+            return currentState.GetLegalMoves(ref moves);
+        }
+        public int GetLegalMoves()
+        {
+            Span<Move> moves = stackalloc Move[512];
             return currentState.GetLegalMoves(ref moves);
         }
         public int GetPseudoMoves(ref Span<Move> moves)
@@ -212,5 +205,49 @@ namespace SleepyPawn.Core.Chess
         {
             currentState = new ChessState();
         }
+
+        public string DebugCurrentBoard()
+        {
+            return currentState.DebugBoard();
+        }
+        public string DebugCurrentMoveOrder()
+        {
+            return currentState.DebugMoveOrder();
+        }
+        public string DebugOutcome()
+        {
+            switch (GetOutcome())
+            {
+                case Outcome.WhiteWon:
+                    return "White player won.";
+                case Outcome.BlackWon:
+                    return "Black player won.";
+                case Outcome.Stalemate:
+                    return "Stalemate.";
+                default:
+                    return "Game is not over yet.";
+            }
+        }
+        public string DebugLegalMoveCount()
+        {
+            Span<Move> moves = stackalloc Move[512];
+            return "Legal moves for this position: " + currentState.GetLegalMoves(ref moves);
+        }
+        public string DebugWhiteCheck()
+        {
+            return currentState.DebugCheck(Color.White);
+        }
+        public string DebugBlackCheck()
+        {
+            return currentState.DebugCheck(Color.Black);
+        }
+    }
+    public enum Outcome
+    {
+        InProgress,
+        WhiteWon,
+        BlackWon,
+        Stalemate
+
     }
 }
