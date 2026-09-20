@@ -8,20 +8,24 @@ namespace SleepyPawn.Core.Chess
     {
         private ChessState currentState;
         private bool testGame = false;
-        public SleepyChess(bool test = false)
+        private int halfMoveClockMax = 100;
+        public SleepyChess(bool test = false, int halfMoveClockMax = 100)
         {
             testGame = test;
             currentState = new ChessState(testGame);
+            this.halfMoveClockMax = halfMoveClockMax;
         }
         public SleepyChess(SleepyChess other)
         {
             testGame = other.testGame;
             currentState = new ChessState(other.currentState);
+            halfMoveClockMax = other.halfMoveClockMax;
         }
-        public SleepyChess(string fen, bool test = false)
+        public SleepyChess(string fen, bool test = false, int halfMoveClockMax = 100)
         {
             testGame = test;
             currentState = new ChessState(fen);
+            this.halfMoveClockMax = halfMoveClockMax;
         }
 
         public bool WhiteKingChecked()
@@ -47,7 +51,11 @@ namespace SleepyPawn.Core.Chess
                 }
                 return Outcome.Stalemate;
             }
-            return Outcome.InProgress;
+            else
+            {
+                if(currentState.info.halfMoveClock >= halfMoveClockMax && halfMoveClockMax != 0) return Outcome.Stalemate;
+                return Outcome.InProgress;
+            }
         }
 
         public bool TryMove(Move move)
@@ -248,6 +256,5 @@ namespace SleepyPawn.Core.Chess
         WhiteWon,
         BlackWon,
         Stalemate
-
     }
 }

@@ -45,6 +45,8 @@ namespace SleepyPawn.Core.Chess
             history[0].blackKingPosition = boardState.FindKing(Color.Black);
 
             playerToMove = FenUtils.GetPlayerToMove(fen);
+
+            history[0].halfMoveClock = FenUtils.GetHalfMoveCount(fen);
         }
         internal ChessState(ChessState other)
         {
@@ -222,10 +224,14 @@ namespace SleepyPawn.Core.Chess
             }
 
             Piece pieceToMove = boardState.GetPiece(move.firstPos);
+            if(!boardState.GetPiece(move.secondPos).isEmpty)
+            {
+                newStateInfo.halfMoveClock = -1;
+            }
 
             if (pieceToMove.type == PieceType.Sleepy)
             {
-                
+                newStateInfo.halfMoveClock = -1;
                 if (pieceToMove.color == Color.White)
                 {
                     if (Math.Abs(move.secondPos.y - move.firstPos.y) > 1)
@@ -326,6 +332,7 @@ namespace SleepyPawn.Core.Chess
             }
             boardState.ReplacePiece(move.firstPos, move.secondPos, move.promotionPiece);
             playerToMove = ColorUtils.Reverse(playerToMove);
+            newStateInfo.halfMoveClock++;
             history[ply] = newStateInfo;
         }
 
@@ -448,6 +455,8 @@ namespace SleepyPawn.Core.Chess
         internal Piece takenPiece;
         internal EnginePosition takenPiecePosition;
         internal Move lastMove;
+
+        internal int halfMoveClock;
         public StateInfo(bool emptyBoard)
         {
             whiteCastlingRights = new CastlingRights();
@@ -469,6 +478,8 @@ namespace SleepyPawn.Core.Chess
             takenPiece = new Piece();
             takenPiecePosition = BoardUtils.IllegalPosition;
             lastMove = new Move();
+
+            halfMoveClock = 0;
         }
     }
     internal struct CastlingRights

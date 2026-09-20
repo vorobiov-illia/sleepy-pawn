@@ -227,7 +227,7 @@ namespace SleepyPawn.Core.Utils
 
             return new Tuple<EnPassantState, EnPassantState>(whiteEnPassantState, blackEnPassantState);
         }
-        internal static int GetHalfMoveCounter(string fen)
+        internal static int GetHalfMoveCount(string fen)
         {
             if (fen.Split(' ').Length < 5) return 0;
 
@@ -237,7 +237,7 @@ namespace SleepyPawn.Core.Utils
 
             return res;
         }
-        internal static int GetMoveCounter(string fen)
+        internal static int GetMoveCount(string fen)
         {
             if (fen.Split(' ').Length < 6) return 1;
 
