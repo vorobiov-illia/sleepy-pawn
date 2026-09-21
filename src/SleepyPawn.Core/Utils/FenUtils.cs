@@ -249,7 +249,19 @@ namespace SleepyPawn.Core.Utils
         }
         public static bool IsValid(string fen)
         {
-            int count = fen.Split(' ').Length;
+            if (fen == null) return false;
+            
+            int count = 0;
+
+            if (string.IsNullOrEmpty(fen.Split(' ')[0])) return false;
+
+            foreach (string substring in fen.Split(' '))
+            {
+                if (!string.IsNullOrEmpty(substring))
+                {
+                    count++;
+                }
+            }
 
             if (count < 4) return false;
 
