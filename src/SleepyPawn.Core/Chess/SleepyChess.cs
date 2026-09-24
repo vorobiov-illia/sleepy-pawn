@@ -6,25 +6,25 @@ namespace SleepyPawn.Core.Chess
 {
     public class SleepyChess
     {
-        private ChessState currentState;
+        private State currentState;
         private bool testGame = false;
         private int halfMoveClockMax = 100;
         public SleepyChess(bool test = false, int halfMoveClockMax = 100)
         {
             testGame = test;
-            currentState = new ChessState(testGame);
+            currentState = new State(testGame);
             this.halfMoveClockMax = halfMoveClockMax;
         }
         public SleepyChess(SleepyChess other)
         {
             testGame = other.testGame;
-            currentState = new ChessState(other.currentState);
+            currentState = new State(other.currentState);
             halfMoveClockMax = other.halfMoveClockMax;
         }
         public SleepyChess(string fen, bool test = false, int halfMoveClockMax = 100)
         {
             testGame = test;
-            currentState = new ChessState(fen);
+            currentState = new State(fen);
             this.halfMoveClockMax = halfMoveClockMax;
         }
 
@@ -211,7 +211,7 @@ namespace SleepyPawn.Core.Chess
 
         public void SetupInitialPosition()
         {
-            currentState = new ChessState();
+            currentState = new State();
         }
 
         public string DebugCurrentBoard()

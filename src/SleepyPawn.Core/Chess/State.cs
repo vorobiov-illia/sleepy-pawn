@@ -4,7 +4,7 @@ using SleepyPawn.Core.Utils;
 
 namespace SleepyPawn.Core.Chess
 {
-    internal class ChessState
+    internal class State
     {
         internal Board boardState;
         internal Color playerToMove;
@@ -12,7 +12,7 @@ namespace SleepyPawn.Core.Chess
         internal int ply;
         internal ref StateInfo info => ref history[ply];
 
-        internal ChessState(bool emptyBoard = false)
+        internal State(bool emptyBoard = false)
         {
             history = new StateInfo[2048];
             ply = 0;
@@ -25,7 +25,7 @@ namespace SleepyPawn.Core.Chess
             playerToMove = Color.White;
         }
 
-        internal ChessState(string fen)
+        internal State(string fen)
         {
             history = new StateInfo[2048];
             ply = 0;
@@ -48,7 +48,7 @@ namespace SleepyPawn.Core.Chess
 
             history[0].halfMoveClock = FenUtils.GetHalfMoveCount(fen);
         }
-        internal ChessState(ChessState other)
+        internal State(State other)
         {
             boardState = new Board(other.boardState);
             playerToMove = other.playerToMove;

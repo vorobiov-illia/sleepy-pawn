@@ -4,7 +4,7 @@ namespace SleepyPawn.Core.Chess
 {
     internal struct Piece
     {
-        internal bool isEmpty => color == Color.None;
+        internal bool isEmpty => color == Color.None || type == PieceType.None;
         internal Color color { get; private set; }
         internal PieceType type { get; set; }
 
