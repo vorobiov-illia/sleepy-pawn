@@ -9,12 +9,14 @@ namespace SleepyPawn.Core.Chess
         internal Board boardState;
         internal Color playerToMove;
         internal StateInfo[] history;
+        internal ulong[] hashes;
         internal int ply;
         internal ref StateInfo info => ref history[ply];
 
         internal State(bool emptyBoard = false)
         {
             history = new StateInfo[2048];
+            hashes = new ulong[2048];
             ply = 0;
             boardState = new Board();
             if (!emptyBoard)
@@ -23,11 +25,13 @@ namespace SleepyPawn.Core.Chess
             }
             history[0] = new StateInfo(emptyBoard);
             playerToMove = Color.White;
+            hashes[0] = ZobristUtils.HashState(this);
         }
 
         internal State(string fen)
         {
             history = new StateInfo[2048];
+            hashes = new ulong[2048];
             ply = 0;
             history[0] = new StateInfo(true);
 
@@ -47,6 +51,7 @@ namespace SleepyPawn.Core.Chess
             playerToMove = FenUtils.GetPlayerToMove(fen);
 
             history[0].halfMoveClock = FenUtils.GetHalfMoveCount(fen);
+            hashes[0] = ZobristUtils.HashState(this);
         }
         internal State(State other)
         {
@@ -54,8 +59,10 @@ namespace SleepyPawn.Core.Chess
             playerToMove = other.playerToMove;
 
             history = new StateInfo[2048];
+            hashes = new ulong[2048];
             ply = other.ply;
             Array.Copy(other.history, history, 2048);
+            Array.Copy(other.hashes, hashes, 2048);
         }
 
         internal ref StateInfo GetInfo()
@@ -334,6 +341,7 @@ namespace SleepyPawn.Core.Chess
             playerToMove = ColorUtils.Reverse(playerToMove);
             newStateInfo.halfMoveClock++;
             history[ply] = newStateInfo;
+            hashes[ply] = ZobristUtils.HashState(this);
         }
 
         internal void UndoMove()
@@ -390,6 +398,22 @@ namespace SleepyPawn.Core.Chess
             boardState.AddPiece(info.takenPiecePosition,info.takenPiece);
             playerToMove = ColorUtils.Reverse(playerToMove);
             ply--;
+        }
+
+        internal bool CheckRepetitonRule(int maxRepetitions)
+        {
+            int count = 1;
+
+            int limit = Math.Max(0, ply - info.halfMoveClock);
+
+            for(int i = ply-2; i >= limit; i-=2)
+            {
+                if (hashes[i] == hashes[ply])
+                {
+                    count++;
+                }
+            }
+            return count >= maxRepetitions;
         }
 
         internal string DebugMoveOrder()

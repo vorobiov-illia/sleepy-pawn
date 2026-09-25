@@ -54,6 +54,7 @@ namespace SleepyPawn.Core.Chess
             else
             {
                 if(currentState.info.halfMoveClock >= halfMoveClockMax && halfMoveClockMax != 0) return Outcome.Stalemate;
+                if (currentState.CheckRepetitonRule(3)) return Outcome.Stalemate;
                 return Outcome.InProgress;
             }
         }
