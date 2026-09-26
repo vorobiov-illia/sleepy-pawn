@@ -123,5 +123,26 @@ namespace SleepyPawn.Tests.GameRules
             Outcome result = game.GetOutcome();
             Assert.True(result == Outcome.Stalemate, "This position must be a stalemate.");
         }
+
+        [Theory]
+        [InlineData("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1", new string[] { "g1f3", "b8c6", "f3g1", "c6b8", "g1f3", "b8c6", "f3g1", "c6b8" }, true)]
+        [InlineData("r3k2r/8/8/8/8/8/8/R3K2R w KQkq - 0 1", new string[] { "e1e2", "e8e7", "e2e1", "e7e8", "e1e2", "e8e7", "e2e1", "e7e8" }, false)]
+        [InlineData("r3k2r/8/8/8/8/8/8/R3K2R w KQkq - 0 1", new string[] { "e1e2", "e8e7", "e2e1", "e7e8", "e1e2", "e8e7", "e2e1", "e7e8", "e1e2", "e8e7" }, true)]
+        [InlineData("4k3/8/8/8/8/8/4P3/4K3 w - - 0 1", new string[] { "e1d1", "e8d8", "d1e1", "d8e8", "e2e3", "e8d8", "e1d1", "d8e8", "d1e1", "e8d8", "e1d1" }, false)]
+        public void StalemateByRepetitionRule(string fen, string[] moves, bool result)
+        {
+            // Initializing game
+            SleepyChess game = new SleepyChess(fen, true);
+
+            // Making moves that will lead to stalemate by repetiton rule.
+            foreach (string move in moves)
+            {
+                game.TryUciMove(move);
+            }
+
+            // Getting outcome for the game
+            Outcome outcome = game.GetOutcome();
+            Assert.True((outcome == Outcome.Stalemate) == result, "This position must be a stalemate by repetiton rule.");
+        }
     }
 }
