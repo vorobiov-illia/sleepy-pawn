@@ -49,12 +49,13 @@ namespace SleepyPawn.Core.Chess
                 {
                     if (BlackKingChecked()) return Outcome.WhiteWon;
                 }
-                return Outcome.Stalemate;
+                return Outcome.Draw;
             }
             else
             {
-                if(currentState.info.halfMoveClock >= halfMoveClockMax && halfMoveClockMax != 0) return Outcome.Stalemate;
-                if (currentState.CheckRepetitonRule(3)) return Outcome.Stalemate;
+                if (currentState.material.InsufficientMaterialCheck()) return Outcome.Draw;
+                if (currentState.info.halfMoveClock >= halfMoveClockMax && halfMoveClockMax != 0) return Outcome.Draw;
+                if (currentState.CheckRepetitonRule(3)) return Outcome.Draw;
                 return Outcome.InProgress;
             }
         }
@@ -231,7 +232,7 @@ namespace SleepyPawn.Core.Chess
                     return "White player won.";
                 case Outcome.BlackWon:
                     return "Black player won.";
-                case Outcome.Stalemate:
+                case Outcome.Draw:
                     return "Stalemate.";
                 default:
                     return "Game is not over yet.";
@@ -256,6 +257,6 @@ namespace SleepyPawn.Core.Chess
         InProgress,
         WhiteWon,
         BlackWon,
-        Stalemate
+        Draw
     }
 }

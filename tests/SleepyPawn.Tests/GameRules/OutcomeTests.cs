@@ -111,9 +111,22 @@ namespace SleepyPawn.Tests.GameRules
         [InlineData("8/8/8/8/8/6K1/8/R5bk b - - 0 1")]
         [InlineData("8/8/8/8/8/8/4p1pp/4Kbrk b - - 0 1")]
         // Not enough material:
-        //
-        // TO-DO: Implement feature and tests.
-        //
+        [InlineData("4k3/8/8/8/8/8/8/4K3 w - - 0 1")]
+        [InlineData("8/8/8/5k2/8/8/2K5/8 b - - 0 1")]
+        [InlineData("8/1K6/8/8/8/8/3k4/8 w - - 0 1")]
+        [InlineData("8/8/8/3K4/5k2/8/8/8 b - - 0 1")]
+        [InlineData("4k3/8/8/8/8/8/2N5/4K3 b - - 0 1")]
+        [InlineData("4k3/2n5/8/8/8/8/8/4K3 w - - 0 1")]
+        [InlineData("4k3/8/8/8/8/8/8/3BK3 w - - 0 1")]
+        [InlineData("4k3/8/8/8/8/8/3B4/4K3 w - - 0 1")]
+        [InlineData("4k3/8/8/1B6/8/8/8/4K3 w - - 0 1")]
+        [InlineData("4kb2/8/8/8/8/8/8/4K3 b - - 0 1")]
+        [InlineData("4k3/5b2/8/8/8/8/8/4K3 b - - 0 1")]
+        [InlineData("4k3/8/8/8/8/6b1/8/4K3 b - - 0 1")]
+        [InlineData("4k3/8/4B3/8/8/8/6b1/4K3 b - - 0 1")]
+        [InlineData("4k3/8/3B4/8/3b4/8/8/4K3 w - - 0 1")]
+
+        
         public void StalematePosition(string position)
         {
             // Initializing game
@@ -121,7 +134,7 @@ namespace SleepyPawn.Tests.GameRules
 
             // Getting outcome for the game
             Outcome result = game.GetOutcome();
-            Assert.True(result == Outcome.Stalemate, "This position must be a stalemate.");
+            Assert.True(result == Outcome.Draw, "This position must be a stalemate.");
         }
 
         [Theory]
@@ -142,7 +155,7 @@ namespace SleepyPawn.Tests.GameRules
 
             // Getting outcome for the game
             Outcome outcome = game.GetOutcome();
-            Assert.True((outcome == Outcome.Stalemate) == result, "This position must be a stalemate by repetiton rule.");
+            Assert.True((outcome == Outcome.Draw) == result, "This position must be a stalemate by repetiton rule.");
         }
     }
 }

@@ -297,5 +297,34 @@ namespace SleepyPawn.Core.Utils
 
             return sum == 8;
         }
+
+        internal static PieceCounter GetMaterial(string fen)
+        {
+            PieceCounter result = new PieceCounter();
+
+            string pieces = GetPiecesField(fen);
+
+            for (int rank = 8; rank >= 1; rank--)
+            {
+                string fenRank = GetRank(pieces, rank);
+                int position = 0;
+                for (int i = 0; i < fenRank.Length; i++)
+                {
+                    Tuple<Piece, int> fenPos = GetPieceFromRank(fenRank, i);
+                    if (fenPos.Item2 > 0)
+                    {
+                        position += fenPos.Item2;
+                        continue;
+                    }
+                    else
+                    {
+                        result.AddPiece(new EnginePosition(position, rank - 1), fenPos.Item1);
+                    }
+                    position++;
+                }
+            }
+
+            return result;
+        }
     }
 }

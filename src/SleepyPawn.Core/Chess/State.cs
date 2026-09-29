@@ -13,15 +13,19 @@ namespace SleepyPawn.Core.Chess
         internal int ply;
         internal ref StateInfo info => ref history[ply];
 
+        internal PieceCounter material;
+
         internal State(bool emptyBoard = false)
         {
             history = new StateInfo[2048];
             hashes = new ulong[2048];
             ply = 0;
             boardState = new Board();
+            material = new PieceCounter();
             if (!emptyBoard)
             {
-                boardState.SetupStandard();
+                boardState.SetupInitial();
+                material.SetupInitial();
             }
             history[0] = new StateInfo(emptyBoard);
             playerToMove = Color.White;
@@ -44,6 +48,7 @@ namespace SleepyPawn.Core.Chess
             history[0].blackEnPassantState = enPassantStates.Item2;
 
             boardState = FenUtils.GetBoard(fen);
+            material = FenUtils.GetMaterial(fen);
 
             history[0].whiteKingPosition = boardState.FindKing(Color.White);
             history[0].blackKingPosition = boardState.FindKing(Color.Black);
@@ -57,6 +62,7 @@ namespace SleepyPawn.Core.Chess
         {
             boardState = new Board(other.boardState);
             playerToMove = other.playerToMove;
+            material = new PieceCounter(other.material);
 
             history = new StateInfo[2048];
             hashes = new ulong[2048];
@@ -147,6 +153,7 @@ namespace SleepyPawn.Core.Chess
         }
         internal void AddPiece(EnginePosition position, Color color, PieceType type)
         {
+            material.AddPiece(position, new Piece(color, type));
             boardState.AddPiece(position, color, type);
         }
         internal bool KingChecked(Color color)
@@ -252,6 +259,7 @@ namespace SleepyPawn.Core.Chess
                         {
                             newStateInfo.takenPiece = GetPiece(currentStateInfo.blackEnPassantState.EnPassantLink.Value);
                             newStateInfo.takenPiecePosition = currentStateInfo.blackEnPassantState.EnPassantLink.Value;
+                            material.RemovePiece(currentStateInfo.blackEnPassantState.EnPassantLink.Value, boardState.GetPiece(currentStateInfo.blackEnPassantState.EnPassantLink.Value));
                             boardState.RemovePiece(currentStateInfo.blackEnPassantState.EnPassantLink.Value);
                         }
                     }
@@ -269,6 +277,7 @@ namespace SleepyPawn.Core.Chess
                         {
                             newStateInfo.takenPiece = GetPiece(currentStateInfo.whiteEnPassantState.EnPassantLink.Value);
                             newStateInfo.takenPiecePosition = currentStateInfo.whiteEnPassantState.EnPassantLink.Value;
+                            material.RemovePiece(currentStateInfo.whiteEnPassantState.EnPassantLink.Value, boardState.GetPiece(currentStateInfo.whiteEnPassantState.EnPassantLink.Value));
                             boardState.RemovePiece(currentStateInfo.whiteEnPassantState.EnPassantLink.Value);
                         }
                     }
@@ -336,8 +345,18 @@ namespace SleepyPawn.Core.Chess
             {
                 newStateInfo.takenPiece = takenPiece;
                 newStateInfo.takenPiecePosition = move.secondPos;
+                material.RemovePiece(move.secondPos, takenPiece);
             }
-            boardState.ReplacePiece(move.firstPos, move.secondPos, move.promotionPiece);
+            if (move.promotionPiece != PieceType.None)
+            {
+                material.RemovePiece(move.firstPos, boardState.GetPiece(move.firstPos));
+                boardState.ReplacePiece(move.firstPos, move.secondPos, move.promotionPiece);
+                material.AddPiece(move.secondPos, boardState.GetPiece(move.secondPos));
+            }
+            else
+            {
+                boardState.ReplacePiece(move.firstPos, move.secondPos);
+            }
             playerToMove = ColorUtils.Reverse(playerToMove);
             newStateInfo.halfMoveClock++;
             history[ply] = newStateInfo;
@@ -362,8 +381,11 @@ namespace SleepyPawn.Core.Chess
             if (move.promotionPiece != PieceType.None)
             {
                 Color promotedPieceColor = lastMovedPiece.color;
+                material.RemovePiece(move.secondPos, boardState.GetPiece(move.secondPos));
                 boardState.RemovePiece(move.secondPos);
+                
                 boardState.AddPiece(move.firstPos, new Piece(promotedPieceColor, PieceType.Sleepy));
+                material.AddPiece(move.firstPos, boardState.GetPiece(move.firstPos));
             }
             else
             {
@@ -394,8 +416,11 @@ namespace SleepyPawn.Core.Chess
                     }
                 }
             }
-
-            boardState.AddPiece(info.takenPiecePosition,info.takenPiece);
+            if (!info.takenPiece.isEmpty)
+            {
+                boardState.AddPiece(info.takenPiecePosition, info.takenPiece);
+                material.AddPiece(info.takenPiecePosition, info.takenPiece);
+            }
             playerToMove = ColorUtils.Reverse(playerToMove);
             ply--;
         }

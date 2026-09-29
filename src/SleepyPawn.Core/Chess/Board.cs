@@ -22,7 +22,7 @@ namespace SleepyPawn.Core.Chess
         {
             Array.Copy(BoardUtils.emptyPieces, pieces, 64);
         }
-        internal void SetupStandard()
+        internal void SetupInitial()
         {
             Clear();
 

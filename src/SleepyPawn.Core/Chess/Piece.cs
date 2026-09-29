@@ -13,7 +13,7 @@ namespace SleepyPawn.Core.Chess
             color = Color.None;
             type = PieceType.None;
         }
-        internal Piece(Color c, PieceType t, bool empty = false)
+        internal Piece(Color c, PieceType t)
         {
             color = c;
             type = t;

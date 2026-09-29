@@ -5,23 +5,58 @@ namespace SleepyPawn.Core.Chess
     internal class PieceCounter
     {
         // White pieces
-        private ushort whitePawns = 0;
-        private ushort whiteLightBishops = 0;
-        private ushort whiteDarkBishops = 0;
-        private ushort whiteKnights = 0;
-        private ushort whiteRooks = 0;
-        private ushort whiteQueens = 0;
-        private ushort whiteKings = 0;
+        private ushort whitePawns;
+        private ushort whiteLightBishops;
+        private ushort whiteDarkBishops;
+        private ushort whiteKnights;
+        private ushort whiteRooks;
+        private ushort whiteQueens;
+        private ushort whiteKings;
 
         // Black pieces
-        private ushort blackPawns = 0;
-        private ushort blackLightBishops = 0;
-        private ushort blackDarkBishops = 0;
-        private ushort blackKnights = 0;
-        private ushort blackRooks = 0;
-        private ushort blackQueens = 0;
-        private ushort blackKings = 0;
+        private ushort blackPawns;
+        private ushort blackLightBishops;
+        private ushort blackDarkBishops;
+        private ushort blackKnights;
+        private ushort blackRooks;
+        private ushort blackQueens;
+        private ushort blackKings;
 
+        internal PieceCounter()
+        {
+            whitePawns = 0;
+            whiteLightBishops = 0;
+            whiteDarkBishops = 0;
+            whiteKnights = 0;
+            whiteRooks = 0;
+            whiteQueens = 0;
+            whiteKings = 0;
+            blackPawns = 0;
+            blackLightBishops = 0;
+            blackDarkBishops = 0;
+            blackKnights = 0;
+            blackRooks = 0;
+            blackQueens = 0;
+            blackKings = 0;
+        }
+        internal PieceCounter(PieceCounter other)
+        {
+            whitePawns = other.whitePawns;
+            whiteLightBishops = other.whiteLightBishops;
+            whiteDarkBishops = other.whiteDarkBishops;
+            whiteKnights = other.whiteKnights;
+            whiteRooks = other.whiteRooks;
+            whiteQueens = other.whiteQueens;
+            whiteKings = other.whiteKings;
+            blackPawns = other.blackPawns;
+            blackLightBishops = other.blackLightBishops;
+            blackDarkBishops = other.blackDarkBishops;
+            blackKnights = other.blackKnights;
+            blackRooks = other.blackRooks;
+            blackQueens = other.blackQueens;
+            blackKings = other.blackKings;
+        }
+        
         internal void SetupInitial()
         {
             whitePawns = 8;
@@ -133,7 +168,7 @@ namespace SleepyPawn.Core.Chess
                 }
             }
         }
-        internal void AddPiece(Piece piece, EnginePosition position)
+        internal void AddPiece(EnginePosition position, Piece piece)
         {
             if (piece.isEmpty) return;
             if (piece.color == Color.White)
@@ -199,7 +234,72 @@ namespace SleepyPawn.Core.Chess
                 }
             }
         }
-        internal void RemovePiece(Piece piece, EnginePosition position)
+        internal void AddPiece(EnginePosition position, Color c, PieceType t)
+        {
+            if (c == Color.White)
+            {
+                switch (t)
+                {
+                    case PieceType.Sleepy:
+                        whitePawns++;
+                        break;
+                    case PieceType.Bishop:
+                        if ((position.x + position.y) % 2 == 0)
+                        {
+                            whiteDarkBishops++;
+                        }
+                        else
+                        {
+                            whiteLightBishops++;
+                        }
+                        break;
+                    case PieceType.Knight:
+                        whiteKnights++;
+                        break;
+                    case PieceType.Rook:
+                        whiteRooks++;
+                        break;
+                    case PieceType.Queen:
+                        whiteQueens++;
+                        break;
+                    case PieceType.King:
+                        whiteKings++;
+                        break;
+                }
+            }
+            else if (c == Color.Black)
+            {
+                switch (t)
+                {
+                    case PieceType.Sleepy:
+                        blackPawns++;
+                        break;
+                    case PieceType.Bishop:
+                        if ((position.x + position.y) % 2 == 0)
+                        {
+                            blackDarkBishops++;
+                        }
+                        else
+                        {
+                            blackLightBishops++;
+                        }
+                        break;
+                    case PieceType.Knight:
+                        blackKnights++;
+                        break;
+                    case PieceType.Rook:
+                        blackRooks++;
+                        break;
+                    case PieceType.Queen:
+                        blackQueens++;
+                        break;
+                    case PieceType.King:
+                        blackKings++;
+                        break;
+                }
+            }
+        }
+        internal void RemovePiece(EnginePosition position, Piece piece)
         {
             if (piece.isEmpty) return;
             if (piece.color == Color.White)
