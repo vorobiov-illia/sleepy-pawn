@@ -1,5 +1,6 @@
 ﻿using SleepyPawn.Cli.Utils;
 using SleepyPawn.Core.Chess;
+using SleepyPawn.Core.Chess.Enums;
 using SleepyPawn.Core.Utils;
 
 namespace SleepyPawn.Cli

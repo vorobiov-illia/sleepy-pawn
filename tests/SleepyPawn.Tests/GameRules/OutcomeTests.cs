@@ -1,4 +1,5 @@
 ﻿using SleepyPawn.Core.Chess;
+using SleepyPawn.Core.Chess.Enums;
 
 namespace SleepyPawn.Tests.GameRules
 {

@@ -252,11 +252,4 @@ namespace SleepyPawn.Core.Chess
             return currentState.DebugCheck(Color.Black);
         }
     }
-    public enum Outcome
-    {
-        InProgress,
-        WhiteWon,
-        BlackWon,
-        Draw
-    }
 }
