@@ -30,26 +30,26 @@ namespace SleepyPawn.Core.Chess
             isValid = LegalMoveAnalyzer.IsValid(this);
         }
 
-        public void FromUci(string uciMove)
+        public void FromLan(string lanMove)
         {
-            if (!UciUtils.ValidateMove(uciMove))
+            if (!LanUtils.ValidateMove(lanMove))
             {
                 isValid = false;
                 return;
             }
             isValid = true;
 
-            if (UciUtils.IsNullMove(uciMove))
+            if (LanUtils.IsNullMove(lanMove))
             {
                 nullMove = true;
                 return;
             }
 
-            int fx = UciUtils.UciToEngineChar(uciMove[0]);
-            int fy = UciUtils.UciToEngineChar(uciMove[1]);
+            int fx = LanUtils.LanToEngineChar(lanMove[0]);
+            int fy = LanUtils.LanToEngineChar(lanMove[1]);
 
-            int sx = UciUtils.UciToEngineChar(uciMove[2]);
-            int sy = UciUtils.UciToEngineChar(uciMove[3]);
+            int sx = LanUtils.LanToEngineChar(lanMove[2]);
+            int sy = LanUtils.LanToEngineChar(lanMove[3]);
 
             firstPos = new EnginePosition(fx,fy);
             secondPos = new EnginePosition(sx, sy);
@@ -60,9 +60,9 @@ namespace SleepyPawn.Core.Chess
                 return;
             }
 
-            if(uciMove.Length == 5)
+            if(lanMove.Length == 5)
             {
-                promotionPiece = UciUtils.UciToEnginePromotion(uciMove[4]);
+                promotionPiece = LanUtils.LanToEnginePromotion(lanMove[4]);
             }
 
             return;

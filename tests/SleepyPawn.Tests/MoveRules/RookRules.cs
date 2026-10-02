@@ -46,10 +46,10 @@ namespace SleepyPawn.Tests.MoveRules
             if (!white)
             {
                 // Skip white move
-                game.TryUciMove("0000");
+                game.TryLanMove("0000");
             }
             // Player makes legal move
-            bool isLegal = game.TryUciMove(move);
+            bool isLegal = game.TryLanMove(move);
             Assert.True(isLegal, "Rook should be able to perform move on free straight line.");
         }
         [Theory]
@@ -90,10 +90,10 @@ namespace SleepyPawn.Tests.MoveRules
             if (!white)
             {
                 // Skip white move
-                game.TryUciMove("0000");
+                game.TryLanMove("0000");
             }
             // Player makes illegal move
-            bool isLegal = game.TryUciMove(illegalMove);
+            bool isLegal = game.TryLanMove(illegalMove);
             Assert.False(isLegal, "Rook must not be able to move diagonally.");
         }
         [Theory]
@@ -124,10 +124,10 @@ namespace SleepyPawn.Tests.MoveRules
             if (!white)
             {
                 // Skip white move
-                game.TryUciMove("0000");
+                game.TryLanMove("0000");
             }
             // Player makes illegal move
-            bool isLegal = game.TryUciMove(illegalMove);
+            bool isLegal = game.TryLanMove(illegalMove);
             Assert.False(isLegal, "Rook must not be able to perform L-shaped moves.");
         }
         [Theory]
@@ -160,10 +160,10 @@ namespace SleepyPawn.Tests.MoveRules
             if (!white)
             {
                 // Skip white move
-                game.TryUciMove("0000");
+                game.TryLanMove("0000");
             }
             // Player makes illegal move
-            bool isLegal = game.TryUciMove(move);
+            bool isLegal = game.TryLanMove(move);
 
             Assert.False(isLegal, "Rook must not be able to jump over pieces.");
         }
@@ -187,10 +187,10 @@ namespace SleepyPawn.Tests.MoveRules
             if (!white)
             {
                 // Skip white move
-                game.TryUciMove("0000");
+                game.TryLanMove("0000");
             }
             // Player makes illegal move
-            bool isLegal = game.TryUciMove(illegalMove);
+            bool isLegal = game.TryLanMove(illegalMove);
             Assert.False(isLegal, "Rook must not be able to move out of game board.");
         }
         //----- Attacks:
@@ -216,10 +216,10 @@ namespace SleepyPawn.Tests.MoveRules
             if (!white)
             {
                 // Skip white move
-                game.TryUciMove("0000");
+                game.TryLanMove("0000");
             }
             // Player takes opponent pawn
-            bool isLegal = game.TryUciMove(move);
+            bool isLegal = game.TryLanMove(move);
 
             Assert.True(isLegal, "Rook should be able to take Opponent pieces.");
         }
@@ -245,10 +245,10 @@ namespace SleepyPawn.Tests.MoveRules
             if (!white)
             {
                 // Skip white move
-                game.TryUciMove("0000");
+                game.TryLanMove("0000");
             }
             // Player takes ally pawn
-            bool isLegal = game.TryUciMove(move);
+            bool isLegal = game.TryLanMove(move);
 
             Assert.False(isLegal, "Rook must not be able to take Ally pieces.");
         }

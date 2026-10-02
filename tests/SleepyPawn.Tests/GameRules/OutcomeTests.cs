@@ -151,7 +151,7 @@ namespace SleepyPawn.Tests.GameRules
             // Making moves that will lead to stalemate by repetiton rule.
             foreach (string move in moves)
             {
-                game.TryUciMove(move);
+                game.TryLanMove(move);
             }
 
             // Getting outcome for the game

@@ -14,7 +14,7 @@ namespace SleepyPawn.Tests.MoveRules
             game.AddPiece("e7bp");
 
             // White player makes legal move
-            bool isLegal = game.TryUciMove("e7e6");
+            bool isLegal = game.TryLanMove("e7e6");
             Assert.False(isLegal, "A player must not be able to move the other player's pieces.");
         }
         [Fact]
@@ -27,9 +27,9 @@ namespace SleepyPawn.Tests.MoveRules
             game.AddPiece("e7wp");
 
             // Skip white move
-            game.TryUciMove("0000");
+            game.TryLanMove("0000");
             // Black player makes legal move
-            bool isLegal = game.TryUciMove("e7e6");
+            bool isLegal = game.TryLanMove("e7e6");
             Assert.False(isLegal, "A player must not be able to move the other player's pieces.");
         }
         [Fact]
@@ -39,7 +39,7 @@ namespace SleepyPawn.Tests.MoveRules
             SleepyChess game = new SleepyChess(true);
 
             // White player makes illegal move
-            bool isLegal = game.TryUciMove("e2e4");
+            bool isLegal = game.TryLanMove("e2e4");
             Assert.False(isLegal, "A player must not be able to make moves with empty square as piece.");
         }
         [Theory]
@@ -65,10 +65,10 @@ namespace SleepyPawn.Tests.MoveRules
             if (!white)
             {
                 // Skip white move
-                game.TryUciMove("0000");
+                game.TryLanMove("0000");
             }
             // Player makes illegal move
-            bool isLegal = game.TryUciMove(move);
+            bool isLegal = game.TryLanMove(move);
             Assert.False(isLegal, "A player must not be able to skip move by not changing piece position.");
         }
     }

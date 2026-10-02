@@ -53,7 +53,7 @@ namespace SleepyPawn.Cli
 
                 string action = UI.AskStringInput("Write a move in long algebraic notation (example: \"e2e4\") or type exit.");
                 if (action == "exit") return;
-                bool moveSuccess = game.TryUciMove(action);
+                bool moveSuccess = game.TryLanMove(action);
                 if (!moveSuccess)
                 {
                     lastMessage = "Invalid command: \"" + action + "\".";

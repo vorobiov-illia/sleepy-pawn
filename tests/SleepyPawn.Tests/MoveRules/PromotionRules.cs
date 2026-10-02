@@ -82,10 +82,10 @@ namespace SleepyPawn.Tests.MoveRules
             if (!white)
             {
                 // Skip white move
-                game.TryUciMove("0000");
+                game.TryLanMove("0000");
             }
             // Player makes pawn promotion
-            bool isLegal = game.TryUciMove(move);
+            bool isLegal = game.TryLanMove(move);
             Assert.True(isLegal, "Player should be able to perform pawn promotion.");
         }
         [Theory]
@@ -110,10 +110,10 @@ namespace SleepyPawn.Tests.MoveRules
             if (!white)
             {
                 // Skip white move
-                game.TryUciMove("0000");
+                game.TryLanMove("0000");
             }
             // Player makes pawn promotion
-            bool isLegal = game.TryUciMove(move);
+            bool isLegal = game.TryLanMove(move);
             Assert.True(isLegal, "Player should be able to perform pawn promotion on capture.");
         }
         //----- Illegal cases:
@@ -161,10 +161,10 @@ namespace SleepyPawn.Tests.MoveRules
             if (!white)
             {
                 // Skip white move
-                game.TryUciMove("0000");
+                game.TryLanMove("0000");
             }
             // Player makes illegal pawn promotion
-            bool isLegal = game.TryUciMove(move);
+            bool isLegal = game.TryLanMove(move);
             Assert.False(isLegal, "Player must not be able to promote pawn to king or pawn.");
         }
         [Theory]
@@ -195,10 +195,10 @@ namespace SleepyPawn.Tests.MoveRules
             if (!white)
             {
                 // Skip white move
-                game.TryUciMove("0000");
+                game.TryLanMove("0000");
             }
             // Player makes illegal pawn move
-            bool isLegal = game.TryUciMove(move);
+            bool isLegal = game.TryLanMove(move);
             Assert.False(isLegal, "Player must not be able to move pawn on last rank without promotion.");
         }
         [Theory]
@@ -254,10 +254,10 @@ namespace SleepyPawn.Tests.MoveRules
             if (!white)
             {
                 // Skip white move
-                game.TryUciMove("0000");
+                game.TryLanMove("0000");
             }
             // Player makes piece promotion
-            bool isLegal = game.TryUciMove(move);
+            bool isLegal = game.TryLanMove(move);
             Assert.False(isLegal, "Player must not be able to perform promotion with piece that is not a pawn.");
         }
         [Theory]
@@ -336,10 +336,10 @@ namespace SleepyPawn.Tests.MoveRules
             if (!white)
             {
                 // Skip white move
-                game.TryUciMove("0000");
+                game.TryLanMove("0000");
             }
             // Player makes pawn promotion on wrong position
-            bool isLegal = game.TryUciMove(move);
+            bool isLegal = game.TryLanMove(move);
             Assert.False(isLegal, "Player must not be able to perform pawn promotion on position that is not lying on last rank.");
         }
         [Theory]
@@ -364,10 +364,10 @@ namespace SleepyPawn.Tests.MoveRules
             if (!white)
             {
                 // Skip white move
-                game.TryUciMove("0000");
+                game.TryLanMove("0000");
             }
             // Player makes pawn promotion
-            bool isLegal = game.TryUciMove(move);
+            bool isLegal = game.TryLanMove(move);
             Assert.False(isLegal, "Player must not be able to perform pawn promotion on blocked tile.");
         }
     }

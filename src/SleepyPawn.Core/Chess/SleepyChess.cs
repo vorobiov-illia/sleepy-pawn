@@ -37,6 +37,17 @@ namespace SleepyPawn.Core.Chess
             return currentState.KingChecked(Color.Black);
         }
 
+        public string CallUCI(string command)
+        {
+            switch (command)
+            {
+                case "isready":
+                    return "readyok";
+                default:
+                    return "";
+            }
+        }
+
         public Outcome GetOutcome()
         {
             if (GetLegalMoves() == 0)
@@ -80,10 +91,10 @@ namespace SleepyPawn.Core.Chess
         {
             currentState.UndoMove();
         }
-        public bool TryUciMove(string uciMove)
+        public bool TryLanMove(string lanMove)
         {
             Move move = new Move();
-            move.FromUci(uciMove);
+            move.FromLan(lanMove);
 
             return TryMove(move);
         }
@@ -92,8 +103,8 @@ namespace SleepyPawn.Core.Chess
         {
             if (command.Length != 4) return;
 
-            int x = UciUtils.UciToEngineChar(command[0]);
-            int y = UciUtils.UciToEngineChar(command[1]);
+            int x = LanUtils.LanToEngineChar(command[0]);
+            int y = LanUtils.LanToEngineChar(command[1]);
 
             EnginePosition position = new EnginePosition(x,y);
 
@@ -142,13 +153,13 @@ namespace SleepyPawn.Core.Chess
             
             currentState.AddPiece(position, color, type);
         }
-        public string GetPiece(string uciPosition)
+        public string GetPiece(string lanPosition)
         {
             string answer = "00";
-            if (uciPosition.Length != 2) return answer;
+            if (lanPosition.Length != 2) return answer;
 
-            int x = UciUtils.UciToEngineChar(uciPosition[0]);
-            int y = UciUtils.UciToEngineChar(uciPosition[1]);
+            int x = LanUtils.LanToEngineChar(lanPosition[0]);
+            int y = LanUtils.LanToEngineChar(lanPosition[1]);
 
             EnginePosition position = new EnginePosition(x, y);
 

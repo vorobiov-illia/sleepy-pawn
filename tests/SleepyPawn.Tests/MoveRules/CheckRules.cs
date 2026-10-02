@@ -30,10 +30,10 @@ namespace SleepyPawn.Tests.MoveRules
             if (!white)
             {
                 // Skip white move
-                game.TryUciMove("0000");
+                game.TryLanMove("0000");
             }
             // Player makes illegal move
-            bool isLegal = game.TryUciMove(move);
+            bool isLegal = game.TryLanMove(move);
             Assert.False(isLegal, "A player must not be able to move the king to a tile that is attacked by an opponent piece.");
         }
         [Theory]
@@ -60,10 +60,10 @@ namespace SleepyPawn.Tests.MoveRules
             if (!white)
             {
                 // Skip white move
-                game.TryUciMove("0000");
+                game.TryLanMove("0000");
             }
             // Player makes legal move
-            bool isLegal = game.TryUciMove(move);
+            bool isLegal = game.TryLanMove(move);
             Assert.True(isLegal, "A player should be able to move the king to a tile that is attacked by an ally piece.");
         }
         [Theory]
@@ -98,10 +98,10 @@ namespace SleepyPawn.Tests.MoveRules
             if (!white)
             {
                 // Skip white move
-                game.TryUciMove("0000");
+                game.TryLanMove("0000");
             }
             // Player makes illegal move
-            bool isLegal = game.TryUciMove(move);
+            bool isLegal = game.TryLanMove(move);
             Assert.False(isLegal, "A player must not be able to move a piece that is protecting the king.");
         }
         [Theory]
@@ -122,10 +122,10 @@ namespace SleepyPawn.Tests.MoveRules
             if (!white)
             {
                 // Skip white move
-                game.TryUciMove("0000");
+                game.TryLanMove("0000");
             }
             // Player makes illegal move
-            bool isLegal = game.TryUciMove(move);
+            bool isLegal = game.TryLanMove(move);
             Assert.False(isLegal, "A player must not be able to move other pieces while the king is threatened.");
         }
         [Theory]
@@ -146,10 +146,10 @@ namespace SleepyPawn.Tests.MoveRules
             if (!white)
             {
                 // Skip white move
-                game.TryUciMove("0000");
+                game.TryLanMove("0000");
             }
             // Player makes legal move
-            bool isLegal = game.TryUciMove(move);
+            bool isLegal = game.TryLanMove(move);
             Assert.True(isLegal, "A player should be able to take piece that is threatening the king.");
         }
         [Theory]
@@ -170,10 +170,10 @@ namespace SleepyPawn.Tests.MoveRules
             if (!white)
             {
                 // Skip white move
-                game.TryUciMove("0000");
+                game.TryLanMove("0000");
             }
             // Player makes legal move
-            bool isLegal = game.TryUciMove(move);
+            bool isLegal = game.TryLanMove(move);
             Assert.True(isLegal, "A player should be able to block an attacker piece that is threatening the king.");
         }
         [Theory]
@@ -202,10 +202,10 @@ namespace SleepyPawn.Tests.MoveRules
             if (!white)
             {
                 // Skip white move
-                game.TryUciMove("0000");
+                game.TryLanMove("0000");
             }
             // Player makes legal move
-            bool isLegal = game.TryUciMove(move);
+            bool isLegal = game.TryLanMove(move);
             Assert.True(isLegal, "A player should be able to move the king to avoid check.");
         }
         [Theory]
@@ -234,10 +234,10 @@ namespace SleepyPawn.Tests.MoveRules
             if (!white)
             {
                 // Skip white move
-                game.TryUciMove("0000");
+                game.TryLanMove("0000");
             }
             // Player makes illegal move
-            bool isLegal = game.TryUciMove(move);
+            bool isLegal = game.TryLanMove(move);
             Assert.False(isLegal, "A player must not be able to move the king along attacked line to avoid check.");
         }
     }

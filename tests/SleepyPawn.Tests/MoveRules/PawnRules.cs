@@ -16,7 +16,7 @@ namespace SleepyPawn.Tests.MoveRules
             game.AddPiece("e2wp");
 
             // White player makes legal move
-            bool isLegal = game.TryUciMove("e2e3");
+            bool isLegal = game.TryLanMove("e2e3");
             Assert.True(isLegal, "Pawn should be able to move forward on empty tile.");
         }
         [Fact]
@@ -31,7 +31,7 @@ namespace SleepyPawn.Tests.MoveRules
             game.AddPiece("e3bp");
 
             // White player makes illegal move
-            bool isLegal = game.TryUciMove("e2e3");
+            bool isLegal = game.TryLanMove("e2e3");
             Assert.False(isLegal, "Pawn must not be able to move forward on occupied tile.");
         }
         [Fact]
@@ -44,7 +44,7 @@ namespace SleepyPawn.Tests.MoveRules
             game.AddPiece("e2wp");
 
             // White player makes illegal move
-            bool isLegal = game.TryUciMove("e2e1");
+            bool isLegal = game.TryLanMove("e2e1");
             Assert.False(isLegal, "Pawn must not be able to move backwards.");
         }
         [Fact]
@@ -57,7 +57,7 @@ namespace SleepyPawn.Tests.MoveRules
             game.AddPiece("e2wp");
 
             // White player makes illegal move
-            bool isLegal = game.TryUciMove("e2e5");
+            bool isLegal = game.TryLanMove("e2e5");
             Assert.False(isLegal, "Pawn must not be able to move forward that far.");
         }
         [Theory]
@@ -72,7 +72,7 @@ namespace SleepyPawn.Tests.MoveRules
             game.AddPiece("e2wp");
 
             // White player makes illegal move
-            bool isLegal = game.TryUciMove(illegalMove);
+            bool isLegal = game.TryLanMove(illegalMove);
             Assert.False(isLegal, "Pawn must not be able to move horizontaly.");
         }
         [Theory]
@@ -88,7 +88,7 @@ namespace SleepyPawn.Tests.MoveRules
             game.AddPiece(pawn);
 
             // White player makes illegal move
-            bool isLegal = game.TryUciMove(move);
+            bool isLegal = game.TryLanMove(move);
             Assert.False(isLegal, "Pawn must not be able to move out of game board.");
         }
         //----- Double moves:
@@ -102,7 +102,7 @@ namespace SleepyPawn.Tests.MoveRules
             game.AddPiece("e2wp");
 
             // White player makes legal move
-            bool isLegal = game.TryUciMove("e2e4");
+            bool isLegal = game.TryLanMove("e2e4");
             Assert.True(isLegal, "Pawn should be able to perform double forward move one time.");
         }
         [Fact]
@@ -117,7 +117,7 @@ namespace SleepyPawn.Tests.MoveRules
             game.AddPiece("e3bp");
 
             // White player makes illegal move
-            bool isLegal = game.TryUciMove("e2e4");
+            bool isLegal = game.TryLanMove("e2e4");
             Assert.False(isLegal, "Pawn must not be able to perform double forward move if piece blocks the way.");
         }
         [Fact]
@@ -132,7 +132,7 @@ namespace SleepyPawn.Tests.MoveRules
             game.AddPiece("e4bp");
 
             // White player makes illegal move
-            bool isLegal = game.TryUciMove("e2e4");
+            bool isLegal = game.TryLanMove("e2e4");
             Assert.False(isLegal, "Pawn must not be able to perform double forward move on occupied tile.");
         }
         [Fact]
@@ -145,11 +145,11 @@ namespace SleepyPawn.Tests.MoveRules
             game.AddPiece("e2wp");
 
             // White player makes legal move
-            game.TryUciMove("e2e3");
+            game.TryLanMove("e2e3");
             // Skipping black move
-            game.TryUciMove("0000");
+            game.TryLanMove("0000");
             // White player makes illegal move
-            bool isLegal = game.TryUciMove("e3e5");
+            bool isLegal = game.TryLanMove("e3e5");
             Assert.False(isLegal, "Pawn must not be able to perform double forward move after moving.");
         }
         //----- Attacks:
@@ -167,7 +167,7 @@ namespace SleepyPawn.Tests.MoveRules
             game.AddPiece(captureTarget);
 
             // White player takes Black pawn
-            bool isLegal = game.TryUciMove(move);
+            bool isLegal = game.TryLanMove(move);
 
             Assert.True(isLegal, "White Pawn should be able to take Black pieces diagonally.");
         }
@@ -185,7 +185,7 @@ namespace SleepyPawn.Tests.MoveRules
             game.AddPiece(captureTarget);
 
             // White player takes Black pawn
-            bool isLegal = game.TryUciMove(move);
+            bool isLegal = game.TryLanMove(move);
 
             Assert.False(isLegal, "White Pawn must not be able to take Black pieces diagonally from back.");
         }
@@ -203,7 +203,7 @@ namespace SleepyPawn.Tests.MoveRules
             game.AddPiece(captureTarget);
 
             // White player takes White pawn
-            bool isLegal = game.TryUciMove(move);
+            bool isLegal = game.TryLanMove(move);
 
             Assert.False(isLegal, "White Pawn must not be able to take White pieces.");
         }
@@ -219,7 +219,7 @@ namespace SleepyPawn.Tests.MoveRules
             game.AddPiece("e2wp");
 
             // White player takes nothing
-            bool isLegal = game.TryUciMove(move);
+            bool isLegal = game.TryLanMove(move);
 
             Assert.False(isLegal, "White Pawn must not be able to move diagonally without piece to capture.");
         }
@@ -235,9 +235,9 @@ namespace SleepyPawn.Tests.MoveRules
             game.AddPiece("e7bp");
 
             // Skipping white move
-            game.TryUciMove("0000");
+            game.TryLanMove("0000");
             // Black player makes legal move
-            bool isLegal = game.TryUciMove("e7e6");
+            bool isLegal = game.TryLanMove("e7e6");
             Assert.True(isLegal, "Pawn should be able to move forward on empty tile.");
         }
         [Fact]
@@ -252,9 +252,9 @@ namespace SleepyPawn.Tests.MoveRules
             game.AddPiece("e6wp");
 
             // Skipping white move
-            game.TryUciMove("0000");
+            game.TryLanMove("0000");
             // Black player makes illegal move
-            bool isLegal = game.TryUciMove("e7e6");
+            bool isLegal = game.TryLanMove("e7e6");
             Assert.False(isLegal, "Pawn must not be able to move forward on occupied tile.");
         }
         [Fact]
@@ -267,9 +267,9 @@ namespace SleepyPawn.Tests.MoveRules
             game.AddPiece("e7bp");
 
             // Skipping white move
-            game.TryUciMove("0000");
+            game.TryLanMove("0000");
             // Black player makes illegal move
-            bool isLegal = game.TryUciMove("e7e8");
+            bool isLegal = game.TryLanMove("e7e8");
             Assert.False(isLegal, "Pawn must not be able to move backwards.");
         }
         [Fact]
@@ -282,9 +282,9 @@ namespace SleepyPawn.Tests.MoveRules
             game.AddPiece("e7bp");
 
             // Skipping white move
-            game.TryUciMove("0000");
+            game.TryLanMove("0000");
             // Black player makes illegal move
-            bool isLegal = game.TryUciMove("e7e4");
+            bool isLegal = game.TryLanMove("e7e4");
             Assert.False(isLegal, "Pawn must not be able to move forward that far.");
         }
         [Theory]
@@ -299,9 +299,9 @@ namespace SleepyPawn.Tests.MoveRules
             game.AddPiece("e7bp");
 
             // Skipping white move
-            game.TryUciMove("0000");
+            game.TryLanMove("0000");
             // Black player makes illegal move
-            bool isLegal = game.TryUciMove(illegalMove);
+            bool isLegal = game.TryLanMove(illegalMove);
             Assert.False(isLegal, "Pawn must not be able to move horizontaly.");
         }
         //----- Double moves:
@@ -315,9 +315,9 @@ namespace SleepyPawn.Tests.MoveRules
             game.AddPiece("e7bp");
 
             // Skipping white move
-            game.TryUciMove("0000");
+            game.TryLanMove("0000");
             // Black player makes legal move
-            bool isLegal = game.TryUciMove("e7e5");
+            bool isLegal = game.TryLanMove("e7e5");
             Assert.True(isLegal, "Pawn should be able to perform double forward move one time.");
         }
         [Fact]
@@ -332,9 +332,9 @@ namespace SleepyPawn.Tests.MoveRules
             game.AddPiece("e6wp");
 
             // Skipping white move
-            game.TryUciMove("0000");
+            game.TryLanMove("0000");
             // Black player makes illegal move
-            bool isLegal = game.TryUciMove("e7e5");
+            bool isLegal = game.TryLanMove("e7e5");
             Assert.False(isLegal, "Pawn must not be able to perform double forward move if piece blocks the way.");
         }
         [Fact]
@@ -349,9 +349,9 @@ namespace SleepyPawn.Tests.MoveRules
             game.AddPiece("e5wp");
 
             // Skipping white move
-            game.TryUciMove("0000");
+            game.TryLanMove("0000");
             // Black player makes illegal move
-            bool isLegal = game.TryUciMove("e7e5");
+            bool isLegal = game.TryLanMove("e7e5");
             Assert.False(isLegal, "Pawn must not be able to perform double forward move on occupied tile.");
         }
         [Fact]
@@ -364,13 +364,13 @@ namespace SleepyPawn.Tests.MoveRules
             game.AddPiece("e7bp");
 
             // Skipping white move
-            game.TryUciMove("0000");
+            game.TryLanMove("0000");
             // Black player makes legal move
-            game.TryUciMove("e7e6");
+            game.TryLanMove("e7e6");
             // Skipping white move
-            game.TryUciMove("0000");
+            game.TryLanMove("0000");
             // Black player makes illegal move
-            bool isLegal = game.TryUciMove("e6e4");
+            bool isLegal = game.TryLanMove("e6e4");
             Assert.False(isLegal, "Pawn must not be able to perform double forward move after moving.");
         }
         //----- Attacks:
@@ -388,9 +388,9 @@ namespace SleepyPawn.Tests.MoveRules
             game.AddPiece(captureTarget);
 
             // Skipping white move
-            game.TryUciMove("0000");
+            game.TryLanMove("0000");
             // Black player takes White pawn
-            bool isLegal = game.TryUciMove(move);
+            bool isLegal = game.TryLanMove(move);
 
             Assert.True(isLegal, "Black Pawn should be able to take White pieces diagonally.");
         }
@@ -408,9 +408,9 @@ namespace SleepyPawn.Tests.MoveRules
             game.AddPiece(captureTarget);
 
             // Skipping white move
-            game.TryUciMove("0000");
+            game.TryLanMove("0000");
             // Black player takes White pawn
-            bool isLegal = game.TryUciMove(move);
+            bool isLegal = game.TryLanMove(move);
 
             Assert.False(isLegal, "Black Pawn must not be able to take White pieces diagonally from back.");
         }
@@ -428,9 +428,9 @@ namespace SleepyPawn.Tests.MoveRules
             game.AddPiece(captureTarget);
 
             // Skipping white move
-            game.TryUciMove("0000");
+            game.TryLanMove("0000");
             // Black player takes black pawn
-            bool isLegal = game.TryUciMove(move);
+            bool isLegal = game.TryLanMove(move);
 
             Assert.False(isLegal, "Black Pawn must not be able to take Black pieces.");
         }
@@ -446,9 +446,9 @@ namespace SleepyPawn.Tests.MoveRules
             game.AddPiece("e7bp");
 
             // Skipping white move
-            game.TryUciMove("0000");
+            game.TryLanMove("0000");
             // Black player takes nothing
-            bool isLegal = game.TryUciMove(move);
+            bool isLegal = game.TryLanMove(move);
 
             Assert.False(isLegal, "Black Pawn must not be able to move diagonally without piece to capture.");
         }

@@ -18,7 +18,7 @@ namespace SleepyPawn.Tests.MoveRules
             game.AddPiece("e1wk");
 
             // White player makes short castling
-            bool isLegal = game.TryUciMove("e1g1");
+            bool isLegal = game.TryLanMove("e1g1");
             Assert.True(isLegal, "White player should be able to perform short castling when possible.");
         }
         [Fact]
@@ -33,7 +33,7 @@ namespace SleepyPawn.Tests.MoveRules
             game.AddPiece("e1wk");
 
             // White player makes long castling
-            bool isLegal = game.TryUciMove("e1c1");
+            bool isLegal = game.TryLanMove("e1c1");
             Assert.True(isLegal, "White player should be able to perform long castling when possible.");
         }
         [Fact]
@@ -50,7 +50,7 @@ namespace SleepyPawn.Tests.MoveRules
             game.AddPiece("h8br");
 
             // White player makes short castling
-            bool isLegal = game.TryUciMove("e1g1");
+            bool isLegal = game.TryLanMove("e1g1");
             Assert.True(isLegal, "White player should be able to perform short castling, even when white rook is under attack.");
         }
         [Fact]
@@ -67,7 +67,7 @@ namespace SleepyPawn.Tests.MoveRules
             game.AddPiece("a8br");
 
             // White player makes long castling
-            bool isLegal = game.TryUciMove("e1c1");
+            bool isLegal = game.TryLanMove("e1c1");
             Assert.True(isLegal, "White player should be able to perform long castling, even when white rook is under attack.");
         }
         [Fact]
@@ -84,7 +84,7 @@ namespace SleepyPawn.Tests.MoveRules
             game.AddPiece("b8br");
 
             // White player makes long castling
-            bool isLegal = game.TryUciMove("e1c1");
+            bool isLegal = game.TryLanMove("e1c1");
             Assert.True(isLegal, "White player should be able to perform long castling, even when b1 tile is under attack.");
         }
         //----- Illegal cases:
@@ -100,15 +100,15 @@ namespace SleepyPawn.Tests.MoveRules
             game.AddPiece("e1wk");
 
             // White player moves king
-            game.TryUciMove("e1e2");
+            game.TryLanMove("e1e2");
             // Skipping black move
-            game.TryUciMove("0000");
+            game.TryLanMove("0000");
             // White player moves king back
-            game.TryUciMove("e2e1");
+            game.TryLanMove("e2e1");
             // Skipping black move
-            game.TryUciMove("0000");
+            game.TryLanMove("0000");
             // White player makes short castling
-            bool isLegal = game.TryUciMove("e1g1");
+            bool isLegal = game.TryLanMove("e1g1");
             Assert.False(isLegal, "White player must not be able to perform short castling after king has been moved.");
         }
         [Fact]
@@ -123,15 +123,15 @@ namespace SleepyPawn.Tests.MoveRules
             game.AddPiece("e1wk");
 
             // White player moves king
-            game.TryUciMove("e1e2");
+            game.TryLanMove("e1e2");
             // Skipping black move
-            game.TryUciMove("0000");
+            game.TryLanMove("0000");
             // White player moves king back
-            game.TryUciMove("e2e1");
+            game.TryLanMove("e2e1");
             // Skipping black move
-            game.TryUciMove("0000");
+            game.TryLanMove("0000");
             // White player makes long castling
-            bool isLegal = game.TryUciMove("e1c1");
+            bool isLegal = game.TryLanMove("e1c1");
             Assert.False(isLegal, "White player must not be able to perform long castling after king has been moved.");
         }
         [Fact]
@@ -146,15 +146,15 @@ namespace SleepyPawn.Tests.MoveRules
             game.AddPiece("e1wk");
 
             // White player moves rook
-            game.TryUciMove("h1h2");
+            game.TryLanMove("h1h2");
             // Skipping black move
-            game.TryUciMove("0000");
+            game.TryLanMove("0000");
             // White player moves rook back
-            game.TryUciMove("h2h1");
+            game.TryLanMove("h2h1");
             // Skipping black move
-            game.TryUciMove("0000");
+            game.TryLanMove("0000");
             // White player makes short castling
-            bool isLegal = game.TryUciMove("e1g1");
+            bool isLegal = game.TryLanMove("e1g1");
             Assert.False(isLegal, "White player must not be able to perform short castling after rook has been moved.");
         }
         [Fact]
@@ -169,15 +169,15 @@ namespace SleepyPawn.Tests.MoveRules
             game.AddPiece("e1wk");
 
             // White player moves rook
-            game.TryUciMove("a1a2");
+            game.TryLanMove("a1a2");
             // Skipping black move
-            game.TryUciMove("0000");
+            game.TryLanMove("0000");
             // White player moves rook back
-            game.TryUciMove("a2a1");
+            game.TryLanMove("a2a1");
             // Skipping black move
-            game.TryUciMove("0000");
+            game.TryLanMove("0000");
             // White player makes long castling
-            bool isLegal = game.TryUciMove("e1c1");
+            bool isLegal = game.TryLanMove("e1c1");
             Assert.False(isLegal, "White player must not be able to perform long castling after rook has been moved.");
         }
         [Theory]
@@ -198,7 +198,7 @@ namespace SleepyPawn.Tests.MoveRules
             game.AddPiece(blockPiece);
 
             // White player makes short castling
-            bool isLegal = game.TryUciMove("e1g1");
+            bool isLegal = game.TryLanMove("e1g1");
             Assert.False(isLegal, "White player must not be able to perform short castling while a piece blocks the way.");
         }
         [Theory]
@@ -221,7 +221,7 @@ namespace SleepyPawn.Tests.MoveRules
             game.AddPiece(blockPiece);
 
             // White player makes long castling
-            bool isLegal = game.TryUciMove("e1c1");
+            bool isLegal = game.TryLanMove("e1c1");
             Assert.False(isLegal, "White player must not be able to perform long castling while a piece blocks the way.");
         }
         [Theory]
@@ -241,7 +241,7 @@ namespace SleepyPawn.Tests.MoveRules
             game.AddPiece(threatPiece);
 
             // White player makes short castling
-            bool isLegal = game.TryUciMove("e1g1");
+            bool isLegal = game.TryLanMove("e1g1");
             Assert.False(isLegal, "White player must not be able to perform short castling while the way of king is attacked by enemy pieces.");
         }
         [Theory]
@@ -261,7 +261,7 @@ namespace SleepyPawn.Tests.MoveRules
             game.AddPiece(threatPiece);
 
             // White player makes long castling
-            bool isLegal = game.TryUciMove("e1c1");
+            bool isLegal = game.TryLanMove("e1c1");
             Assert.False(isLegal, "White player must not be able to perform long castling while the way of king is attacked by enemy pieces.");
         }
         [Fact]
@@ -274,7 +274,7 @@ namespace SleepyPawn.Tests.MoveRules
             game.AddPiece("e1wk");
 
             // White player makes short castling
-            bool isLegal = game.TryUciMove("e1g1");
+            bool isLegal = game.TryLanMove("e1g1");
             Assert.False(isLegal, "White player must not be able to perform short castling when there is no rook.");
         }
         [Fact]
@@ -287,7 +287,7 @@ namespace SleepyPawn.Tests.MoveRules
             game.AddPiece("e1wk");
 
             // White player makes long castling
-            bool isLegal = game.TryUciMove("e1c1");
+            bool isLegal = game.TryLanMove("e1c1");
             Assert.False(isLegal, "White player must not be able to perform long castling when there is no rook.");
         }
         [Theory]
@@ -313,7 +313,7 @@ namespace SleepyPawn.Tests.MoveRules
             game.AddPiece(wrongPiece);
 
             // White player makes short castling
-            bool isLegal = game.TryUciMove("e1g1");
+            bool isLegal = game.TryLanMove("e1g1");
             Assert.False(isLegal, "White player must not be able to perform short castling with piece that is not a white rook.");
         }
         [Theory]
@@ -339,7 +339,7 @@ namespace SleepyPawn.Tests.MoveRules
             game.AddPiece(wrongPiece);
 
             // White player makes long castling
-            bool isLegal = game.TryUciMove("e1c1");
+            bool isLegal = game.TryLanMove("e1c1");
             Assert.False(isLegal, "White player must not be able to perform long castling with piece that is not a white rook.");
         }
         //================== BLACK CASTLING TESTS:
@@ -356,9 +356,9 @@ namespace SleepyPawn.Tests.MoveRules
             game.AddPiece("e8bk");
 
             // Skipping white move
-            game.TryUciMove("0000");
+            game.TryLanMove("0000");
             // Black player makes short castling
-            bool isLegal = game.TryUciMove("e8g8");
+            bool isLegal = game.TryLanMove("e8g8");
             Assert.True(isLegal, "Black player should be able to perform short castling when possible.");
         }
         [Fact]
@@ -373,9 +373,9 @@ namespace SleepyPawn.Tests.MoveRules
             game.AddPiece("e8bk");
 
             // Skipping white move
-            game.TryUciMove("0000");
+            game.TryLanMove("0000");
             // Black player makes long castling
-            bool isLegal = game.TryUciMove("e8c8");
+            bool isLegal = game.TryLanMove("e8c8");
             Assert.True(isLegal, "Black player should be able to perform long castling when possible.");
         }
         [Fact]
@@ -392,9 +392,9 @@ namespace SleepyPawn.Tests.MoveRules
             game.AddPiece("h1wr");
 
             // Skipping white move
-            game.TryUciMove("0000");
+            game.TryLanMove("0000");
             // Black player makes short castling
-            bool isLegal = game.TryUciMove("e8g8");
+            bool isLegal = game.TryLanMove("e8g8");
             Assert.True(isLegal, "Black player should be able to perform short castling, even when black rook is under attack.");
         }
         [Fact]
@@ -411,9 +411,9 @@ namespace SleepyPawn.Tests.MoveRules
             game.AddPiece("a1wr");
 
             // Skipping white move
-            game.TryUciMove("0000");
+            game.TryLanMove("0000");
             // Black player makes long castling
-            bool isLegal = game.TryUciMove("e8c8");
+            bool isLegal = game.TryLanMove("e8c8");
             Assert.True(isLegal, "Black player should be able to perform long castling, even when black rook is under attack.");
         }
         [Fact]
@@ -430,9 +430,9 @@ namespace SleepyPawn.Tests.MoveRules
             game.AddPiece("b1wr");
 
             // Skipping white move
-            game.TryUciMove("0000");
+            game.TryLanMove("0000");
             // Black player makes long castling
-            bool isLegal = game.TryUciMove("e8c8");
+            bool isLegal = game.TryLanMove("e8c8");
             Assert.True(isLegal, "Black player should be able to perform long castling, even when b8 tile is under attack.");
         }
         //----- Illegal cases:
@@ -448,17 +448,17 @@ namespace SleepyPawn.Tests.MoveRules
             game.AddPiece("e8bk");
 
             // Skipping white move
-            game.TryUciMove("0000");
+            game.TryLanMove("0000");
             // Black player moves king
-            game.TryUciMove("e8e7");
+            game.TryLanMove("e8e7");
             // Skipping white move
-            game.TryUciMove("0000");
+            game.TryLanMove("0000");
             // Black player moves king back
-            game.TryUciMove("e7e8");
+            game.TryLanMove("e7e8");
             // Skipping white move
-            game.TryUciMove("0000");
+            game.TryLanMove("0000");
             // Black player makes short castling
-            bool isLegal = game.TryUciMove("e8g8");
+            bool isLegal = game.TryLanMove("e8g8");
             Assert.False(isLegal, "Black player must not be able to perform short castling after king has been moved.");
         }
         [Fact]
@@ -473,17 +473,17 @@ namespace SleepyPawn.Tests.MoveRules
             game.AddPiece("e8bk");
 
             // Skipping white move
-            game.TryUciMove("0000");
+            game.TryLanMove("0000");
             // Black player moves king
-            game.TryUciMove("e8e7");
+            game.TryLanMove("e8e7");
             // Skipping white move
-            game.TryUciMove("0000");
+            game.TryLanMove("0000");
             // Black player moves king back
-            game.TryUciMove("e7e8");
+            game.TryLanMove("e7e8");
             // Skipping white move
-            game.TryUciMove("0000");
+            game.TryLanMove("0000");
             // Black player makes long castling
-            bool isLegal = game.TryUciMove("e8c8");
+            bool isLegal = game.TryLanMove("e8c8");
             Assert.False(isLegal, "Black player must not be able to perform long castling after king has been moved.");
         }
         [Fact]
@@ -498,17 +498,17 @@ namespace SleepyPawn.Tests.MoveRules
             game.AddPiece("e8bk");
 
             // Skipping white move
-            game.TryUciMove("0000");
+            game.TryLanMove("0000");
             // Black player moves rook
-            game.TryUciMove("h8h7");
+            game.TryLanMove("h8h7");
             // Skipping white move
-            game.TryUciMove("0000");
+            game.TryLanMove("0000");
             // Black player moves rook back
-            game.TryUciMove("h7h8");
+            game.TryLanMove("h7h8");
             // Skipping white move
-            game.TryUciMove("0000");
+            game.TryLanMove("0000");
             // Black player makes short castling
-            bool isLegal = game.TryUciMove("e8g8");
+            bool isLegal = game.TryLanMove("e8g8");
             Assert.False(isLegal, "Black player must not be able to perform short castling after rook has been moved.");
         }
         [Fact]
@@ -523,17 +523,17 @@ namespace SleepyPawn.Tests.MoveRules
             game.AddPiece("e8bk");
 
             // Skipping white move
-            game.TryUciMove("0000");
+            game.TryLanMove("0000");
             // Black player moves rook
-            game.TryUciMove("a8a7");
+            game.TryLanMove("a8a7");
             // Skipping white move
-            game.TryUciMove("0000");
+            game.TryLanMove("0000");
             // Black player moves rook back
-            game.TryUciMove("a7a8");
+            game.TryLanMove("a7a8");
             // Skipping white move
-            game.TryUciMove("0000");
+            game.TryLanMove("0000");
             // Black player makes long castling
-            bool isLegal = game.TryUciMove("e8c8");
+            bool isLegal = game.TryLanMove("e8c8");
             Assert.False(isLegal, "Black player must not be able to perform long castling after rook has been moved.");
         }
         [Theory]
@@ -554,9 +554,9 @@ namespace SleepyPawn.Tests.MoveRules
             game.AddPiece(blockPiece);
 
             // Skipping white move
-            game.TryUciMove("0000");
+            game.TryLanMove("0000");
             // Black player makes short castling
-            bool isLegal = game.TryUciMove("e8g8");
+            bool isLegal = game.TryLanMove("e8g8");
             Assert.False(isLegal, "Black player must not be able to perform short castling while a piece blocks the way.");
         }
         [Theory]
@@ -579,9 +579,9 @@ namespace SleepyPawn.Tests.MoveRules
             game.AddPiece(blockPiece);
 
             // Skipping white move
-            game.TryUciMove("0000");
+            game.TryLanMove("0000");
             // Black player makes long castling
-            bool isLegal = game.TryUciMove("e8c8");
+            bool isLegal = game.TryLanMove("e8c8");
             Assert.False(isLegal, "Black player must not be able to perform long castling while a piece blocks the way.");
         }
         [Theory]
@@ -601,9 +601,9 @@ namespace SleepyPawn.Tests.MoveRules
             game.AddPiece(threatPiece);
 
             // Skipping white move
-            game.TryUciMove("0000");
+            game.TryLanMove("0000");
             // Black player makes short castling
-            bool isLegal = game.TryUciMove("e8g8");
+            bool isLegal = game.TryLanMove("e8g8");
             Assert.False(isLegal, "Black player must not be able to perform short castling while the way of king is attacked by enemy pieces.");
         }
         [Theory]
@@ -623,9 +623,9 @@ namespace SleepyPawn.Tests.MoveRules
             game.AddPiece(threatPiece);
 
             // Skipping white move
-            game.TryUciMove("0000");
+            game.TryLanMove("0000");
             // Black player makes long castling
-            bool isLegal = game.TryUciMove("e8c8");
+            bool isLegal = game.TryLanMove("e8c8");
             Assert.False(isLegal, "Black player must not be able to perform long castling while the way of king is attacked by enemy pieces.");
         }
         [Fact]
@@ -638,9 +638,9 @@ namespace SleepyPawn.Tests.MoveRules
             game.AddPiece("e8bk");
 
             // Skipping white move
-            game.TryUciMove("0000");
+            game.TryLanMove("0000");
             // Black player makes short castling
-            bool isLegal = game.TryUciMove("e8g8");
+            bool isLegal = game.TryLanMove("e8g8");
             Assert.False(isLegal, "Black player must not be able to perform short castling when there is no rook.");
         }
         [Fact]
@@ -653,9 +653,9 @@ namespace SleepyPawn.Tests.MoveRules
             game.AddPiece("e8bk");
 
             // Skipping white move
-            game.TryUciMove("0000");
+            game.TryLanMove("0000");
             // Black player makes long castling
-            bool isLegal = game.TryUciMove("e8c8");
+            bool isLegal = game.TryLanMove("e8c8");
             Assert.False(isLegal, "Black player must not be able to perform long castling when there is no rook.");
         }
         [Theory]
@@ -681,9 +681,9 @@ namespace SleepyPawn.Tests.MoveRules
             game.AddPiece(wrongPiece);
 
             // Skipping white move
-            game.TryUciMove("0000");
+            game.TryLanMove("0000");
             // Black player makes short castling
-            bool isLegal = game.TryUciMove("e8g8");
+            bool isLegal = game.TryLanMove("e8g8");
             Assert.False(isLegal, "Black player must not be able to perform short castling with piece that is not a black rook.");
         }
         [Theory]
@@ -709,9 +709,9 @@ namespace SleepyPawn.Tests.MoveRules
             game.AddPiece(wrongPiece);
 
             // Skipping white move
-            game.TryUciMove("0000");
+            game.TryLanMove("0000");
             // Black player makes long castling
-            bool isLegal = game.TryUciMove("e8c8");
+            bool isLegal = game.TryLanMove("e8c8");
             Assert.False(isLegal, "Black player must not be able to perform long castling with piece that is not a black rook.");
         }
     }

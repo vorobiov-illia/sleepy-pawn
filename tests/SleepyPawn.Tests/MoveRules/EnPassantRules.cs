@@ -41,12 +41,12 @@ namespace SleepyPawn.Tests.MoveRules
             if (!white)
             {
                 // Skip white move
-                game.TryUciMove("0000");
+                game.TryLanMove("0000");
             }
             // Player makes pawn vulnerable to en passant
-            game.TryUciMove(firstMove);
+            game.TryLanMove(firstMove);
             // Another player makes en passant
-            bool isLegal = game.TryUciMove(secondMove);
+            bool isLegal = game.TryLanMove(secondMove);
             Assert.True(isLegal, "Player should be able to perform en passant.");
 
             bool pawnGone = game.GetPiece(firstMove.Substring(2, 2)) == "00";
@@ -94,17 +94,17 @@ namespace SleepyPawn.Tests.MoveRules
             if (!white)
             {
                 // Skip white move
-                game.TryUciMove("0000");
+                game.TryLanMove("0000");
             }
             // Player makes pawn vulnerable to en passant
-            game.TryUciMove(firstMove);
+            game.TryLanMove(firstMove);
 
             // Skip some time
-            game.TryUciMove("e1f1");
-            game.TryUciMove("e8f8");
+            game.TryLanMove("e1f1");
+            game.TryLanMove("e8f8");
 
             // Another player makes en passant
-            bool isLegal = game.TryUciMove(secondMove);
+            bool isLegal = game.TryLanMove(secondMove);
             Assert.False(isLegal, "Player must not be able to perform en passant late.");
         }
         [Theory]
@@ -136,12 +136,12 @@ namespace SleepyPawn.Tests.MoveRules
             if (!white)
             {
                 // Skip white move
-                game.TryUciMove("0000");
+                game.TryLanMove("0000");
             }
             // Player makes pawn vulnerable to en passant
-            game.TryUciMove(firstMove);
+            game.TryLanMove(firstMove);
             // Another player makes legal move, but not en passant
-            bool isLegal = game.TryUciMove(secondMove);
+            bool isLegal = game.TryLanMove(secondMove);
             Assert.True(isLegal, "Player should be able to perform move on en passant tile, even if piece is not a pawn.");
 
             bool pawnGone = game.GetPiece(firstMove.Substring(2, 2)) == "00";
@@ -182,12 +182,12 @@ namespace SleepyPawn.Tests.MoveRules
             if (!white)
             {
                 // Skip white move
-                game.TryUciMove("0000");
+                game.TryLanMove("0000");
             }
             // Player makes pawn vulnerable to en passant
-            game.TryUciMove(firstMove);
+            game.TryLanMove(firstMove);
             // Another player makes en passant
-            bool isLegal = game.TryUciMove(secondMove);
+            bool isLegal = game.TryLanMove(secondMove);
             Assert.False(isLegal, "Player must not be able to perform en passant from far away.");
         }
         [Theory]
@@ -225,12 +225,12 @@ namespace SleepyPawn.Tests.MoveRules
             if (!white)
             {
                 // Skip white move
-                game.TryUciMove("0000");
+                game.TryLanMove("0000");
             }
             // Player makes pawn vulnerable to en passant
-            game.TryUciMove(firstMove);
+            game.TryLanMove(firstMove);
             // Another player makes en passant
-            bool isLegal = game.TryUciMove(secondMove);
+            bool isLegal = game.TryLanMove(secondMove);
             Assert.False(isLegal, "Player must not be able to perform en passant when the opponent's pawn has not performed double move.");
         }
     }

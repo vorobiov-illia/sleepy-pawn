@@ -6,14 +6,12 @@ namespace SleepyPawn.Cli
     {
         static string mainMenuTitle = "What do you want to do now?";
         static string[] mainMenuOptions = { 
-            "uci", 
             "fen", 
             "perft",
             "debug", 
             "exit"
         };
         static string[] mainMenuComments = { 
-            "Enter UCI protocol mode (Usually for GUIs, not humans.)",
             "View some FEN positions.",
             "Run some Perft tests.",
             "Play a debug game against yourself.",
