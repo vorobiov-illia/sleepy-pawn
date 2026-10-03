@@ -9,7 +9,7 @@ namespace SleepyPawn.Core.Chess
         internal EnginePosition firstPos;
         internal EnginePosition secondPos;
         internal PieceType promotionPiece;
-        internal bool isValid { get; private set; }
+        public bool isValid { get; private set; }
         internal bool nullMove { get; private set; }
 
         public Move()

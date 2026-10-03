@@ -1,4 +1,5 @@
 ﻿using SleepyPawn.Core.Chess;
+using SleepyPawn.Uci;
 
 while (true) {
     if(Console.ReadLine() == "uci")
@@ -11,9 +12,8 @@ while (true) {
         {
             string? input = Console.ReadLine();
             if (input == null) continue;
-            if (input == "quit") break;
-            string output = engine.CallUCI(input);
-            Console.WriteLine(output);
+            if (CommandParser.isQuitCommand(input)) break;
+            CommandParser.ParseCommand(input).Execute(engine);
         }
         break;
     }

@@ -1,13 +1,14 @@
-﻿using SleepyPawn.Core.Chess.Enums;
+﻿using SleepyPawn.Core.Chess;
+using SleepyPawn.Core.Chess.Enums;
 
 namespace SleepyPawn.Core.Utils
 {
-    internal static class LanUtils // Long algebraic notation
+    public static class LanUtils // Long algebraic notation
     {
         private static readonly List<int> allowedNums = new List<int> {1,2,3,4,5,6,7,8};
         private static readonly List<char> allowedLetters = new List<char> {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'};
         private static readonly List<char> allowedPromotions = new List<char> { 'b', 'n', 'r', 'q'};
-        internal static bool ValidateMove(string lanMove)
+        public static bool ValidateMove(string lanMove)
         {
             if (lanMove == null) return false;
             if (lanMove == "0000") return true;
@@ -41,7 +42,7 @@ namespace SleepyPawn.Core.Utils
             }
             return true;
         }
-        internal static bool IsNullMove(string lanMove)
+        public static bool IsNullMove(string lanMove)
         {
             if (lanMove == null) return false;
             if (lanMove == "0000") return true;
@@ -81,6 +82,40 @@ namespace SleepyPawn.Core.Utils
                 default:
                     return PieceType.None;
             }
+        }
+        internal static char EnginePromotionToLan(PieceType promotion)
+        {
+            switch (promotion)
+            {
+                case PieceType.Bishop:
+                    return 'b';
+                case PieceType.Knight:
+                    return 'n';
+                case PieceType.Rook:
+                    return 'r';
+                case PieceType.Queen:
+                    return 'q';
+                default:
+                    return '-';
+            }
+        }
+        public static string ToLan(Move move)
+        {
+            string lanMove = "";
+            if(!move.isValid) return "";
+            if (move.nullMove) return "0000";
+
+            lanMove += (char) (97 + move.firstPos.x);
+            lanMove += move.firstPos.y + 1;
+            lanMove += (char)(97 + move.secondPos.x);
+            lanMove += move.secondPos.y + 1;
+
+            if(move.promotionPiece != PieceType.None)
+            {
+                lanMove += EnginePromotionToLan(move.promotionPiece);
+            }
+
+            return lanMove;
         }
     }
 }

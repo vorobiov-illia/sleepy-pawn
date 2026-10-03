@@ -28,6 +28,13 @@ namespace SleepyPawn.Core.Chess
             this.halfMoveClockMax = halfMoveClockMax;
         }
 
+        public void NewGame(int halfMoveClockMax = 100, bool test = false)
+        {
+            currentState = new State();
+            this.halfMoveClockMax = halfMoveClockMax;
+            testGame = test;
+        }
+
         public bool WhiteKingChecked()
         {
             return currentState.KingChecked(Color.White);
@@ -35,17 +42,6 @@ namespace SleepyPawn.Core.Chess
         public bool BlackKingChecked()
         {
             return currentState.KingChecked(Color.Black);
-        }
-
-        public string CallUCI(string command)
-        {
-            switch (command)
-            {
-                case "isready":
-                    return "readyok";
-                default:
-                    return "";
-            }
         }
 
         public Outcome GetOutcome()
@@ -261,6 +257,11 @@ namespace SleepyPawn.Core.Chess
         public string DebugBlackCheck()
         {
             return currentState.DebugCheck(Color.Black);
+        }
+
+        public void SetPosition(string fen)
+        {
+            currentState = new State(fen);
         }
     }
 }

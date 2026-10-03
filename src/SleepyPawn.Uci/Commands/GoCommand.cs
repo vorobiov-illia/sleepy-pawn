@@ -1,0 +1,27 @@
+﻿using SleepyPawn.Core.Chess;
+using SleepyPawn.Core.Utils;
+
+namespace SleepyPawn.Uci.Commands
+{
+    internal class GoCommand : Command
+    {
+        internal override void Execute(SleepyChess engine)
+        {
+            Span<Move> moves = stackalloc Move[512];
+            int count = engine.GetLegalMoves(ref moves);
+
+            if(count == 0)
+            {
+                Console.WriteLine("bestmove 0000");
+            }
+            else
+            {
+                Random rng = new Random();
+                int choise = rng.Next(count);
+
+                engine.ForceMove(moves[choise]);
+                Console.WriteLine("bestmove " + LanUtils.ToLan(moves[choise]));
+            }
+        }
+    }
+}
