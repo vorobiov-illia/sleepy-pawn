@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>SleepyPawn.Wasm</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preload" id="webassembly" />
+  <script type="importmap"></script>
+  <script type='module' src="main#[.{fingerprint}].js"></script>
+</head>
+
+<body>
+  <div style="display: flex; flex-direction: column; justify-content: center; align-items: center">
+      <h1>Sleepy Pawn Engine</h1>
+      <h2 id="state">
+        Engine is loading...
+      </h2>
+      <pre><span id="board" style="font-size: 3vmin">
+        Board should be here...
+      </span>
+      </pre>
+      <p>
+        <input id="moveinput"><button id="trymove">Move</button>
+      </p>
+      <p id="error" style="display: none; color: red; font-weight: bold">
+          Move is illegal or invalid.
+      </p>
+      <p>
+        <button id="reset">Reset Game</button>
+      </p>
+  </div>
+</body>
+
+</html>
