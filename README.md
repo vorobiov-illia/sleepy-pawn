@@ -10,7 +10,7 @@
     <img src="https://img.shields.io/badge/License-MIT-blue" alt="License">
   </p>
 
-  <h3 align="center">Simple crossplatform C# chess engine.</h3>
+  <h3 align="center">Simple cross-platform C# chess engine.</h3>
 
   <p align="center">
     Play games via UCI, CLI and WebAssembly! Analyze positions and integrate anywhere!
