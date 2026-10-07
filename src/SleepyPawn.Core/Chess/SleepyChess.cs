@@ -62,7 +62,7 @@ namespace SleepyPawn.Core.Chess
             {
                 if (currentState.material.InsufficientMaterialCheck()) return Outcome.Draw;
                 if (currentState.info.halfMoveClock >= halfMoveClockMax && halfMoveClockMax != 0) return Outcome.Draw;
-                if (currentState.CheckRepetitonRule(3)) return Outcome.Draw;
+                if (currentState.CheckRepetitionRule(3)) return Outcome.Draw;
                 return Outcome.InProgress;
             }
         }

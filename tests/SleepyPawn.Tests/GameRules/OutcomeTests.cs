@@ -148,7 +148,7 @@ namespace SleepyPawn.Tests.GameRules
             // Initializing game
             SleepyChess game = new SleepyChess(fen, true);
 
-            // Making moves that will lead to stalemate by repetiton rule.
+            // Making moves that will lead to stalemate by repetition rule.
             foreach (string move in moves)
             {
                 game.TryLanMove(move);

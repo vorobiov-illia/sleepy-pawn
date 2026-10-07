@@ -7,14 +7,14 @@ namespace SleepyPawn.Core.Utils
     {
         internal static readonly EnginePosition defaultWhiteKingPosition = new EnginePosition(4, 0);
         internal static readonly EnginePosition whiteKingShortCastle = new EnginePosition(6, 0);
-        internal static readonly List<EnginePosition> whiteShortCastlingVunurableMap = new List<EnginePosition>() {
+        internal static readonly List<EnginePosition> whiteShortCastlingVulnerableMap = new List<EnginePosition>() {
             new EnginePosition(4,0), new EnginePosition(5, 0), new EnginePosition(6, 0),
         };
         internal static readonly List<EnginePosition> whiteShortCastlingBlockMap = new List<EnginePosition>() {
             new EnginePosition(5, 0), new EnginePosition(6, 0),
         };
         internal static readonly EnginePosition whiteKingLongCastle = new EnginePosition(2, 0);
-        internal static readonly List<EnginePosition> whiteLongCastlingVunurableMap = new List<EnginePosition>() {
+        internal static readonly List<EnginePosition> whiteLongCastlingVulnerableMap = new List<EnginePosition>() {
             new EnginePosition(4,0), new EnginePosition(3, 0), new EnginePosition(2, 0),
         };
         internal static readonly List<EnginePosition> whiteLongCastlingBlockMap = new List<EnginePosition>() {
@@ -22,14 +22,14 @@ namespace SleepyPawn.Core.Utils
         };
         internal static readonly EnginePosition defaultBlackKingPosition = new EnginePosition(4, 7);
         internal static readonly EnginePosition blackKingShortCastle = new EnginePosition(6, 7);
-        internal static readonly List<EnginePosition> blackShortCastlingVunurableMap = new List<EnginePosition>() {
+        internal static readonly List<EnginePosition> blackShortCastlingVulnerableMap = new List<EnginePosition>() {
             new EnginePosition(4,7), new EnginePosition(5, 7), new EnginePosition(6, 7),
         };
         internal static readonly List<EnginePosition> blackShortCastlingBlockMap = new List<EnginePosition>() {
             new EnginePosition(5, 7), new EnginePosition(6, 7),
         };
         internal static readonly EnginePosition blackKingLongCastle = new EnginePosition(2, 7);
-        internal static readonly List<EnginePosition> blackLongCastlingVunurableMap = new List<EnginePosition>() {
+        internal static readonly List<EnginePosition> blackLongCastlingVulnerableMap = new List<EnginePosition>() {
             new EnginePosition(4,7), new EnginePosition(3, 7), new EnginePosition(2, 7),
         };
         internal static readonly List<EnginePosition> blackLongCastlingBlockMap = new List<EnginePosition>() {

@@ -2,7 +2,7 @@
 
 namespace SleepyPawn.Uci.Commands
 {
-    internal class isReadyCommand : Command
+    internal class IsReadyCommand : Command
     {
         internal override void Execute(SleepyChess engine)
         {

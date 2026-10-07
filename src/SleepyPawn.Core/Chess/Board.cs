@@ -128,8 +128,8 @@ namespace SleepyPawn.Core.Chess
 
             foreach (EnginePosition offset in PieceUtils.kingOffsets)
             {
-                Piece potenrialKing = GetPiece(new EnginePosition(position.x + offset.x, position.y + offset.y));
-                if (potenrialKing.color == attacker && potenrialKing.type == PieceType.King)
+                Piece potentialKing = GetPiece(new EnginePosition(position.x + offset.x, position.y + offset.y));
+                if (potentialKing.color == attacker && potentialKing.type == PieceType.King)
                 {
                     return true;
                 }

@@ -73,7 +73,7 @@ namespace SleepyPawn.Tests.MoveRules
 
             // White player makes illegal move
             bool isLegal = game.TryLanMove(illegalMove);
-            Assert.False(isLegal, "Pawn must not be able to move horizontaly.");
+            Assert.False(isLegal, "Pawn must not be able to move horizontally.");
         }
         [Theory]
         [InlineData("e8wp", "e8e9")]
@@ -302,7 +302,7 @@ namespace SleepyPawn.Tests.MoveRules
             game.TryLanMove("0000");
             // Black player makes illegal move
             bool isLegal = game.TryLanMove(illegalMove);
-            Assert.False(isLegal, "Pawn must not be able to move horizontaly.");
+            Assert.False(isLegal, "Pawn must not be able to move horizontally.");
         }
         //----- Double moves:
         [Fact]

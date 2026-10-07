@@ -14,7 +14,7 @@ namespace SleepyPawn.Uci
                 switch (tokens[i])
                 {
                     case "isready":
-                        return new isReadyCommand();
+                        return new IsReadyCommand();
                     case "position":
                         if (i + 1 >= tokens.Length) return new NullCommand();
                         string fen = "";
@@ -70,7 +70,7 @@ namespace SleepyPawn.Uci
 
             return new NullCommand();
         }
-        internal static bool isQuitCommand(string input)
+        internal static bool IsQuitCommand(string input)
         {
             input = input.Trim();
             string[] operands = input.Split(' ');

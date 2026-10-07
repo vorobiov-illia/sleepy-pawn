@@ -98,7 +98,7 @@ namespace SleepyPawn.Core.Chess
             }
             return 0;
         }
-        internal void CalculateManualy(Board board)
+        internal void CalculateManually(Board board)
         {
             for(int i = 0; i < 64; i++)
             {

@@ -12,7 +12,7 @@ while (true) {
         {
             string? input = Console.ReadLine();
             if (input == null) continue;
-            if (CommandParser.isQuitCommand(input)) break;
+            if (CommandParser.IsQuitCommand(input)) break;
             CommandParser.ParseCommand(input).Execute(engine);
         }
         break;

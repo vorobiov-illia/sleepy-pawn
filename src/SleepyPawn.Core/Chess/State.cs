@@ -425,7 +425,7 @@ namespace SleepyPawn.Core.Chess
             ply--;
         }
 
-        internal bool CheckRepetitonRule(int maxRepetitions)
+        internal bool CheckRepetitionRule(int maxRepetitions)
         {
             int count = 1;
 

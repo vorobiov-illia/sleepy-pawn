@@ -17,10 +17,10 @@ namespace SleepyPawn.Uci.Commands
             else
             {
                 Random rng = new Random();
-                int choise = rng.Next(count);
+                int choice = rng.Next(count);
 
-                engine.ForceMove(moves[choise]);
-                Console.WriteLine("bestmove " + LanUtils.ToLan(moves[choise]));
+                engine.ForceMove(moves[choice]);
+                Console.WriteLine("bestmove " + LanUtils.ToLan(moves[choice]));
             }
         }
     }
