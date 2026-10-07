@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>SleepyPawn.Wasm</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="_framework/dotnet.2od1l836ud.js" rel="preload" as="script" fetchpriority="high" crossorigin="anonymous" integrity="sha256-cgB1B0OJJX0u+mS97tuNmPO2n6QGHIuT06IPF08FNLE=" />
+  <script type="importmap">{
+  "imports": {
+    "./_framework/dotnet.js": "./_framework/dotnet.2od1l836ud.js",
+    "./_framework/dotnet.native.js": "./_framework/dotnet.native.odbzwl2xnx.js",
+    "./_framework/dotnet.runtime.js": "./_framework/dotnet.runtime.v06hirbjsv.js",
+    "./main.js": "./main.lblicbrgbh.js"
+  },
+  "scopes": {},
+  "integrity": {
+    "./_framework/dotnet.2od1l836ud.js": "sha256-cgB1B0OJJX0u+mS97tuNmPO2n6QGHIuT06IPF08FNLE=",
+    "./_framework/dotnet.js": "sha256-cgB1B0OJJX0u+mS97tuNmPO2n6QGHIuT06IPF08FNLE=",
+    "./_framework/dotnet.native.js": "sha256-XBj8qpppr2BgVF8EaVXF6o6GXzRll4/QUWl8hIOsUe0=",
+    "./_framework/dotnet.native.odbzwl2xnx.js": "sha256-XBj8qpppr2BgVF8EaVXF6o6GXzRll4/QUWl8hIOsUe0=",
+    "./_framework/dotnet.runtime.js": "sha256-QbnqrZGHtGq7wudS17/AYEPpH9JkphrsyVllD6JHmds=",
+    "./_framework/dotnet.runtime.v06hirbjsv.js": "sha256-QbnqrZGHtGq7wudS17/AYEPpH9JkphrsyVllD6JHmds=",
+    "./main.js": "sha256-cYQfl96ZJDNotqWJkuV0pFqrB2oG2yfj6q0RA3A/8O8=",
+    "./main.lblicbrgbh.js": "sha256-cYQfl96ZJDNotqWJkuV0pFqrB2oG2yfj6q0RA3A/8O8="
+  }
+}</script>
+  <script type='module' src="main.lblicbrgbh.js"></script>
+</head>
+
+<body>
+  <div style="display: flex; flex-direction: column; justify-content: center; align-items: center">
+      <h1>Sleepy Pawn Engine</h1>
+      <h2 id="state">
+        Engine is loading...
+      </h2>
+      <pre><span id="board" style="font-size: 3vmin">
+        Board should be here...
+      </span>
+      </pre>
+      <p>
+        <input id="moveinput"><button id="trymove">Move</button>
+      </p>
+      <p id="error" style="display: none; color: red; font-weight: bold">
+          Move is illegal or invalid.
+      </p>
+      <p>
+        <button id="reset">Reset Game</button>
+      </p>
+  </div>
+</body>
+
+</html>
