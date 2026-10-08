@@ -1,4 +1,5 @@
 ﻿using SleepyPawn.Core.Chess;
+using SleepyPawn.Core.Search;
 using SleepyPawn.Uci;
 
 while (true) {
@@ -8,12 +9,13 @@ while (true) {
         Console.WriteLine("id author Voil");
         Console.WriteLine("uciok");
         SleepyChess engine = new SleepyChess();
+        SleepySearch search = new SleepySearch();
         while (true)
         {
             string? input = Console.ReadLine();
             if (input == null) continue;
             if (CommandParser.IsQuitCommand(input)) break;
-            CommandParser.ParseCommand(input).Execute(engine);
+            CommandParser.ParseCommand(input).Execute(engine, search);
         }
         break;
     }

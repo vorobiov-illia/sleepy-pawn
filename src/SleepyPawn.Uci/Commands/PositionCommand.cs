@@ -1,4 +1,5 @@
 ﻿using SleepyPawn.Core.Chess;
+using SleepyPawn.Core.Search;
 using SleepyPawn.Core.Utils;
 
 namespace SleepyPawn.Uci.Commands
@@ -51,7 +52,7 @@ namespace SleepyPawn.Uci.Commands
             }
         }
 
-        internal override void Execute(SleepyChess engine)
+        internal override void Execute(SleepyChess engine, SleepySearch? search = null)
         {
             if (engine == null) return;
             if (startPos)

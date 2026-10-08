@@ -1,6 +1,6 @@
 ﻿namespace SleepyPawn.Core.Chess.Enums
 {
-    internal enum Color
+    public enum Color
     {
         None,
         White,

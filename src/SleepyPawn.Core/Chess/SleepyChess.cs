@@ -44,6 +44,11 @@ namespace SleepyPawn.Core.Chess
             return currentState.KingChecked(Color.Black);
         }
 
+        public Color GetPlayerToMove()
+        {
+            return currentState.playerToMove;
+        }
+
         public Outcome GetOutcome()
         {
             if (GetLegalMoves() == 0)
@@ -262,6 +267,11 @@ namespace SleepyPawn.Core.Chess
         public void SetPosition(string fen)
         {
             currentState = new State(fen);
+        }
+
+        internal State GetState()
+        {
+            return currentState;
         }
     }
 }
