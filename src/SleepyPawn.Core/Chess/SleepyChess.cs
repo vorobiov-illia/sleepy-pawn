@@ -34,7 +34,21 @@ namespace SleepyPawn.Core.Chess
             this.halfMoveClockMax = halfMoveClockMax;
             testGame = test;
         }
-
+        public bool KingChecked()
+        {
+            if(currentState.playerToMove == Color.White)
+            {
+                return WhiteKingChecked();
+            }
+            else if (currentState.playerToMove == Color.Black)
+            {
+                return BlackKingChecked();
+            }
+            else
+            {
+                return false;
+            }
+        }
         public bool WhiteKingChecked()
         {
             return currentState.KingChecked(Color.White);

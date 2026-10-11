@@ -13,7 +13,7 @@ namespace SleepyPawn.Core.Chess
         internal int ply;
         internal ref StateInfo info => ref history[ply];
 
-        internal PieceCounter material;
+        internal MaterialState material;
 
         internal State(bool emptyBoard = false)
         {
@@ -21,7 +21,7 @@ namespace SleepyPawn.Core.Chess
             hashes = new ulong[2048];
             ply = 0;
             boardState = new Board();
-            material = new PieceCounter();
+            material = new MaterialState();
             if (!emptyBoard)
             {
                 boardState.SetupInitial();
@@ -48,7 +48,8 @@ namespace SleepyPawn.Core.Chess
             history[0].blackEnPassantState = enPassantStates.Item2;
 
             boardState = FenUtils.GetBoard(fen);
-            material = FenUtils.GetMaterial(fen);
+            material = new MaterialState();
+            material.CalculateManually(boardState);
 
             history[0].whiteKingPosition = boardState.FindKing(Color.White);
             history[0].blackKingPosition = boardState.FindKing(Color.Black);
@@ -62,7 +63,7 @@ namespace SleepyPawn.Core.Chess
         {
             boardState = new Board(other.boardState);
             playerToMove = other.playerToMove;
-            material = new PieceCounter(other.material);
+            material = new MaterialState(other.material);
 
             history = new StateInfo[2048];
             hashes = new ulong[2048];
@@ -295,11 +296,13 @@ namespace SleepyPawn.Core.Chess
                         move.secondPos == PieceUtils.whiteKingShortCastle)
                     {
                         boardState.ReplacePiece(PieceUtils.whiteShortRook, PieceUtils.whiteShortRookAfterCastle);
+                        material.MovePiece(PieceUtils.whiteShortRook, PieceUtils.whiteShortRookAfterCastle, new Piece(Color.White, PieceType.Rook));
                     }
                     if (move.firstPos == PieceUtils.defaultWhiteKingPosition &&
                         move.secondPos == PieceUtils.whiteKingLongCastle)
                     {
                         boardState.ReplacePiece(PieceUtils.whiteLongRook, PieceUtils.whiteLongRookAfterCastle);
+                        material.MovePiece(PieceUtils.whiteLongRook, PieceUtils.whiteLongRookAfterCastle, new Piece(Color.White, PieceType.Rook));
                     }
                 }
                 if(pieceToMove.color == Color.Black)
@@ -312,11 +315,13 @@ namespace SleepyPawn.Core.Chess
                         move.secondPos == PieceUtils.blackKingShortCastle)
                     {
                         boardState.ReplacePiece(PieceUtils.blackShortRook, PieceUtils.blackShortRookAfterCastle);
+                        material.MovePiece(PieceUtils.blackShortRook, PieceUtils.blackShortRookAfterCastle, new Piece(Color.Black, PieceType.Rook));
                     }
                     if (move.firstPos == PieceUtils.defaultBlackKingPosition &&
                         move.secondPos == PieceUtils.blackKingLongCastle)
                     {
                         boardState.ReplacePiece(PieceUtils.blackLongRook, PieceUtils.blackLongRookAfterCastle);
+                        material.MovePiece(PieceUtils.blackLongRook, PieceUtils.blackLongRookAfterCastle, new Piece(Color.Black, PieceType.Rook));
                     }
                 }
             }
@@ -356,6 +361,7 @@ namespace SleepyPawn.Core.Chess
             else
             {
                 boardState.ReplacePiece(move.firstPos, move.secondPos);
+                material.MovePiece(move.firstPos, move.secondPos, pieceToMove);
             }
             playerToMove = ColorUtils.Reverse(playerToMove);
             newStateInfo.halfMoveClock++;
@@ -390,17 +396,20 @@ namespace SleepyPawn.Core.Chess
             else
             {
                 boardState.ReplacePiece(move.secondPos, move.firstPos);
-                if(lastMovedPiece.type == PieceType.King)
+                material.MovePiece(move.secondPos, move.firstPos, lastMovedPiece);
+                if (lastMovedPiece.type == PieceType.King)
                 {
                     if(move.firstPos == PieceUtils.defaultWhiteKingPosition && lastMovedPiece.color == Color.White)
                     {
                         if(move.secondPos == PieceUtils.whiteKingShortCastle)
                         {
                             boardState.ReplacePiece(PieceUtils.whiteShortRookAfterCastle, PieceUtils.whiteShortRook);
+                            material.MovePiece(PieceUtils.whiteShortRookAfterCastle, PieceUtils.whiteShortRook, new Piece(Color.White, PieceType.Rook));
                         }
                         if (move.secondPos == PieceUtils.whiteKingLongCastle)
                         {
                             boardState.ReplacePiece(PieceUtils.whiteLongRookAfterCastle, PieceUtils.whiteLongRook);
+                            material.MovePiece(PieceUtils.whiteLongRookAfterCastle, PieceUtils.whiteLongRook, new Piece(Color.White, PieceType.Rook));
                         }
                     }
                     if (move.firstPos == PieceUtils.defaultBlackKingPosition && lastMovedPiece.color == Color.Black)
@@ -408,10 +417,12 @@ namespace SleepyPawn.Core.Chess
                         if (move.secondPos == PieceUtils.blackKingShortCastle)
                         {
                             boardState.ReplacePiece(PieceUtils.blackShortRookAfterCastle, PieceUtils.blackShortRook);
+                            material.MovePiece(PieceUtils.blackShortRookAfterCastle, PieceUtils.blackShortRook, new Piece(Color.Black, PieceType.Rook));
                         }
                         if (move.secondPos == PieceUtils.blackKingLongCastle)
                         {
                             boardState.ReplacePiece(PieceUtils.blackLongRookAfterCastle, PieceUtils.blackLongRook);
+                            material.MovePiece(PieceUtils.blackLongRookAfterCastle, PieceUtils.blackLongRook, new Piece(Color.Black, PieceType.Rook));
                         }
                     }
                 }

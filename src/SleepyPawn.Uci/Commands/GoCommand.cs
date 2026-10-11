@@ -28,7 +28,7 @@ namespace SleepyPawn.Uci.Commands
             }
             else
             {
-                Move bestMove = search.GetBestMove(engine, 4);
+                Move bestMove = search.GetBestMove(engine, 6);
                 engine.ForceMove(bestMove);
                 Console.WriteLine("bestmove " + LanUtils.ToLan(bestMove));
             }

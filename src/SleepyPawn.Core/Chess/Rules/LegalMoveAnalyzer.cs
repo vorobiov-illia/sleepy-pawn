@@ -48,16 +48,52 @@ namespace SleepyPawn.Core.Chess.Rules
         public static int GetLegalMoves(State state, ref Span<Move> legalMoves)
         {
             int legalCount = 0;
-
+            
             Span<Move> pseudoMoves = stackalloc Move[256];
             int pseudoCount = state.GetPseudoMoves(ref pseudoMoves);
 
-            for(int i = 0; i < pseudoCount; i++)
+            Span<Move> promotions = stackalloc Move[128];
+            int promotionsCount = 0;
+            
+            Span<Move> captures = stackalloc Move[128];
+            int capturesCount = 0;
+
+            Span<Move> others = stackalloc Move[256];
+            int othersCount = 0;
+
+            for (int i = 0; i < pseudoCount; i++)
             {
                 if (IsLegal(pseudoMoves[i], state))
                 {
-                    legalMoves[legalCount++] = pseudoMoves[i];
+                    if (pseudoMoves[i].promotionPiece != PieceType.None)
+                    {
+                        promotions[promotionsCount++] = pseudoMoves[i];
+                    }
+                    else
+                    {
+                        if (!state.GetPiece(pseudoMoves[i].secondPos).isEmpty)
+                        {
+                            captures[capturesCount++] = pseudoMoves[i];
+                        }
+                        else
+                        {
+                            others[othersCount++] = pseudoMoves[i];
+                        }
+                    }
                 }
+            }
+
+            for(int i = 0; i < promotionsCount; i++)
+            {
+                legalMoves[legalCount++] = promotions[i];
+            }
+            for (int i = 0; i < capturesCount; i++)
+            {
+                legalMoves[legalCount++] = captures[i];
+            }
+            for (int i = 0; i < othersCount; i++)
+            {
+                legalMoves[legalCount++] = others[i];
             }
 
             return legalCount;
